@@ -1,0 +1,42 @@
+﻿@model SisParkTD.Models.Vehiculos
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Vehiculos</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Patente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Patente)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DescripcionDeVehiculo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DescripcionDeVehiculo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TiposDeVehiculo.NombreTipoDeVehiculo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TiposDeVehiculo.NombreTipoDeVehiculo)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IDVehiculo }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

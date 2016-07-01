@@ -1,0 +1,892 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="sisparkdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Acciones">
+          <Key>
+            <PropertyRef Name="IDAccion" />
+          </Key>
+          <Property Name="IDAccion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreAccion" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="IDRecurso" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AuditoriasLog">
+          <Key>
+            <PropertyRef Name="IDAuditoriaLog" />
+          </Key>
+          <Property Name="IDAuditoriaLog" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreDeUsuario" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Accion" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaYHora" Type="datetime" Nullable="false" />
+          <Property Name="IP" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AuditoriasTicket">
+          <Key>
+            <PropertyRef Name="IDAuditoriaTicket" />
+          </Key>
+          <Property Name="IDAuditoriaTicket" Type="int" Nullable="false" />
+          <Property Name="NombreDeUsuario" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Patente" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="TipoDeVehiculo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Parcela" Type="int" Nullable="false" />
+          <Property Name="HorarioDeLlegada" Type="datetime" />
+          <Property Name="HorarioDeSalida" Type="datetime" />
+          <Property Name="TiempoTotal" Type="time" Precision="0" />
+          <Property Name="PrecioTotal" Type="money" />
+          <Property Name="FechaYHora" Type="datetime" Nullable="false" />
+          <Property Name="IP" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EstadosDeTicket">
+          <Key>
+            <PropertyRef Name="IDEstadoDeTicket" />
+          </Key>
+          <Property Name="IDEstadoDeTicket" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreEstadoDeTicket" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DescripcionEstadoDeTicket" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Parametros">
+          <Key>
+            <PropertyRef Name="IDParametro" />
+          </Key>
+          <Property Name="IDParametro" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreParametro" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ValorParametro" Type="int" Nullable="false" />
+          <Property Name="DescripcionParametro" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="Parcelas">
+          <Key>
+            <PropertyRef Name="IDParcela" />
+          </Key>
+          <Property Name="IDParcela" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NumeroParcela" Type="int" Nullable="false" />
+          <Property Name="Disponible" Type="bit" Nullable="false" />
+          <Property Name="IDTamaño" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Permisos">
+          <Key>
+            <PropertyRef Name="IDRol" />
+            <PropertyRef Name="IDAccion" />
+          </Key>
+          <Property Name="IDRol" Type="int" Nullable="false" />
+          <Property Name="IDAccion" Type="int" Nullable="false" />
+          <Property Name="NombreRecurso" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Recursos">
+          <Key>
+            <PropertyRef Name="IDRecurso" />
+          </Key>
+          <Property Name="IDRecurso" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreRecurso" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="IDRol" />
+          </Key>
+          <Property Name="IDRol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreRol" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DescripcionRol" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Tamaños">
+          <Key>
+            <PropertyRef Name="IDTamaño" />
+          </Key>
+          <Property Name="IDTamaño" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NombreTamaño" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Valor" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tickets">
+          <Key>
+            <PropertyRef Name="IDTicket" />
+          </Key>
+          <Property Name="IDTicket" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDVehiculo" Type="int" Nullable="false" />
+          <Property Name="IDEstadoDeTicket" Type="int" Nullable="false" />
+          <Property Name="IDParcela" Type="int" Nullable="false" />
+          <Property Name="HorarioDeLlegada" Type="datetime" Nullable="false" />
+          <Property Name="HorarioDeSalida" Type="datetime" />
+          <Property Name="TiempoTotal" Type="time" Precision="0" />
+          <Property Name="PrecioTotal" Type="money" />
+        </EntityType>
+        <EntityType Name="TiposDeVehiculo">
+          <Key>
+            <PropertyRef Name="IDTipoDeVehiculo" />
+          </Key>
+          <Property Name="IDTipoDeVehiculo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDTamaño" Type="int" Nullable="false" />
+          <Property Name="NombreTipoDeVehiculo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Tarifa" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Usuarios">
+          <Key>
+            <PropertyRef Name="IDUsuario" />
+          </Key>
+          <Property Name="IDUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDRol" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Apellido" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Telefono" Type="varchar" MaxLength="25" />
+          <Property Name="DNI" Type="varchar" MaxLength="8" />
+          <Property Name="NombreDeUsuario" Type="varchar" MaxLength="50" />
+          <Property Name="Contraseña" Type="varchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="Usuarios_Roles">
+          <Key>
+            <PropertyRef Name="IDUsuario" />
+            <PropertyRef Name="IDRol" />
+          </Key>
+          <Property Name="IDUsuario" Type="int" Nullable="false" />
+          <Property Name="IDRol" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Vehiculos">
+          <Key>
+            <PropertyRef Name="IDVehiculo" />
+          </Key>
+          <Property Name="IDVehiculo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDTipoDeVehiculo" Type="int" Nullable="false" />
+          <Property Name="Patente" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="DescripcionDeVehiculo" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK_Accion_Recursos">
+          <End Role="Recursos" Type="Self.Recursos" Multiplicity="1" />
+          <End Role="Acciones" Type="Self.Acciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recursos">
+              <PropertyRef Name="IDRecurso" />
+            </Principal>
+            <Dependent Role="Acciones">
+              <PropertyRef Name="IDRecurso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Parcelas_Tamaños">
+          <End Role="Tamaños" Type="Self.Tamaños" Multiplicity="1" />
+          <End Role="Parcelas" Type="Self.Parcelas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tamaños">
+              <PropertyRef Name="IDTamaño" />
+            </Principal>
+            <Dependent Role="Parcelas">
+              <PropertyRef Name="IDTamaño" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Permisos_Accion">
+          <End Role="Acciones" Type="Self.Acciones" Multiplicity="1" />
+          <End Role="Permisos" Type="Self.Permisos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Acciones">
+              <PropertyRef Name="IDAccion" />
+            </Principal>
+            <Dependent Role="Permisos">
+              <PropertyRef Name="IDAccion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Permisos_Roles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="Permisos" Type="Self.Permisos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="IDRol" />
+            </Principal>
+            <Dependent Role="Permisos">
+              <PropertyRef Name="IDRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tickets_EstadosDeTicket">
+          <End Role="EstadosDeTicket" Type="Self.EstadosDeTicket" Multiplicity="1" />
+          <End Role="Tickets" Type="Self.Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstadosDeTicket">
+              <PropertyRef Name="IDEstadoDeTicket" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="IDEstadoDeTicket" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tickets_Parcelas">
+          <End Role="Parcelas" Type="Self.Parcelas" Multiplicity="1" />
+          <End Role="Tickets" Type="Self.Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parcelas">
+              <PropertyRef Name="IDParcela" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="IDParcela" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tickets_Vehiculos">
+          <End Role="Vehiculos" Type="Self.Vehiculos" Multiplicity="1" />
+          <End Role="Tickets" Type="Self.Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehiculos">
+              <PropertyRef Name="IDVehiculo" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="IDVehiculo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TiposDeVehiculo_Tamaños">
+          <End Role="Tamaños" Type="Self.Tamaños" Multiplicity="1" />
+          <End Role="TiposDeVehiculo" Type="Self.TiposDeVehiculo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tamaños">
+              <PropertyRef Name="IDTamaño" />
+            </Principal>
+            <Dependent Role="TiposDeVehiculo">
+              <PropertyRef Name="IDTamaño" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuarios_Roles_Roles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="Usuarios_Roles" Type="Self.Usuarios_Roles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="IDRol" />
+            </Principal>
+            <Dependent Role="Usuarios_Roles">
+              <PropertyRef Name="IDRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuarios_Roles_Usuarios">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
+          <End Role="Usuarios_Roles" Type="Self.Usuarios_Roles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="IDUsuario" />
+            </Principal>
+            <Dependent Role="Usuarios_Roles">
+              <PropertyRef Name="IDUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vehiculos_TiposDeVehiculo">
+          <End Role="TiposDeVehiculo" Type="Self.TiposDeVehiculo" Multiplicity="1" />
+          <End Role="Vehiculos" Type="Self.Vehiculos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TiposDeVehiculo">
+              <PropertyRef Name="IDTipoDeVehiculo" />
+            </Principal>
+            <Dependent Role="Vehiculos">
+              <PropertyRef Name="IDTipoDeVehiculo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="sisparkdbModelStoreContainer">
+          <EntitySet Name="Acciones" EntityType="Self.Acciones" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AuditoriasLog" EntityType="Self.AuditoriasLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AuditoriasTicket" EntityType="Self.AuditoriasTicket" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EstadosDeTicket" EntityType="Self.EstadosDeTicket" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Parametros" EntityType="Self.Parametros" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Parcelas" EntityType="Self.Parcelas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Permisos" EntityType="Self.Permisos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Recursos" EntityType="Self.Recursos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tamaños" EntityType="Self.Tamaños" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tickets" EntityType="Self.Tickets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TiposDeVehiculo" EntityType="Self.TiposDeVehiculo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuarios_Roles" EntityType="Self.Usuarios_Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vehiculos" EntityType="Self.Vehiculos" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Accion_Recursos" Association="Self.FK_Accion_Recursos">
+            <End Role="Recursos" EntitySet="Recursos" />
+            <End Role="Acciones" EntitySet="Acciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Parcelas_Tamaños" Association="Self.FK_Parcelas_Tamaños">
+            <End Role="Tamaños" EntitySet="Tamaños" />
+            <End Role="Parcelas" EntitySet="Parcelas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Permisos_Accion" Association="Self.FK_Permisos_Accion">
+            <End Role="Acciones" EntitySet="Acciones" />
+            <End Role="Permisos" EntitySet="Permisos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Permisos_Roles" Association="Self.FK_Permisos_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Permisos" EntitySet="Permisos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tickets_EstadosDeTicket" Association="Self.FK_Tickets_EstadosDeTicket">
+            <End Role="EstadosDeTicket" EntitySet="EstadosDeTicket" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tickets_Parcelas" Association="Self.FK_Tickets_Parcelas">
+            <End Role="Parcelas" EntitySet="Parcelas" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tickets_Vehiculos" Association="Self.FK_Tickets_Vehiculos">
+            <End Role="Vehiculos" EntitySet="Vehiculos" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TiposDeVehiculo_Tamaños" Association="Self.FK_TiposDeVehiculo_Tamaños">
+            <End Role="Tamaños" EntitySet="Tamaños" />
+            <End Role="TiposDeVehiculo" EntitySet="TiposDeVehiculo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuarios_Roles_Roles" Association="Self.FK_Usuarios_Roles_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Usuarios_Roles" EntitySet="Usuarios_Roles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuarios_Roles_Usuarios" Association="Self.FK_Usuarios_Roles_Usuarios">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Usuarios_Roles" EntitySet="Usuarios_Roles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vehiculos_TiposDeVehiculo" Association="Self.FK_Vehiculos_TiposDeVehiculo">
+            <End Role="TiposDeVehiculo" EntitySet="TiposDeVehiculo" />
+            <End Role="Vehiculos" EntitySet="Vehiculos" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="sisparkdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityContainer Name="sisparkdbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Acciones" EntityType="sisparkdbModel.Acciones" />
+          <EntitySet Name="AuditoriasLog" EntityType="sisparkdbModel.AuditoriasLog" />
+          <EntitySet Name="AuditoriasTicket" EntityType="sisparkdbModel.AuditoriasTicket" />
+          <EntitySet Name="EstadosDeTicket" EntityType="sisparkdbModel.EstadosDeTicket" />
+          <EntitySet Name="Parcelas" EntityType="sisparkdbModel.Parcelas" />
+          <EntitySet Name="Permisos" EntityType="sisparkdbModel.Permisos" />
+          <EntitySet Name="Recursos" EntityType="sisparkdbModel.Recursos" />
+          <EntitySet Name="Roles" EntityType="sisparkdbModel.Roles" />
+          <EntitySet Name="Tickets" EntityType="sisparkdbModel.Tickets" />
+          <EntitySet Name="TiposDeVehiculo" EntityType="sisparkdbModel.TiposDeVehiculo" />
+          <EntitySet Name="Usuarios" EntityType="sisparkdbModel.Usuarios" />
+          <EntitySet Name="Vehiculos" EntityType="sisparkdbModel.Vehiculos" />
+          <AssociationSet Name="FK_Accion_Recursos" Association="sisparkdbModel.FK_Accion_Recursos">
+            <End Role="Recursos" EntitySet="Recursos" />
+            <End Role="Acciones" EntitySet="Acciones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Permisos_Accion" Association="sisparkdbModel.FK_Permisos_Accion">
+            <End Role="Acciones" EntitySet="Acciones" />
+            <End Role="Permisos" EntitySet="Permisos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tickets_EstadosDeTicket" Association="sisparkdbModel.FK_Tickets_EstadosDeTicket">
+            <End Role="EstadosDeTicket" EntitySet="EstadosDeTicket" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tickets_Parcelas" Association="sisparkdbModel.FK_Tickets_Parcelas">
+            <End Role="Parcelas" EntitySet="Parcelas" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Permisos_Roles" Association="sisparkdbModel.FK_Permisos_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Permisos" EntitySet="Permisos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tickets_Vehiculos" Association="sisparkdbModel.FK_Tickets_Vehiculos">
+            <End Role="Vehiculos" EntitySet="Vehiculos" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vehiculos_TiposDeVehiculo" Association="sisparkdbModel.FK_Vehiculos_TiposDeVehiculo">
+            <End Role="TiposDeVehiculo" EntitySet="TiposDeVehiculo" />
+            <End Role="Vehiculos" EntitySet="Vehiculos" />
+          </AssociationSet>
+          <AssociationSet Name="Usuarios_Roles" Association="sisparkdbModel.Usuarios_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Usuarios" EntitySet="Usuarios" />
+          </AssociationSet>
+          <EntitySet Name="Parametros" EntityType="sisparkdbModel.Parametros" />
+          <EntitySet Name="Tamaños" EntityType="sisparkdbModel.Tamaños" />
+          <AssociationSet Name="FK_Parcelas_Tamaños" Association="sisparkdbModel.FK_Parcelas_Tamaños">
+            <End Role="Tamaños" EntitySet="Tamaños" />
+            <End Role="Parcelas" EntitySet="Parcelas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TiposDeVehiculo_Tamaños" Association="sisparkdbModel.FK_TiposDeVehiculo_Tamaños">
+            <End Role="Tamaños" EntitySet="Tamaños" />
+            <End Role="TiposDeVehiculo" EntitySet="TiposDeVehiculo" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Acciones">
+          <Key>
+            <PropertyRef Name="IDAccion" />
+          </Key>
+          <Property Name="IDAccion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreAccion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IDRecurso" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Recursos" Relationship="sisparkdbModel.FK_Accion_Recursos" FromRole="Acciones" ToRole="Recursos" />
+          <NavigationProperty Name="Permisos" Relationship="sisparkdbModel.FK_Permisos_Accion" FromRole="Acciones" ToRole="Permisos" />
+        </EntityType>
+        <EntityType Name="AuditoriasLog">
+          <Key>
+            <PropertyRef Name="IDAuditoriaLog" />
+          </Key>
+          <Property Name="IDAuditoriaLog" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreDeUsuario" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Accion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaYHora" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IP" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="AuditoriasTicket">
+          <Key>
+            <PropertyRef Name="IDAuditoriaTicket" />
+          </Key>
+          <Property Name="IDAuditoriaTicket" Type="Int32" Nullable="false" />
+          <Property Name="NombreDeUsuario" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Patente" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="TipoDeVehiculo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Parcela" Type="Int32" Nullable="false" />
+          <Property Name="HorarioDeLlegada" Type="DateTime" Precision="3" />
+          <Property Name="HorarioDeSalida" Type="DateTime" Precision="3" />
+          <Property Name="TiempoTotal" Type="Time" Precision="0" />
+          <Property Name="PrecioTotal" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="FechaYHora" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IP" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="EstadosDeTicket">
+          <Key>
+            <PropertyRef Name="IDEstadoDeTicket" />
+          </Key>
+          <Property Name="IDEstadoDeTicket" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreEstadoDeTicket" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DescripcionEstadoDeTicket" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Tickets" Relationship="sisparkdbModel.FK_Tickets_EstadosDeTicket" FromRole="EstadosDeTicket" ToRole="Tickets" />
+        </EntityType>
+        <EntityType Name="Parcelas">
+          <Key>
+            <PropertyRef Name="IDParcela" />
+          </Key>
+          <Property Name="IDParcela" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NumeroParcela" Type="Int32" Nullable="false" />
+          <Property Name="Disponible" Type="Boolean" Nullable="false" />
+          <Property Name="IDTamaño" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Tickets" Relationship="sisparkdbModel.FK_Tickets_Parcelas" FromRole="Parcelas" ToRole="Tickets" />
+          <NavigationProperty Name="Tamaños" Relationship="sisparkdbModel.FK_Parcelas_Tamaños" FromRole="Parcelas" ToRole="Tamaños" />
+        </EntityType>
+        <EntityType Name="Permisos">
+          <Key>
+            <PropertyRef Name="IDRol" />
+            <PropertyRef Name="IDAccion" />
+          </Key>
+          <Property Name="IDRol" Type="Int32" Nullable="false" />
+          <Property Name="IDAccion" Type="Int32" Nullable="false" />
+          <Property Name="NombreRecurso" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Acciones" Relationship="sisparkdbModel.FK_Permisos_Accion" FromRole="Permisos" ToRole="Acciones" />
+          <NavigationProperty Name="Roles" Relationship="sisparkdbModel.FK_Permisos_Roles" FromRole="Permisos" ToRole="Roles" />
+        </EntityType>
+        <EntityType Name="Recursos">
+          <Key>
+            <PropertyRef Name="IDRecurso" />
+          </Key>
+          <Property Name="IDRecurso" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreRecurso" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Acciones" Relationship="sisparkdbModel.FK_Accion_Recursos" FromRole="Recursos" ToRole="Acciones" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="IDRol" />
+          </Key>
+          <Property Name="IDRol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreRol" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DescripcionRol" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Permisos" Relationship="sisparkdbModel.FK_Permisos_Roles" FromRole="Roles" ToRole="Permisos" />
+          <NavigationProperty Name="Usuarios" Relationship="sisparkdbModel.Usuarios_Roles" FromRole="Roles" ToRole="Usuarios" />
+        </EntityType>
+        <EntityType Name="Tickets">
+          <Key>
+            <PropertyRef Name="IDTicket" />
+          </Key>
+          <Property Name="IDTicket" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDVehiculo" Type="Int32" Nullable="false" />
+          <Property Name="IDEstadoDeTicket" Type="Int32" Nullable="false" />
+          <Property Name="IDParcela" Type="Int32" Nullable="false" />
+          <Property Name="HorarioDeLlegada" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="HorarioDeSalida" Type="DateTime" Precision="3" />
+          <Property Name="TiempoTotal" Type="Time" Precision="0" />
+          <Property Name="PrecioTotal" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="EstadosDeTicket" Relationship="sisparkdbModel.FK_Tickets_EstadosDeTicket" FromRole="Tickets" ToRole="EstadosDeTicket" />
+          <NavigationProperty Name="Parcelas" Relationship="sisparkdbModel.FK_Tickets_Parcelas" FromRole="Tickets" ToRole="Parcelas" />
+          <NavigationProperty Name="Vehiculos" Relationship="sisparkdbModel.FK_Tickets_Vehiculos" FromRole="Tickets" ToRole="Vehiculos" />
+        </EntityType>
+        <EntityType Name="TiposDeVehiculo">
+          <Key>
+            <PropertyRef Name="IDTipoDeVehiculo" />
+          </Key>
+          <Property Name="IDTipoDeVehiculo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDTamaño" Type="Int32" Nullable="false" />
+          <Property Name="NombreTipoDeVehiculo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Tarifa" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <NavigationProperty Name="Vehiculos" Relationship="sisparkdbModel.FK_Vehiculos_TiposDeVehiculo" FromRole="TiposDeVehiculo" ToRole="Vehiculos" />
+          <NavigationProperty Name="Tamaños" Relationship="sisparkdbModel.FK_TiposDeVehiculo_Tamaños" FromRole="TiposDeVehiculo" ToRole="Tamaños" />
+        </EntityType>
+        <EntityType Name="Usuarios">
+          <Key>
+            <PropertyRef Name="IDUsuario" />
+          </Key>
+          <Property Name="IDUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDRol" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Apellido" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="DNI" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="NombreDeUsuario" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Contraseña" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Roles" Relationship="sisparkdbModel.Usuarios_Roles" FromRole="Usuarios" ToRole="Roles" />
+        </EntityType>
+        <EntityType Name="Vehiculos">
+          <Key>
+            <PropertyRef Name="IDVehiculo" />
+          </Key>
+          <Property Name="IDVehiculo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDTipoDeVehiculo" Type="Int32" Nullable="false" />
+          <Property Name="Patente" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="DescripcionDeVehiculo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Tickets" Relationship="sisparkdbModel.FK_Tickets_Vehiculos" FromRole="Vehiculos" ToRole="Tickets" />
+          <NavigationProperty Name="TiposDeVehiculo" Relationship="sisparkdbModel.FK_Vehiculos_TiposDeVehiculo" FromRole="Vehiculos" ToRole="TiposDeVehiculo" />
+        </EntityType>
+        <Association Name="FK_Accion_Recursos">
+          <End Type="sisparkdbModel.Recursos" Role="Recursos" Multiplicity="1" />
+          <End Type="sisparkdbModel.Acciones" Role="Acciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recursos">
+              <PropertyRef Name="IDRecurso" />
+            </Principal>
+            <Dependent Role="Acciones">
+              <PropertyRef Name="IDRecurso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Permisos_Accion">
+          <End Type="sisparkdbModel.Acciones" Role="Acciones" Multiplicity="1" />
+          <End Type="sisparkdbModel.Permisos" Role="Permisos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Acciones">
+              <PropertyRef Name="IDAccion" />
+            </Principal>
+            <Dependent Role="Permisos">
+              <PropertyRef Name="IDAccion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tickets_EstadosDeTicket">
+          <End Type="sisparkdbModel.EstadosDeTicket" Role="EstadosDeTicket" Multiplicity="1" />
+          <End Type="sisparkdbModel.Tickets" Role="Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstadosDeTicket">
+              <PropertyRef Name="IDEstadoDeTicket" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="IDEstadoDeTicket" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tickets_Parcelas">
+          <End Type="sisparkdbModel.Parcelas" Role="Parcelas" Multiplicity="1" />
+          <End Type="sisparkdbModel.Tickets" Role="Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parcelas">
+              <PropertyRef Name="IDParcela" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="IDParcela" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Permisos_Roles">
+          <End Type="sisparkdbModel.Roles" Role="Roles" Multiplicity="1" />
+          <End Type="sisparkdbModel.Permisos" Role="Permisos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="IDRol" />
+            </Principal>
+            <Dependent Role="Permisos">
+              <PropertyRef Name="IDRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tickets_Vehiculos">
+          <End Type="sisparkdbModel.Vehiculos" Role="Vehiculos" Multiplicity="1" />
+          <End Type="sisparkdbModel.Tickets" Role="Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehiculos">
+              <PropertyRef Name="IDVehiculo" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="IDVehiculo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vehiculos_TiposDeVehiculo">
+          <End Type="sisparkdbModel.TiposDeVehiculo" Role="TiposDeVehiculo" Multiplicity="1" />
+          <End Type="sisparkdbModel.Vehiculos" Role="Vehiculos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TiposDeVehiculo">
+              <PropertyRef Name="IDTipoDeVehiculo" />
+            </Principal>
+            <Dependent Role="Vehiculos">
+              <PropertyRef Name="IDTipoDeVehiculo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Usuarios_Roles">
+          <End Type="sisparkdbModel.Roles" Role="Roles" Multiplicity="*" />
+          <End Type="sisparkdbModel.Usuarios" Role="Usuarios" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Parametros">
+          <Key>
+            <PropertyRef Name="IDParametro" />
+          </Key>
+          <Property Name="IDParametro" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreParametro" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ValorParametro" Type="Int32" Nullable="false" />
+          <Property Name="DescripcionParametro" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Tamaños">
+          <Key>
+            <PropertyRef Name="IDTamaño" />
+          </Key>
+          <Property Name="IDTamaño" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NombreTamaño" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Valor" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Parcelas" Relationship="sisparkdbModel.FK_Parcelas_Tamaños" FromRole="Tamaños" ToRole="Parcelas" />
+          <NavigationProperty Name="TiposDeVehiculo" Relationship="sisparkdbModel.FK_TiposDeVehiculo_Tamaños" FromRole="Tamaños" ToRole="TiposDeVehiculo" />
+        </EntityType>
+        <Association Name="FK_Parcelas_Tamaños">
+          <End Type="sisparkdbModel.Tamaños" Role="Tamaños" Multiplicity="1" />
+          <End Type="sisparkdbModel.Parcelas" Role="Parcelas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tamaños">
+              <PropertyRef Name="IDTamaño" />
+            </Principal>
+            <Dependent Role="Parcelas">
+              <PropertyRef Name="IDTamaño" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TiposDeVehiculo_Tamaños">
+          <End Type="sisparkdbModel.Tamaños" Role="Tamaños" Multiplicity="1" />
+          <End Type="sisparkdbModel.TiposDeVehiculo" Role="TiposDeVehiculo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tamaños">
+              <PropertyRef Name="IDTamaño" />
+            </Principal>
+            <Dependent Role="TiposDeVehiculo">
+              <PropertyRef Name="IDTamaño" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="sisparkdbModelStoreContainer" CdmEntityContainer="sisparkdbEntities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="sisparkdbModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Acciones">
+            <EntityTypeMapping TypeName="sisparkdbModel.Acciones">
+              <MappingFragment StoreEntitySet="Acciones">
+                <ScalarProperty Name="IDRecurso" ColumnName="IDRecurso" />
+                <ScalarProperty Name="NombreAccion" ColumnName="NombreAccion" />
+                <ScalarProperty Name="IDAccion" ColumnName="IDAccion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AuditoriasLog">
+            <EntityTypeMapping TypeName="sisparkdbModel.AuditoriasLog">
+              <MappingFragment StoreEntitySet="AuditoriasLog">
+                <ScalarProperty Name="IP" ColumnName="IP" />
+                <ScalarProperty Name="FechaYHora" ColumnName="FechaYHora" />
+                <ScalarProperty Name="Accion" ColumnName="Accion" />
+                <ScalarProperty Name="NombreDeUsuario" ColumnName="NombreDeUsuario" />
+                <ScalarProperty Name="IDAuditoriaLog" ColumnName="IDAuditoriaLog" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AuditoriasTicket">
+            <EntityTypeMapping TypeName="sisparkdbModel.AuditoriasTicket">
+              <MappingFragment StoreEntitySet="AuditoriasTicket">
+                <ScalarProperty Name="IP" ColumnName="IP" />
+                <ScalarProperty Name="FechaYHora" ColumnName="FechaYHora" />
+                <ScalarProperty Name="PrecioTotal" ColumnName="PrecioTotal" />
+                <ScalarProperty Name="TiempoTotal" ColumnName="TiempoTotal" />
+                <ScalarProperty Name="HorarioDeSalida" ColumnName="HorarioDeSalida" />
+                <ScalarProperty Name="HorarioDeLlegada" ColumnName="HorarioDeLlegada" />
+                <ScalarProperty Name="Parcela" ColumnName="Parcela" />
+                <ScalarProperty Name="TipoDeVehiculo" ColumnName="TipoDeVehiculo" />
+                <ScalarProperty Name="Patente" ColumnName="Patente" />
+                <ScalarProperty Name="NombreDeUsuario" ColumnName="NombreDeUsuario" />
+                <ScalarProperty Name="IDAuditoriaTicket" ColumnName="IDAuditoriaTicket" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EstadosDeTicket">
+            <EntityTypeMapping TypeName="sisparkdbModel.EstadosDeTicket">
+              <MappingFragment StoreEntitySet="EstadosDeTicket">
+                <ScalarProperty Name="DescripcionEstadoDeTicket" ColumnName="DescripcionEstadoDeTicket" />
+                <ScalarProperty Name="NombreEstadoDeTicket" ColumnName="NombreEstadoDeTicket" />
+                <ScalarProperty Name="IDEstadoDeTicket" ColumnName="IDEstadoDeTicket" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Parcelas">
+            <EntityTypeMapping TypeName="sisparkdbModel.Parcelas">
+              <MappingFragment StoreEntitySet="Parcelas">
+                <ScalarProperty Name="IDTamaño" ColumnName="IDTamaño" />
+                <ScalarProperty Name="Disponible" ColumnName="Disponible" />
+                <ScalarProperty Name="NumeroParcela" ColumnName="NumeroParcela" />
+                <ScalarProperty Name="IDParcela" ColumnName="IDParcela" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Permisos">
+            <EntityTypeMapping TypeName="sisparkdbModel.Permisos">
+              <MappingFragment StoreEntitySet="Permisos">
+                <ScalarProperty Name="NombreRecurso" ColumnName="NombreRecurso" />
+                <ScalarProperty Name="IDAccion" ColumnName="IDAccion" />
+                <ScalarProperty Name="IDRol" ColumnName="IDRol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Recursos">
+            <EntityTypeMapping TypeName="sisparkdbModel.Recursos">
+              <MappingFragment StoreEntitySet="Recursos">
+                <ScalarProperty Name="NombreRecurso" ColumnName="NombreRecurso" />
+                <ScalarProperty Name="IDRecurso" ColumnName="IDRecurso" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="sisparkdbModel.Roles">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="DescripcionRol" ColumnName="DescripcionRol" />
+                <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
+                <ScalarProperty Name="IDRol" ColumnName="IDRol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tickets">
+            <EntityTypeMapping TypeName="sisparkdbModel.Tickets">
+              <MappingFragment StoreEntitySet="Tickets">
+                <ScalarProperty Name="PrecioTotal" ColumnName="PrecioTotal" />
+                <ScalarProperty Name="TiempoTotal" ColumnName="TiempoTotal" />
+                <ScalarProperty Name="HorarioDeSalida" ColumnName="HorarioDeSalida" />
+                <ScalarProperty Name="HorarioDeLlegada" ColumnName="HorarioDeLlegada" />
+                <ScalarProperty Name="IDParcela" ColumnName="IDParcela" />
+                <ScalarProperty Name="IDEstadoDeTicket" ColumnName="IDEstadoDeTicket" />
+                <ScalarProperty Name="IDVehiculo" ColumnName="IDVehiculo" />
+                <ScalarProperty Name="IDTicket" ColumnName="IDTicket" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TiposDeVehiculo">
+            <EntityTypeMapping TypeName="sisparkdbModel.TiposDeVehiculo">
+              <MappingFragment StoreEntitySet="TiposDeVehiculo">
+                <ScalarProperty Name="Tarifa" ColumnName="Tarifa" />
+                <ScalarProperty Name="NombreTipoDeVehiculo" ColumnName="NombreTipoDeVehiculo" />
+                <ScalarProperty Name="IDTamaño" ColumnName="IDTamaño" />
+                <ScalarProperty Name="IDTipoDeVehiculo" ColumnName="IDTipoDeVehiculo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuarios">
+            <EntityTypeMapping TypeName="sisparkdbModel.Usuarios">
+              <MappingFragment StoreEntitySet="Usuarios">
+                <ScalarProperty Name="Contraseña" ColumnName="Contraseña" />
+                <ScalarProperty Name="NombreDeUsuario" ColumnName="NombreDeUsuario" />
+                <ScalarProperty Name="DNI" ColumnName="DNI" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IDRol" ColumnName="IDRol" />
+                <ScalarProperty Name="IDUsuario" ColumnName="IDUsuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vehiculos">
+            <EntityTypeMapping TypeName="sisparkdbModel.Vehiculos">
+              <MappingFragment StoreEntitySet="Vehiculos">
+                <ScalarProperty Name="DescripcionDeVehiculo" ColumnName="DescripcionDeVehiculo" />
+                <ScalarProperty Name="Patente" ColumnName="Patente" />
+                <ScalarProperty Name="IDTipoDeVehiculo" ColumnName="IDTipoDeVehiculo" />
+                <ScalarProperty Name="IDVehiculo" ColumnName="IDVehiculo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="Usuarios_Roles" TypeName="sisparkdbModel.Usuarios_Roles" StoreEntitySet="Usuarios_Roles">
+            <EndProperty Name="Usuarios">
+              <ScalarProperty Name="IDUsuario" ColumnName="IDUsuario" />
+            </EndProperty>
+            <EndProperty Name="Roles">
+              <ScalarProperty Name="IDRol" ColumnName="IDRol" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="Parametros">
+            <EntityTypeMapping TypeName="sisparkdbModel.Parametros">
+              <MappingFragment StoreEntitySet="Parametros">
+                <ScalarProperty Name="DescripcionParametro" ColumnName="DescripcionParametro" />
+                <ScalarProperty Name="ValorParametro" ColumnName="ValorParametro" />
+                <ScalarProperty Name="NombreParametro" ColumnName="NombreParametro" />
+                <ScalarProperty Name="IDParametro" ColumnName="IDParametro" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tamaños">
+            <EntityTypeMapping TypeName="sisparkdbModel.Tamaños">
+              <MappingFragment StoreEntitySet="Tamaños">
+                <ScalarProperty Name="Valor" ColumnName="Valor" />
+                <ScalarProperty Name="NombreTamaño" ColumnName="NombreTamaño" />
+                <ScalarProperty Name="IDTamaño" ColumnName="IDTamaño" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
