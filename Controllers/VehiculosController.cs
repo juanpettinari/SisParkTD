@@ -41,13 +41,20 @@ namespace SisParkTD.Controllers
 
             Vehiculos vehiculo = db.Vehiculos.Where(i => i.Patente == patente).FirstOrDefault();
 
-            if (vehiculo== null)
+            if (Request.UrlReferrer.Segments.Skip(2).Take(1).SingleOrDefault().Trim('/') == "RetirarVehiculo")
             {
-                return RedirectToAction("Create", new { patente = patente});
+                return RedirectToAction("")
             }
             else
             {
-                return RedirectToAction("BuscarParcela", "Parcelas", new { Vehiculos = vehiculo });
+                if (vehiculo == null)
+                {
+                    return RedirectToAction("Create", new { patente = patente });
+                }
+                else
+                {
+                    return RedirectToAction("BuscarParcela", "Parcelas", new { Vehiculos = vehiculo });
+                }
             }
 
         }

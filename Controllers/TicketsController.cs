@@ -14,6 +14,17 @@ namespace SisParkTD.Controllers
     {
         private sisparkdbEntities db = new sisparkdbEntities();
 
+        //GET
+        public ActionResult RetirarVehiculo()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult RetirarVehiculo(string patente)
+        {
+            return RedirectToAction("BuscarExistenciaVehiculo", "Vehiculos", new { patente = patente });
+        }
 
         //GET 
         public ActionResult IngresarVehiculo()
@@ -24,7 +35,7 @@ namespace SisParkTD.Controllers
         [HttpPost]
         public ActionResult IngresarVehiculo(string patente)
         {
-            return RedirectToAction("BuscarExistenciaVehiculo", "Vehiculos", new { patente = patente });
+            return RedirectToAction("BuscarExistenciaVehiculo", "Vehiculos", new { patente });
         }
 
         public ActionResult NoHayParcelas(Vehiculos vehiculo)
@@ -48,7 +59,7 @@ namespace SisParkTD.Controllers
                 db.Tickets.Add(ticket);
                 db.SaveChanges();
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("ImprimirTicket", new { Ticket = ticket});
 
 
 
@@ -57,6 +68,11 @@ namespace SisParkTD.Controllers
 
         }
 
+
+        public ActionResult ImprimirTicket(Tickets ticket)
+        {
+            return View(ticket);
+        }
 
         // GET: Tickets
         public ActionResult Index()

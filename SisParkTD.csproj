@@ -286,6 +286,8 @@
     <Content Include="Views\Tamaños\Index.cshtml" />
     <Content Include="Views\Tamaños\Create.cshtml" />
     <Content Include="Views\Tickets\NoHayParcelas.cshtml" />
+    <Content Include="Views\Tickets\ImprimirTicket.cshtml" />
+    <Content Include="Views\Tickets\RetirarVehiculo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
