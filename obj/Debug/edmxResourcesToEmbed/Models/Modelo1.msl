@@ -94,20 +94,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Tickets">
-      <EntityTypeMapping TypeName="sisparkdbModel.Tickets">
-        <MappingFragment StoreEntitySet="Tickets">
-          <ScalarProperty Name="PrecioTotal" ColumnName="PrecioTotal" />
-          <ScalarProperty Name="TiempoTotal" ColumnName="TiempoTotal" />
-          <ScalarProperty Name="HorarioDeSalida" ColumnName="HorarioDeSalida" />
-          <ScalarProperty Name="HorarioDeLlegada" ColumnName="HorarioDeLlegada" />
-          <ScalarProperty Name="IDParcela" ColumnName="IDParcela" />
-          <ScalarProperty Name="IDEstadoDeTicket" ColumnName="IDEstadoDeTicket" />
-          <ScalarProperty Name="IDVehiculo" ColumnName="IDVehiculo" />
-          <ScalarProperty Name="IDTicket" ColumnName="IDTicket" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="TiposDeVehiculo">
       <EntityTypeMapping TypeName="sisparkdbModel.TiposDeVehiculo">
         <MappingFragment StoreEntitySet="TiposDeVehiculo">
@@ -166,6 +152,20 @@
           <ScalarProperty Name="Valor" ColumnName="Valor" />
           <ScalarProperty Name="NombreTamaño" ColumnName="NombreTamaño" />
           <ScalarProperty Name="IDTamaño" ColumnName="IDTamaño" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tickets">
+      <EntityTypeMapping TypeName="sisparkdbModel.Tickets">
+        <MappingFragment StoreEntitySet="Tickets">
+          <ScalarProperty Name="PrecioTotal" ColumnName="PrecioTotal" />
+          <ScalarProperty Name="TiempoTotal" ColumnName="TiempoTotal" />
+          <ScalarProperty Name="HorarioDeSalida" ColumnName="HorarioDeSalida" />
+          <ScalarProperty Name="HorarioDeLlegada" ColumnName="HorarioDeLlegada" />
+          <ScalarProperty Name="IDParcela" ColumnName="IDParcela" />
+          <ScalarProperty Name="IDEstadoDeTicket" ColumnName="IDEstadoDeTicket" />
+          <ScalarProperty Name="IDVehiculo" ColumnName="IDVehiculo" />
+          <ScalarProperty Name="IDTicket" ColumnName="IDTicket" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

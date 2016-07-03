@@ -34,11 +34,11 @@ namespace SisParkTD.Models
         public virtual DbSet<Permisos> Permisos { get; set; }
         public virtual DbSet<Recursos> Recursos { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
-        public virtual DbSet<Tickets> Tickets { get; set; }
         public virtual DbSet<TiposDeVehiculo> TiposDeVehiculo { get; set; }
         public virtual DbSet<Usuarios> Usuarios { get; set; }
         public virtual DbSet<Vehiculos> Vehiculos { get; set; }
         public virtual DbSet<Parametros> Parametros { get; set; }
         public virtual DbSet<Tamaños> Tamaños { get; set; }
+        public virtual DbSet<Tickets> Tickets { get; set; }
     }
 }

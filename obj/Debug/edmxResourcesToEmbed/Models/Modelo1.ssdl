@@ -112,8 +112,8 @@
     <Property Name="IDParcela" Type="int" Nullable="false" />
     <Property Name="HorarioDeLlegada" Type="datetime" Nullable="false" />
     <Property Name="HorarioDeSalida" Type="datetime" />
-    <Property Name="TiempoTotal" Type="time" Precision="0" />
-    <Property Name="PrecioTotal" Type="money" />
+    <Property Name="TiempoTotal" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="PrecioTotal" Type="decimal" Precision="18" Scale="2" />
   </EntityType>
   <EntityType Name="TiposDeVehiculo">
     <Key>

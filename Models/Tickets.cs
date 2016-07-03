@@ -11,16 +11,20 @@ namespace SisParkTD.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
     public partial class Tickets
     {
         public int IDTicket { get; set; }
+        [Required]
         public int IDVehiculo { get; set; }
+        [Required]
         public int IDEstadoDeTicket { get; set; }
+        [Required]
         public int IDParcela { get; set; }
+        [Required]
         public System.DateTime HorarioDeLlegada { get; set; }
         public Nullable<System.DateTime> HorarioDeSalida { get; set; }
-        public Nullable<System.TimeSpan> TiempoTotal { get; set; }
+        public Nullable<decimal> TiempoTotal { get; set; }
         public Nullable<decimal> PrecioTotal { get; set; }
     
         public virtual EstadosDeTicket EstadosDeTicket { get; set; }

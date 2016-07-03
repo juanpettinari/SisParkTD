@@ -26,6 +26,30 @@ namespace SisParkTD.Controllers
             return RedirectToAction("BuscarExistenciaVehiculo", "Vehiculos", new { patente = patente });
         }
 
+        public ActionResult ConfirmarEgreso(Vehiculos vehiculo)
+        {
+            Tickets ticket = db.Tickets.Where(item => item.IDVehiculo == vehiculo.IDVehiculo && item.EstadosDeTicket.NombreEstadoDeTicket == "Ingresado" ).FirstOrDefault();
+
+            ticket.IDEstadoDeTicket = db.EstadosDeTicket.Where(item => item.NombreEstadoDeTicket == "Finalizado").Select(item => item.IDEstadoDeTicket).FirstOrDefault();
+
+            ticket.HorarioDeSalida = DateTime.Now;
+            TimeSpan TiempoTotal = ticket.HorarioDeSalida.Value.Subtract(ticket.HorarioDeLlegada);
+            double Horas = TiempoTotal.TotalHours;
+            ticket.TiempoTotal = Convert.ToDecimal(Horas);
+            ticket.PrecioTotal = ticket.TiempoTotal * ticket.Vehiculos.TiposDeVehiculo.Tarifa;
+
+
+
+
+            db.Entry(ticket).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("ImprimirTicket", ticket);
+
+
+
+        }
+
         //GET 
         public ActionResult IngresarVehiculo()
         {
@@ -35,7 +59,7 @@ namespace SisParkTD.Controllers
         [HttpPost]
         public ActionResult IngresarVehiculo(string patente)
         {
-            return RedirectToAction("BuscarExistenciaVehiculo", "Vehiculos", new { patente });
+            return RedirectToAction("BuscarExistenciaVehiculo", "Vehiculos", new { patente = patente });
         }
 
         public ActionResult NoHayParcelas(Vehiculos vehiculo)
@@ -44,33 +68,30 @@ namespace SisParkTD.Controllers
             return View();
         }
 
-        public ActionResult ConfirmarIngreso(Parcelas parcela, Vehiculos vehiculo)
+        public ActionResult ConfirmarIngreso(int IDParcela, int IDVehiculo)
         {
             Tickets ticket = new Tickets();
 
-            ticket.IDVehiculo = vehiculo.IDVehiculo;
+            Vehiculos vehiculo = db.Vehiculos.Find(IDVehiculo);
+            ticket.Vehiculos = vehiculo;
+            ticket.Vehiculos.Patente = vehiculo.Patente;
             var estadoTicket = db.EstadosDeTicket.Where(item => item.NombreEstadoDeTicket == "Ingresado").Select(item => item.IDEstadoDeTicket).FirstOrDefault();
             ticket.IDEstadoDeTicket = estadoTicket;
-            ticket.IDParcela = parcela.IDParcela;
+            ticket.IDParcela = IDParcela;
             ticket.HorarioDeLlegada = DateTime.Now;
-
             if (ModelState.IsValid)
             {
                 db.Tickets.Add(ticket);
                 db.SaveChanges();
             }
-            return RedirectToAction("ImprimirTicket", new { Ticket = ticket});
-
-
-
-
-
-
+            return RedirectToAction("ImprimirTicket",  ticket);
+            
         }
 
 
         public ActionResult ImprimirTicket(Tickets ticket)
         {
+            ticket = db.Tickets.Find(ticket.IDTicket);
             return View(ticket);
         }
 

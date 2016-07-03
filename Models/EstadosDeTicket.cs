@@ -11,7 +11,7 @@ namespace SisParkTD.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
     public partial class EstadosDeTicket
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,6 +21,7 @@ namespace SisParkTD.Models
         }
     
         public int IDEstadoDeTicket { get; set; }
+        [Required]
         public string NombreEstadoDeTicket { get; set; }
         public string DescripcionEstadoDeTicket { get; set; }
     

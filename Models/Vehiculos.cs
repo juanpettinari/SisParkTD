@@ -11,7 +11,7 @@ namespace SisParkTD.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
     public partial class Vehiculos
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,11 +22,13 @@ namespace SisParkTD.Models
     
         public int IDVehiculo { get; set; }
         public int IDTipoDeVehiculo { get; set; }
+        [Required]
+        [StringLength(7,MinimumLength =6,ErrorMessage ="La Patente debe tener entre 6 y 7 caracteres")]
         public string Patente { get; set; }
         public string DescripcionDeVehiculo { get; set; }
     
+        public virtual TiposDeVehiculo TiposDeVehiculo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Tickets> Tickets { get; set; }
-        public virtual TiposDeVehiculo TiposDeVehiculo { get; set; }
     }
 }

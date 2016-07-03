@@ -19,38 +19,35 @@ namespace SisParkTD.Controllers
         public ActionResult BuscarParcela(Vehiculos vehiculo)
         {
             var ParcelaMasGrande = db.Parcelas.Max(item => item.Tamaños.Valor);
-
-            for (int i = 0; i == ParcelaMasGrande; i++)
+            var tipodevehiculo = db.TiposDeVehiculo.Find(vehiculo.IDTipoDeVehiculo);
+            for (int i = tipodevehiculo.Tamaños.Valor; i <= ParcelaMasGrande+1; i++)
             {
-                var parcela = db.Parcelas.Where(item => item.Tamaños.Valor == vehiculo.TiposDeVehiculo.Tamaños.Valor && item.Disponible == true).FirstOrDefault();
+                
+                var parcela = db.Parcelas.Where(item => item.Tamaños.Valor == i && item.Disponible == true).FirstOrDefault();
 
                 if (parcela != null)
                 {
                     parcela.Disponible = false;
                     db.Entry(parcela).State = EntityState.Modified;
                     db.SaveChanges();
-                    return RedirectToAction("ConfirmarIngreso", "Tickets", new { Parcelas = parcela , Vehiculos = vehiculo});
+                    return RedirectToAction("ConfirmarIngreso", "Tickets",  new {parcela.IDParcela,vehiculo.IDVehiculo});
                 }
             }
-
-            return RedirectToAction("NoHayParcelas", "Tickets", new { vehiculo});
-
-
-
-
-
-
-
+            return RedirectToAction("NoHayParcelas", "Tickets", vehiculo);
         }
 
+        public ActionResult LiberarParcela (Vehiculos vehiculo)
+        {
+            var ticket = db.Tickets.Where(item => item.IDVehiculo == vehiculo.IDVehiculo && item.EstadosDeTicket.NombreEstadoDeTicket == "Ingresado").FirstOrDefault();
+            var parcela = db.Parcelas.Find(ticket.IDParcela);
 
+            parcela.Disponible = true;
 
+            db.Entry(parcela).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("ConfirmarEgreso", "Tickets",vehiculo);
 
-
-
-        //POST
-
-
+        }
 
         // GET: Parcelas
         public ActionResult Index()

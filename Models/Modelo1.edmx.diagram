@@ -14,22 +14,22 @@
         <EntityTypeShape EntityType="sisparkdbModel.Permisos" Width="1.5" PointX="0.875" PointY="9.875" />
         <EntityTypeShape EntityType="sisparkdbModel.Recursos" Width="1.5" PointX="3.25" PointY="7" />
         <EntityTypeShape EntityType="sisparkdbModel.Roles" Width="1.5" PointX="3.25" PointY="9.75" />
-        <EntityTypeShape EntityType="sisparkdbModel.Tickets" Width="1.5" PointX="7.5" PointY="2.625" />
         <EntityTypeShape EntityType="sisparkdbModel.TiposDeVehiculo" Width="1.5" PointX="3" PointY="4.5" />
         <EntityTypeShape EntityType="sisparkdbModel.Usuarios" Width="1.5" PointX="5.25" PointY="10.25" />
         <EntityTypeShape EntityType="sisparkdbModel.Vehiculos" Width="1.5" PointX="5.25" PointY="4.5" />
         <AssociationConnector Association="sisparkdbModel.FK_Accion_Recursos" />
         <AssociationConnector Association="sisparkdbModel.FK_Permisos_Accion" />
-        <AssociationConnector Association="sisparkdbModel.FK_Tickets_EstadosDeTicket" />
-        <AssociationConnector Association="sisparkdbModel.FK_Tickets_Parcelas" />
         <AssociationConnector Association="sisparkdbModel.FK_Permisos_Roles" />
-        <AssociationConnector Association="sisparkdbModel.FK_Tickets_Vehiculos" />
         <AssociationConnector Association="sisparkdbModel.FK_Vehiculos_TiposDeVehiculo" />
         <AssociationConnector Association="sisparkdbModel.Usuarios_Roles" />
         <EntityTypeShape EntityType="sisparkdbModel.Parametros" Width="1.5" PointX="10.375" PointY="0.75" />
         <EntityTypeShape EntityType="sisparkdbModel.Tamaños" Width="1.5" PointX="0.75" PointY="3.125" />
         <AssociationConnector Association="sisparkdbModel.FK_Parcelas_Tamaños" />
         <AssociationConnector Association="sisparkdbModel.FK_TiposDeVehiculo_Tamaños" />
+        <EntityTypeShape EntityType="sisparkdbModel.Tickets" Width="1.5" PointX="7.5" PointY="2.375" />
+        <AssociationConnector Association="sisparkdbModel.FK_Tickets_EstadosDeTicket" />
+        <AssociationConnector Association="sisparkdbModel.FK_Tickets_Parcelas" />
+        <AssociationConnector Association="sisparkdbModel.FK_Tickets_Vehiculos" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

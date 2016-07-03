@@ -41,22 +41,23 @@ namespace SisParkTD.Controllers
 
             Vehiculos vehiculo = db.Vehiculos.Where(i => i.Patente == patente).FirstOrDefault();
 
-            if (Request.UrlReferrer.Segments.Skip(2).Take(1).SingleOrDefault().Trim('/') == "RetirarVehiculo")
-            {
-                return RedirectToAction("")
-            }
-            else
-            {
-                if (vehiculo == null)
-                {
-                    return RedirectToAction("Create", new { patente = patente });
-                }
-                else
-                {
-                    return RedirectToAction("BuscarParcela", "Parcelas", new { Vehiculos = vehiculo });
-                }
-            }
+            var value = Request.UrlReferrer.Segments.Skip(2).Take(1).SingleOrDefault().Trim('/');
 
+            switch (value)
+            {
+                case "IngresarVehiculo":
+                    if (vehiculo == null)
+                    {
+                        return RedirectToAction("Create", new { patente = patente });
+                    }
+                    else
+                    {
+                        return RedirectToAction("BuscarParcela", "Parcelas", vehiculo);
+                    }
+                case "RetirarVehiculo":
+                    return RedirectToAction("LiberarParcela", "Parcelas", vehiculo);
+            }
+            return View();
         }
 
         // GET: Vehiculos/Create
@@ -87,7 +88,7 @@ namespace SisParkTD.Controllers
                 db.SaveChanges();
                 if (Request.UrlReferrer.Query != "")
                 {
-                    return RedirectToAction("BuscarParcela", "Parcelas", new { Vehiculos = vehiculos });
+                    return RedirectToAction("BuscarParcela", "Parcelas", vehiculos);
                 }
                 return RedirectToAction("Index");
             }

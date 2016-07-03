@@ -11,7 +11,7 @@ namespace SisParkTD.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
     public partial class TiposDeVehiculo
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,8 +21,12 @@ namespace SisParkTD.Models
         }
     
         public int IDTipoDeVehiculo { get; set; }
+        [Required]
         public int IDTamaño { get; set; }
+        [Required]
         public string NombreTipoDeVehiculo { get; set; }
+        [Required]
+        [DataType(DataType.Currency)]
         public decimal Tarifa { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

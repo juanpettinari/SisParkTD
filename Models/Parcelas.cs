@@ -11,7 +11,7 @@ namespace SisParkTD.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
     public partial class Parcelas
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,12 +21,15 @@ namespace SisParkTD.Models
         }
     
         public int IDParcela { get; set; }
+        [Required]
         public int NumeroParcela { get; set; }
+        [Required]
         public bool Disponible { get; set; }
+        [Required]
         public int IDTamaño { get; set; }
     
+        public virtual Tamaños Tamaños { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Tickets> Tickets { get; set; }
-        public virtual Tamaños Tamaños { get; set; }
     }
 }
