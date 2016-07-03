@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4a5835d09f7947d6824134f086d3b4a1" Name="Diagram1">
+        <EntityTypeShape EntityType="sisparkdbModel.sysdiagram" Width="1.5" PointX="9.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sisparkdbModel.Acciones" Width="1.5" PointX="0.75" PointY="6.875" />
+        <EntityTypeShape EntityType="sisparkdbModel.AuditoriasLog" Width="1.5" PointX="5.75" PointY="7.75" />
+        <EntityTypeShape EntityType="sisparkdbModel.AuditoriasTicket" Width="1.625" PointX="7.625" PointY="6.75" />
+        <EntityTypeShape EntityType="sisparkdbModel.EstadosDeTicket" Width="1.5" PointX="5.25" PointY="1.25" />
+        <EntityTypeShape EntityType="sisparkdbModel.Parcelas" Width="1.5" PointX="3" PointY="1.625" />
+        <EntityTypeShape EntityType="sisparkdbModel.Permisos" Width="1.5" PointX="0.875" PointY="9.875" />
+        <EntityTypeShape EntityType="sisparkdbModel.Recursos" Width="1.5" PointX="3.25" PointY="7" />
+        <EntityTypeShape EntityType="sisparkdbModel.Roles" Width="1.5" PointX="3.25" PointY="9.75" />
+        <EntityTypeShape EntityType="sisparkdbModel.TiposDeVehiculo" Width="1.5" PointX="3" PointY="4.5" />
+        <EntityTypeShape EntityType="sisparkdbModel.Usuarios" Width="1.5" PointX="5.25" PointY="10.25" />
+        <EntityTypeShape EntityType="sisparkdbModel.Vehiculos" Width="1.5" PointX="5.25" PointY="4.5" />
+        <AssociationConnector Association="sisparkdbModel.FK_Accion_Recursos" />
+        <AssociationConnector Association="sisparkdbModel.FK_Permisos_Accion" />
+        <AssociationConnector Association="sisparkdbModel.FK_Permisos_Roles" />
+        <AssociationConnector Association="sisparkdbModel.FK_Vehiculos_TiposDeVehiculo" />
+        <AssociationConnector Association="sisparkdbModel.Usuarios_Roles" />
+        <EntityTypeShape EntityType="sisparkdbModel.Parametros" Width="1.5" PointX="10.375" PointY="0.75" />
+        <EntityTypeShape EntityType="sisparkdbModel.Tamaños" Width="1.5" PointX="0.75" PointY="3.125" />
+        <AssociationConnector Association="sisparkdbModel.FK_Parcelas_Tamaños" />
+        <AssociationConnector Association="sisparkdbModel.FK_TiposDeVehiculo_Tamaños" />
+        <EntityTypeShape EntityType="sisparkdbModel.Tickets" Width="1.5" PointX="7.5" PointY="2.375" />
+        <AssociationConnector Association="sisparkdbModel.FK_Tickets_EstadosDeTicket" />
+        <AssociationConnector Association="sisparkdbModel.FK_Tickets_Parcelas" />
+        <AssociationConnector Association="sisparkdbModel.FK_Tickets_Vehiculos" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

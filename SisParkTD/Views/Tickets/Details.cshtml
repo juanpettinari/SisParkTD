@@ -1,0 +1,74 @@
+﻿@model SisParkTD.Models.Tickets
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Tickets</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.HorarioDeLlegada)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HorarioDeLlegada)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HorarioDeSalida)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HorarioDeSalida)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TiempoTotal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TiempoTotal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PrecioTotal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrecioTotal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EstadosDeTicket.NombreEstadoDeTicket)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EstadosDeTicket.NombreEstadoDeTicket)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Parcelas.IDParcela)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Parcelas.IDParcela)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Vehiculos.Patente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Vehiculos.Patente)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IDTicket }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

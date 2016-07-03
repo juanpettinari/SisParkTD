@@ -1,0 +1,42 @@
+﻿@model SisParkTD.Models.Parcelas
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Parcelas</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NumeroParcela)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumeroParcela)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Disponible)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Disponible)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tamaños.NombreTamaño)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tamaños.NombreTamaño)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IDParcela }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,80 @@
+﻿@model SisParkTD.Models.Tickets
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Tickets</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.HorarioDeLlegada)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HorarioDeLlegada)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HorarioDeSalida)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HorarioDeSalida)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TiempoTotal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TiempoTotal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PrecioTotal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrecioTotal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EstadosDeTicket.NombreEstadoDeTicket)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EstadosDeTicket.NombreEstadoDeTicket)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Parcelas.IDParcela)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Parcelas.IDParcela)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Vehiculos.Patente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Vehiculos.Patente)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

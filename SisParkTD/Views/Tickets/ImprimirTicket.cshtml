@@ -1,0 +1,85 @@
+﻿@model SisParkTD.Models.Tickets
+
+@{
+    ViewBag.Title = "ImprimirTicket";
+}
+
+<h2>ImprimirTicket</h2>
+
+<div>
+    <h4>Tickets</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        @* Patente*@
+        <dt>
+            @Html.DisplayNameFor(model => model.Vehiculos.Patente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Vehiculos.Patente)
+        </dd>
+        @* Parcela*@
+        <dt>
+            @Html.DisplayNameFor(model => model.Parcelas.IDParcela)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Parcelas.NumeroParcela)
+        </dd>
+        @*//Tipo Veh*@
+        <dt>
+            @Html.DisplayNameFor(model => model.Vehiculos.TiposDeVehiculo.NombreTipoDeVehiculo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Vehiculos.TiposDeVehiculo.NombreTipoDeVehiculo)
+        </dd>
+
+        @*Precio Por Hora*@
+        <dt>
+            @Html.DisplayNameFor(model => model.Vehiculos.TiposDeVehiculo.Tarifa)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Vehiculos.TiposDeVehiculo.Tarifa)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HorarioDeLlegada)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HorarioDeLlegada)
+        </dd>
+
+        
+        @if (Model.HorarioDeSalida != null)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.HorarioDeSalida)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.HorarioDeSalida)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TiempoTotal)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TiempoTotal)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.PrecioTotal)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PrecioTotal)
+            </dd>
+        }
+
+    </dl>
+</div>
