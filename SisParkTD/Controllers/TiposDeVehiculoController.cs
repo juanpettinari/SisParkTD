@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using SisParkTD.Models;
 
@@ -12,12 +8,12 @@ namespace SisParkTD.Controllers
 {
     public class TiposDeVehiculoController : Controller
     {
-        private sisparkdbEntities db = new sisparkdbEntities();
+        private readonly sisparkdbEntities _db = new sisparkdbEntities();
 
         // GET: TiposDeVehiculo
         public ActionResult Index()
         {
-            var tiposDeVehiculo = db.TiposDeVehiculo.Include(t => t.Tamaños);
+            var tiposDeVehiculo = _db.TiposDeVehiculo.Include(t => t.Tamaños);
             return View(tiposDeVehiculo.ToList());
         }
 
@@ -28,7 +24,7 @@ namespace SisParkTD.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TiposDeVehiculo tiposDeVehiculo = db.TiposDeVehiculo.Find(id);
+            TiposDeVehiculo tiposDeVehiculo = _db.TiposDeVehiculo.Find(id);
             if (tiposDeVehiculo == null)
             {
                 return HttpNotFound();
@@ -39,7 +35,7 @@ namespace SisParkTD.Controllers
         // GET: TiposDeVehiculo/Create
         public ActionResult Create()
         {
-            ViewBag.IDTamaño = new SelectList(db.Tamaños, "IDTamaño", "NombreTamaño");
+            ViewBag.IDTamaño = new SelectList(_db.Tamaños, "IDTamaño", "NombreTamaño");
             return View();
         }
 
@@ -52,12 +48,12 @@ namespace SisParkTD.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.TiposDeVehiculo.Add(tiposDeVehiculo);
-                db.SaveChanges();
+                _db.TiposDeVehiculo.Add(tiposDeVehiculo);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.IDTamaño = new SelectList(db.Tamaños, "IDTamaño", "NombreTamaño", tiposDeVehiculo.IDTamaño);
+            ViewBag.IDTamaño = new SelectList(_db.Tamaños, "IDTamaño", "NombreTamaño", tiposDeVehiculo.IDTamaño);
             return View(tiposDeVehiculo);
         }
 
@@ -68,12 +64,12 @@ namespace SisParkTD.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TiposDeVehiculo tiposDeVehiculo = db.TiposDeVehiculo.Find(id);
+            TiposDeVehiculo tiposDeVehiculo = _db.TiposDeVehiculo.Find(id);
             if (tiposDeVehiculo == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.IDTamaño = new SelectList(db.Tamaños, "IDTamaño", "NombreTamaño", tiposDeVehiculo.IDTamaño);
+            ViewBag.IDTamaño = new SelectList(_db.Tamaños, "IDTamaño", "NombreTamaño", tiposDeVehiculo.IDTamaño);
             return View(tiposDeVehiculo);
         }
 
@@ -86,11 +82,11 @@ namespace SisParkTD.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(tiposDeVehiculo).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(tiposDeVehiculo).State = EntityState.Modified;
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.IDTamaño = new SelectList(db.Tamaños, "IDTamaño", "NombreTamaño", tiposDeVehiculo.IDTamaño);
+            ViewBag.IDTamaño = new SelectList(_db.Tamaños, "IDTamaño", "NombreTamaño", tiposDeVehiculo.IDTamaño);
             return View(tiposDeVehiculo);
         }
 
@@ -101,7 +97,7 @@ namespace SisParkTD.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TiposDeVehiculo tiposDeVehiculo = db.TiposDeVehiculo.Find(id);
+            TiposDeVehiculo tiposDeVehiculo = _db.TiposDeVehiculo.Find(id);
             if (tiposDeVehiculo == null)
             {
                 return HttpNotFound();
@@ -114,9 +110,9 @@ namespace SisParkTD.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            TiposDeVehiculo tiposDeVehiculo = db.TiposDeVehiculo.Find(id);
-            db.TiposDeVehiculo.Remove(tiposDeVehiculo);
-            db.SaveChanges();
+            TiposDeVehiculo tiposDeVehiculo = _db.TiposDeVehiculo.Find(id);
+            _db.TiposDeVehiculo.Remove(tiposDeVehiculo);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -124,7 +120,7 @@ namespace SisParkTD.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }

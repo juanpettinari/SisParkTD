@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using SisParkTD.Models;
 
@@ -12,12 +8,12 @@ namespace SisParkTD.Controllers
 {
     public class VehiculosController : Controller
     {
-        private sisparkdbEntities db = new sisparkdbEntities();
+        private readonly sisparkdbEntities _db = new sisparkdbEntities();
 
         // GET: Vehiculos
         public ActionResult Index()
         {
-            var vehiculos = db.Vehiculos.Include(v => v.TiposDeVehiculo);
+            var vehiculos = _db.Vehiculos.Include(v => v.TiposDeVehiculo);
             return View(vehiculos.ToList());
         }
 
@@ -28,7 +24,7 @@ namespace SisParkTD.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Vehiculos vehiculos = db.Vehiculos.Find(id);
+            var vehiculos = _db.Vehiculos.Find(id);
             if (vehiculos == null)
             {
                 return HttpNotFound();
@@ -39,39 +35,50 @@ namespace SisParkTD.Controllers
         public ActionResult BuscarExistenciaVehiculo(string patente)
         {
 
-            Vehiculos vehiculo = db.Vehiculos.Where(i => i.Patente == patente).FirstOrDefault();
+            var vehiculo = _db.Vehiculos.FirstOrDefault(i => i.Patente == patente);
 
-            var value = Request.UrlReferrer.Segments.Skip(2).Take(1).SingleOrDefault().Trim('/');
-
-            switch (value)
+            var urlDeReferencia = Request.UrlReferrer?.Segments.Skip(2).Take(1).SingleOrDefault();
+            if (urlDeReferencia != null)
             {
-                case "IngresarVehiculo":
-                    if (vehiculo == null)
-                    {
-                        return RedirectToAction("Create", new { patente = patente });
-                    }
-                    else
-                    {
-                        return RedirectToAction("BuscarParcela", "Parcelas", vehiculo);
-                    }
-                case "RetirarVehiculo":
-                    return RedirectToAction("LiberarParcela", "Parcelas", vehiculo);
+                var value = urlDeReferencia.Trim('/');
+
+
+                switch (value)
+                {
+                    case "IngresarVehiculo":
+                        if (vehiculo == null)
+                        {
+                            return RedirectToAction("Create", new {patente });
+                        }
+                        else if (_db.Tickets.FirstOrDefault(item => item.IDVehiculo == vehiculo.IDVehiculo && item.EstadosDeTicket.NombreEstadoDeTicket == "Ingresado") == null)
+                        {
+                            return RedirectToAction("BuscarParcela", "Parcelas", vehiculo); 
+                        }
+                        else
+                        {
+                            return RedirectToAction("IngresarVehiculo", "Tickets", new { errorMessage = "Ya está ingresado un vehiculo con patente: " + vehiculo.Patente });
+                        }
+                    case "RetirarVehiculo":
+                        return RedirectToAction("LiberarParcela", "Parcelas", vehiculo);
+                    default:
+                        return RedirectToAction("RetirarVehiculo", "Tickets", null);
+                }
             }
-            return View();
+            return RedirectToAction("RetirarVehiculo", "Tickets", null);
         }
 
         // GET: Vehiculos/Create
         [HttpGet]
         public ActionResult Create(string patente)
         {
-            ViewBag.IDTipoDeVehiculo = new SelectList(db.TiposDeVehiculo, "IDTipoDeVehiculo", "NombreTipoDeVehiculo");
+            ViewBag.IDTipoDeVehiculo = new SelectList(_db.TiposDeVehiculo, "IDTipoDeVehiculo", "NombreTipoDeVehiculo");
             ViewBag.patente = patente;
             return View();
         }
         // GET: Vehiculos/Create
         public ActionResult Create()
         {
-            ViewBag.IDTipoDeVehiculo = new SelectList(db.TiposDeVehiculo, "IDTipoDeVehiculo", "NombreTipoDeVehiculo");
+            ViewBag.IDTipoDeVehiculo = new SelectList(_db.TiposDeVehiculo, "IDTipoDeVehiculo", "NombreTipoDeVehiculo");
             return View();
         }
 
@@ -84,16 +91,16 @@ namespace SisParkTD.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Vehiculos.Add(vehiculos);
-                db.SaveChanges();
-                if (Request.UrlReferrer.Query != "")
+                _db.Vehiculos.Add(vehiculos);
+                _db.SaveChanges();
+                if (Request.UrlReferrer != null && Request.UrlReferrer.Query != "")
                 {
                     return RedirectToAction("BuscarParcela", "Parcelas", vehiculos);
                 }
                 return RedirectToAction("Index");
             }
 
-            ViewBag.IDTipoDeVehiculo = new SelectList(db.TiposDeVehiculo, "IDTipoDeVehiculo", "NombreTipoDeVehiculo", vehiculos.IDTipoDeVehiculo);
+            ViewBag.IDTipoDeVehiculo = new SelectList(_db.TiposDeVehiculo, "IDTipoDeVehiculo", "NombreTipoDeVehiculo", vehiculos.IDTipoDeVehiculo);
             return View(vehiculos);
         }
 
@@ -104,12 +111,12 @@ namespace SisParkTD.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Vehiculos vehiculos = db.Vehiculos.Find(id);
+            Vehiculos vehiculos = _db.Vehiculos.Find(id);
             if (vehiculos == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.IDTipoDeVehiculo = new SelectList(db.TiposDeVehiculo, "IDTipoDeVehiculo", "NombreTipoDeVehiculo", vehiculos.IDTipoDeVehiculo);
+            ViewBag.IDTipoDeVehiculo = new SelectList(_db.TiposDeVehiculo, "IDTipoDeVehiculo", "NombreTipoDeVehiculo", vehiculos.IDTipoDeVehiculo);
             return View(vehiculos);
         }
 
@@ -122,11 +129,11 @@ namespace SisParkTD.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(vehiculos).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(vehiculos).State = EntityState.Modified;
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.IDTipoDeVehiculo = new SelectList(db.TiposDeVehiculo, "IDTipoDeVehiculo", "NombreTipoDeVehiculo", vehiculos.IDTipoDeVehiculo);
+            ViewBag.IDTipoDeVehiculo = new SelectList(_db.TiposDeVehiculo, "IDTipoDeVehiculo", "NombreTipoDeVehiculo", vehiculos.IDTipoDeVehiculo);
             return View(vehiculos);
         }
 
@@ -137,7 +144,7 @@ namespace SisParkTD.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Vehiculos vehiculos = db.Vehiculos.Find(id);
+            Vehiculos vehiculos = _db.Vehiculos.Find(id);
             if (vehiculos == null)
             {
                 return HttpNotFound();
@@ -150,9 +157,9 @@ namespace SisParkTD.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Vehiculos vehiculos = db.Vehiculos.Find(id);
-            db.Vehiculos.Remove(vehiculos);
-            db.SaveChanges();
+            Vehiculos vehiculos = _db.Vehiculos.Find(id);
+            _db.Vehiculos.Remove(vehiculos);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -160,7 +167,7 @@ namespace SisParkTD.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }

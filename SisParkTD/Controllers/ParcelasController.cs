@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using SisParkTD.Models;
 
@@ -12,47 +8,48 @@ namespace SisParkTD.Controllers
 {
     public class ParcelasController : Controller
     {
-        private sisparkdbEntities db = new sisparkdbEntities();
+        private readonly sisparkdbEntities _db = new sisparkdbEntities();
 
 
         //GET
         public ActionResult BuscarParcela(Vehiculos vehiculo)
         {
-            var ParcelaMasGrande = db.Parcelas.Max(item => item.Tamaños.Valor);
-            var tipodevehiculo = db.TiposDeVehiculo.Find(vehiculo.IDTipoDeVehiculo);
-            for (int i = tipodevehiculo.Tamaños.Valor; i <= ParcelaMasGrande+1; i++)
+
+            var parcelaMasGrande = _db.Parcelas.Max(item => item.Tamaños.Valor);
+            var tipodevehiculo = _db.TiposDeVehiculo.Find(vehiculo.IDTipoDeVehiculo);
+            for (int i = tipodevehiculo.Tamaños.Valor; i <= parcelaMasGrande+1; i++)
             {
                 
-                var parcela = db.Parcelas.Where(item => item.Tamaños.Valor == i && item.Disponible == true).FirstOrDefault();
+                var parcela = _db.Parcelas.FirstOrDefault(item => item.Tamaños.Valor == i && item.Disponible);
 
                 if (parcela != null)
                 {
                     parcela.Disponible = false;
-                    db.Entry(parcela).State = EntityState.Modified;
-                    db.SaveChanges();
+                    _db.Entry(parcela).State = EntityState.Modified;
+                    _db.SaveChanges();
                     return RedirectToAction("ConfirmarIngreso", "Tickets",  new {parcela.IDParcela,vehiculo.IDVehiculo});
                 }
             }
             return RedirectToAction("NoHayParcelas", "Tickets", vehiculo);
         }
 
-        public ActionResult LiberarParcela (Vehiculos vehiculo)
+        public ActionResult LiberarParcela (int idticket)
         {
-            var ticket = db.Tickets.Where(item => item.IDVehiculo == vehiculo.IDVehiculo && item.EstadosDeTicket.NombreEstadoDeTicket == "Ingresado").FirstOrDefault();
-            var parcela = db.Parcelas.Find(ticket.IDParcela);
+            var ticket = _db.Tickets.Find(idticket);
+            var parcela = ticket.Parcelas;
 
             parcela.Disponible = true;
 
-            db.Entry(parcela).State = EntityState.Modified;
-            db.SaveChanges();
-            return RedirectToAction("ConfirmarEgreso", "Tickets",vehiculo);
+            _db.Entry(parcela).State = EntityState.Modified;
+            _db.SaveChanges();
+            return RedirectToAction("ConfirmarEgreso", "Tickets",new {idticket });
 
         }
 
         // GET: Parcelas
         public ActionResult Index()
         {
-            var parcelas = db.Parcelas.Include(p => p.Tamaños);
+            var parcelas = _db.Parcelas.Include(p => p.Tamaños);
             return View(parcelas.ToList());
         }
 
@@ -63,7 +60,7 @@ namespace SisParkTD.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Parcelas parcelas = db.Parcelas.Find(id);
+            Parcelas parcelas = _db.Parcelas.Find(id);
             if (parcelas == null)
             {
                 return HttpNotFound();
@@ -74,7 +71,7 @@ namespace SisParkTD.Controllers
         // GET: Parcelas/Create
         public ActionResult Create()
         {
-            ViewBag.IDTamaño = new SelectList(db.Tamaños, "IDTamaño", "NombreTamaño");
+            ViewBag.IDTamaño = new SelectList(_db.Tamaños, "IDTamaño", "NombreTamaño");
             return View();
         }
 
@@ -87,12 +84,12 @@ namespace SisParkTD.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Parcelas.Add(parcelas);
-                db.SaveChanges();
+                _db.Parcelas.Add(parcelas);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.IDTamaño = new SelectList(db.Tamaños, "IDTamaño", "NombreTamaño", parcelas.IDTamaño);
+            ViewBag.IDTamaño = new SelectList(_db.Tamaños, "IDTamaño", "NombreTamaño", parcelas.IDTamaño);
             return View(parcelas);
         }
 
@@ -103,12 +100,12 @@ namespace SisParkTD.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Parcelas parcelas = db.Parcelas.Find(id);
+            Parcelas parcelas = _db.Parcelas.Find(id);
             if (parcelas == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.IDTamaño = new SelectList(db.Tamaños, "IDTamaño", "NombreTamaño", parcelas.IDTamaño);
+            ViewBag.IDTamaño = new SelectList(_db.Tamaños, "IDTamaño", "NombreTamaño", parcelas.IDTamaño);
             return View(parcelas);
         }
 
@@ -121,11 +118,11 @@ namespace SisParkTD.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(parcelas).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(parcelas).State = EntityState.Modified;
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.IDTamaño = new SelectList(db.Tamaños, "IDTamaño", "NombreTamaño", parcelas.IDTamaño);
+            ViewBag.IDTamaño = new SelectList(_db.Tamaños, "IDTamaño", "NombreTamaño", parcelas.IDTamaño);
             return View(parcelas);
         }
 
@@ -136,7 +133,7 @@ namespace SisParkTD.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Parcelas parcelas = db.Parcelas.Find(id);
+            Parcelas parcelas = _db.Parcelas.Find(id);
             if (parcelas == null)
             {
                 return HttpNotFound();
@@ -149,9 +146,9 @@ namespace SisParkTD.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Parcelas parcelas = db.Parcelas.Find(id);
-            db.Parcelas.Remove(parcelas);
-            db.SaveChanges();
+            Parcelas parcelas = _db.Parcelas.Find(id);
+            _db.Parcelas.Remove(parcelas);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -159,7 +156,7 @@ namespace SisParkTD.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }

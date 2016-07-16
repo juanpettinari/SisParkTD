@@ -49,3 +49,6 @@ D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\EntityFramework.dll
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\EntityFramework.SqlServer.dll
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\EntityFramework.xml
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\EntityFramework.SqlServer.xml
+D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\Glimpse.AspNet.dll
+D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\Glimpse.Core.dll
+D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\Glimpse.Mvc5.dll

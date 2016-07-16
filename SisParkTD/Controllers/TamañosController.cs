@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using SisParkTD.Models;
 
@@ -12,12 +8,12 @@ namespace SisParkTD.Controllers
 {
     public class TamañosController : Controller
     {
-        private sisparkdbEntities db = new sisparkdbEntities();
+        private readonly sisparkdbEntities _db = new sisparkdbEntities();
 
         // GET: Tamaños
         public ActionResult Index()
         {
-            return View(db.Tamaños.ToList());
+            return View(_db.Tamaños.ToList());
         }
 
         // GET: Tamaños/Details/5
@@ -27,7 +23,7 @@ namespace SisParkTD.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Tamaños tamaños = db.Tamaños.Find(id);
+            Tamaños tamaños = _db.Tamaños.Find(id);
             if (tamaños == null)
             {
                 return HttpNotFound();
@@ -50,8 +46,8 @@ namespace SisParkTD.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Tamaños.Add(tamaños);
-                db.SaveChanges();
+                _db.Tamaños.Add(tamaños);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -65,7 +61,7 @@ namespace SisParkTD.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Tamaños tamaños = db.Tamaños.Find(id);
+            Tamaños tamaños = _db.Tamaños.Find(id);
             if (tamaños == null)
             {
                 return HttpNotFound();
@@ -82,8 +78,8 @@ namespace SisParkTD.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(tamaños).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(tamaños).State = EntityState.Modified;
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(tamaños);
@@ -96,7 +92,7 @@ namespace SisParkTD.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Tamaños tamaños = db.Tamaños.Find(id);
+            Tamaños tamaños = _db.Tamaños.Find(id);
             if (tamaños == null)
             {
                 return HttpNotFound();
@@ -109,9 +105,9 @@ namespace SisParkTD.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Tamaños tamaños = db.Tamaños.Find(id);
-            db.Tamaños.Remove(tamaños);
-            db.SaveChanges();
+            Tamaños tamaños = _db.Tamaños.Find(id);
+            _db.Tamaños.Remove(tamaños);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -119,7 +115,7 @@ namespace SisParkTD.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }

@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using SisParkTD.Models;
 
@@ -12,208 +8,127 @@ namespace SisParkTD.Controllers
 {
     public class TicketsController : Controller
     {
-        private sisparkdbEntities db = new sisparkdbEntities();
+        private readonly sisparkdbEntities _db = new sisparkdbEntities();
 
         //GET
         public ActionResult RetirarVehiculo()
         {
-            return View();
+            var listadoTicketsIngresados = _db.Tickets.Where(item => item.EstadosDeTicket.NombreEstadoDeTicket == "Ingresado");
+
+            return View(listadoTicketsIngresados);
         }
 
-        [HttpPost]
-        public ActionResult RetirarVehiculo(string patente)
+        //return RedirectToAction("BuscarExistenciaVehiculo", "Vehiculos", new { patente = patente});
+
+        public ActionResult ConfirmarEgreso(int idTicket)
         {
-            return RedirectToAction("BuscarExistenciaVehiculo", "Vehiculos", new { patente = patente });
-        }
+            var ticket = _db.Tickets.Find(idTicket);
 
-        public ActionResult ConfirmarEgreso(Vehiculos vehiculo)
-        {
-            Tickets ticket = db.Tickets.Where(item => item.IDVehiculo == vehiculo.IDVehiculo && item.EstadosDeTicket.NombreEstadoDeTicket == "Ingresado" ).FirstOrDefault();
+            
 
-            ticket.IDEstadoDeTicket = db.EstadosDeTicket.Where(item => item.NombreEstadoDeTicket == "Finalizado").Select(item => item.IDEstadoDeTicket).FirstOrDefault();
-
+            ticket.EstadosDeTicket = _db.EstadosDeTicket.FirstOrDefault(item => item.NombreEstadoDeTicket == "Finalizado");
             ticket.HorarioDeSalida = DateTime.Now;
-            TimeSpan TiempoTotal = ticket.HorarioDeSalida.Value.Subtract(ticket.HorarioDeLlegada);
-            double Horas = TiempoTotal.TotalHours;
-            ticket.TiempoTotal = Convert.ToDecimal(Horas);
+            var tiempoTotal = ticket.HorarioDeSalida.Value.Subtract(ticket.HorarioDeLlegada);
+            var horas = tiempoTotal.TotalHours;
+            
+            ticket.TiempoTotal = Convert.ToDecimal(horas);
             ticket.PrecioTotal = ticket.TiempoTotal * ticket.Vehiculos.TiposDeVehiculo.Tarifa;
 
 
+            
+            _db.Entry(ticket).State = EntityState.Modified;
+            _db.SaveChanges();
 
-
-            db.Entry(ticket).State = EntityState.Modified;
-            db.SaveChanges();
-
-            return RedirectToAction("ImprimirTicket", ticket);
-
-
+            return RedirectToAction("ImprimirTicket", new { idticket = ticket.IDTicket });
 
         }
 
-        //GET 
-        public ActionResult IngresarVehiculo()
+
+        public ActionResult IngresarVehiculo(string errorMessage)
         {
+            ViewBag.errorMessage = errorMessage;
             return View();
         }
 
+        [ActionName("IngresarVehiculo")]
         [HttpPost]
-        public ActionResult IngresarVehiculo(string patente)
+        public ActionResult IngresarVehiculo_Post(string patente)
         {
-            return RedirectToAction("BuscarExistenciaVehiculo", "Vehiculos", new { patente = patente });
+            if (patente == "")
+            {
+                ViewBag.errorMessage = "Error: Ingrese una patente";
+                return View();
+            }
+            else
+                return RedirectToAction("BuscarExistenciaVehiculo", "Vehiculos", new {patente });
         }
 
         public ActionResult NoHayParcelas(Vehiculos vehiculo)
         {
-            ViewBag.TipoDeVehiculo = vehiculo.TiposDeVehiculo.NombreTipoDeVehiculo;
+            var tipodevehiculo = _db.TiposDeVehiculo.Find(vehiculo.IDTipoDeVehiculo).NombreTipoDeVehiculo;
+            ViewBag.TipoDeVehiculo = tipodevehiculo;
             return View();
         }
 
-        public ActionResult ConfirmarIngreso(int IDParcela, int IDVehiculo)
+        public ActionResult ConfirmarIngreso(int idParcela, int idVehiculo)
         {
-            Tickets ticket = new Tickets();
+            var ticket = new Tickets();
 
-            Vehiculos vehiculo = db.Vehiculos.Find(IDVehiculo);
+            var vehiculo = _db.Vehiculos.Find(idVehiculo);
             ticket.Vehiculos = vehiculo;
-            ticket.Vehiculos.Patente = vehiculo.Patente;
-            var estadoTicket = db.EstadosDeTicket.Where(item => item.NombreEstadoDeTicket == "Ingresado").Select(item => item.IDEstadoDeTicket).FirstOrDefault();
-            ticket.IDEstadoDeTicket = estadoTicket;
-            ticket.IDParcela = IDParcela;
+            ticket.EstadosDeTicket = _db.EstadosDeTicket.FirstOrDefault(item => item.NombreEstadoDeTicket == "Ingresado");
+            ticket.Parcelas = _db.Parcelas.Find(idParcela);
             ticket.HorarioDeLlegada = DateTime.Now;
             if (ModelState.IsValid)
             {
-                db.Tickets.Add(ticket);
-                db.SaveChanges();
+                _db.Tickets.Add(ticket);
+                _db.SaveChanges();
             }
-            return RedirectToAction("ImprimirTicket",  ticket);
+            return RedirectToAction("ImprimirTicket", new { idticket = ticket.IDTicket });
             
+            
+        }
+        public ActionResult ReImprimirTicket()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ReImprimirTicket(int idTicket)
+        {
+            var ticket = _db.Tickets.Find(idTicket);
+            if (ticket != null)
+                return RedirectToAction("ImprimirTicket", new {idticket = ticket.IDTicket});
+            ViewBag.errorNoExisteTicket = "El ticket ingresado no existe";
+            return View();
         }
 
 
-        public ActionResult ImprimirTicket(Tickets ticket)
+        public ActionResult ImprimirTicket(int idticket)
         {
-            ticket = db.Tickets.Find(ticket.IDTicket);
+            var ticket = _db.Tickets.Find(idticket);
+            if (Request.UrlReferrer == null)
+                return View(ticket);
+            var urlDeReferencia = Request.UrlReferrer.Segments.Skip(2).Take(1).SingleOrDefault();
+            if (urlDeReferencia != null && (ticket.HorarioDeSalida == null && urlDeReferencia.Trim('/') == "IngresarVehiculo"))
+            {
+                ViewBag.infoParcela = "Indicar al conductor que se dirija a la parcela: " + ticket.Parcelas.NumeroParcela;
+            }
             return View(ticket);
         }
 
         // GET: Tickets
         public ActionResult Index()
         {
-            var tickets = db.Tickets.Include(t => t.EstadosDeTicket).Include(t => t.Parcelas).Include(t => t.Vehiculos);
+            var tickets = _db.Tickets.Include(t => t.EstadosDeTicket).Include(t => t.Parcelas).Include(t => t.Vehiculos);
             return View(tickets.ToList());
         }
-
-        //// GET: Tickets/Details/5
-        //public ActionResult Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Tickets tickets = db.Tickets.Find(id);
-        //    if (tickets == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(tickets);
-        //}
-
-        //// GET: Tickets/Create
-        //public ActionResult Create()
-        //{
-        //    ViewBag.IDEstadoDeTicket = new SelectList(db.EstadosDeTicket, "IDEstadoDeTicket", "NombreEstadoDeTicket");
-        //    ViewBag.IDParcela = new SelectList(db.Parcelas, "IDParcela", "IDParcela");
-        //    ViewBag.IDVehiculo = new SelectList(db.Vehiculos, "IDVehiculo", "Patente");
-        //    return View();
-        //}
-
-        //// POST: Tickets/Create
-        //// Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        //// más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create([Bind(Include = "IDTicket,IDVehiculo,IDEstadoDeTicket,IDParcela,HorarioDeLlegada,HorarioDeSalida,TiempoTotal,PrecioTotal")] Tickets tickets)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Tickets.Add(tickets);
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    ViewBag.IDEstadoDeTicket = new SelectList(db.EstadosDeTicket, "IDEstadoDeTicket", "NombreEstadoDeTicket", tickets.IDEstadoDeTicket);
-        //    ViewBag.IDParcela = new SelectList(db.Parcelas, "IDParcela", "IDParcela", tickets.IDParcela);
-        //    ViewBag.IDVehiculo = new SelectList(db.Vehiculos, "IDVehiculo", "Patente", tickets.IDVehiculo);
-        //    return View(tickets);
-        //}
-
-        //// GET: Tickets/Edit/5
-        //public ActionResult Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Tickets tickets = db.Tickets.Find(id);
-        //    if (tickets == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    ViewBag.IDEstadoDeTicket = new SelectList(db.EstadosDeTicket, "IDEstadoDeTicket", "NombreEstadoDeTicket", tickets.IDEstadoDeTicket);
-        //    ViewBag.IDParcela = new SelectList(db.Parcelas, "IDParcela", "IDParcela", tickets.IDParcela);
-        //    ViewBag.IDVehiculo = new SelectList(db.Vehiculos, "IDVehiculo", "Patente", tickets.IDVehiculo);
-        //    return View(tickets);
-        //}
-
-        //// POST: Tickets/Edit/5
-        //// Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        //// más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit([Bind(Include = "IDTicket,IDVehiculo,IDEstadoDeTicket,IDParcela,HorarioDeLlegada,HorarioDeSalida,TiempoTotal,PrecioTotal")] Tickets tickets)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Entry(tickets).State = EntityState.Modified;
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-        //    ViewBag.IDEstadoDeTicket = new SelectList(db.EstadosDeTicket, "IDEstadoDeTicket", "NombreEstadoDeTicket", tickets.IDEstadoDeTicket);
-        //    ViewBag.IDParcela = new SelectList(db.Parcelas, "IDParcela", "IDParcela", tickets.IDParcela);
-        //    ViewBag.IDVehiculo = new SelectList(db.Vehiculos, "IDVehiculo", "Patente", tickets.IDVehiculo);
-        //    return View(tickets);
-        //}
-
-        //// GET: Tickets/Delete/5
-        //public ActionResult Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Tickets tickets = db.Tickets.Find(id);
-        //    if (tickets == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(tickets);
-        //}
-
-        //// POST: Tickets/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(int id)
-        //{
-        //    Tickets tickets = db.Tickets.Find(id);
-        //    db.Tickets.Remove(tickets);
-        //    db.SaveChanges();
-        //    return RedirectToAction("Index");
-        //}
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }

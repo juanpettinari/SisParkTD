@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using SisParkTD.Models;
 
@@ -12,12 +8,12 @@ namespace SisParkTD.Controllers
 {
     public class EstadosDeTicketsController : Controller
     {
-        private sisparkdbEntities db = new sisparkdbEntities();
+        private readonly sisparkdbEntities _db = new sisparkdbEntities();
 
         // GET: EstadosDeTickets
         public ActionResult Index()
         {
-            return View(db.EstadosDeTicket.ToList());
+            return View(_db.EstadosDeTicket.ToList());
         }
 
         // GET: EstadosDeTickets/Details/5
@@ -27,7 +23,7 @@ namespace SisParkTD.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EstadosDeTicket estadosDeTicket = db.EstadosDeTicket.Find(id);
+            EstadosDeTicket estadosDeTicket = _db.EstadosDeTicket.Find(id);
             if (estadosDeTicket == null)
             {
                 return HttpNotFound();
@@ -50,8 +46,8 @@ namespace SisParkTD.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.EstadosDeTicket.Add(estadosDeTicket);
-                db.SaveChanges();
+                _db.EstadosDeTicket.Add(estadosDeTicket);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -65,7 +61,7 @@ namespace SisParkTD.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EstadosDeTicket estadosDeTicket = db.EstadosDeTicket.Find(id);
+            EstadosDeTicket estadosDeTicket = _db.EstadosDeTicket.Find(id);
             if (estadosDeTicket == null)
             {
                 return HttpNotFound();
@@ -82,8 +78,8 @@ namespace SisParkTD.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(estadosDeTicket).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(estadosDeTicket).State = EntityState.Modified;
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(estadosDeTicket);
@@ -96,7 +92,7 @@ namespace SisParkTD.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EstadosDeTicket estadosDeTicket = db.EstadosDeTicket.Find(id);
+            EstadosDeTicket estadosDeTicket = _db.EstadosDeTicket.Find(id);
             if (estadosDeTicket == null)
             {
                 return HttpNotFound();
@@ -109,9 +105,9 @@ namespace SisParkTD.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            EstadosDeTicket estadosDeTicket = db.EstadosDeTicket.Find(id);
-            db.EstadosDeTicket.Remove(estadosDeTicket);
-            db.SaveChanges();
+            EstadosDeTicket estadosDeTicket = _db.EstadosDeTicket.Find(id);
+            _db.EstadosDeTicket.Remove(estadosDeTicket);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -119,7 +115,7 @@ namespace SisParkTD.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }

@@ -13,10 +13,14 @@
     <div class="form-horizontal">
         <h4>Tickets</h4>
         <hr />
+        
         <div class="form-group">
             @Html.Label("Patente")
             <div>
                 @Html.Editor("patente")
+                <div class="text-danger">
+                    @ViewBag.errorMessage
+                </div>
             </div>
         </div>
 

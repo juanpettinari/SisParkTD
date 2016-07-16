@@ -1,6 +1,6 @@
 ﻿@model SisParkTD.Models.Tickets
 
-@{
+@{ 
     ViewBag.Title = "ImprimirTicket";
 }
 
@@ -8,9 +8,11 @@
 
 <div>
     <h4>Tickets</h4>
+    <br />
+    <h4>@ViewBag.InfoParcela</h4>
     <hr />
-    <dl class="dl-horizontal">
 
+    <dl class="dl-horizontal">
         @* Patente*@
         <dt>
             @Html.DisplayNameFor(model => model.Vehiculos.Patente)
@@ -34,15 +36,6 @@
 
         <dd>
             @Html.DisplayFor(model => model.Vehiculos.TiposDeVehiculo.NombreTipoDeVehiculo)
-        </dd>
-
-        @*Precio Por Hora*@
-        <dt>
-            @Html.DisplayNameFor(model => model.Vehiculos.TiposDeVehiculo.Tarifa)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Vehiculos.TiposDeVehiculo.Tarifa)
         </dd>
 
         <dt>
