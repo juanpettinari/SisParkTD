@@ -12,6 +12,7 @@ namespace SisParkTD.Controllers
 
 
         //GET
+        [Authorize]
         public ActionResult BuscarParcela(Vehiculos vehiculo)
         {
 
