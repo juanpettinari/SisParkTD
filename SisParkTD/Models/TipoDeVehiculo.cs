@@ -16,5 +16,9 @@ namespace SisParkTD.Models
         public decimal TarifaOcasionalDecimal { get; set; }
 
         public decimal TarifaMensualDecimal { get; set; }
+
+        public virtual Tamaño   Tamaño { get; set; }
+
+        public virtual ICollection<Vehiculo> Vehiculos { get; set; }
     }
 }

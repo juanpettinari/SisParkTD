@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SisParkTD.Models.Vehiculos>
+﻿@model IEnumerable<SisParkTD.Models.Vehiculo>
 
 @{
     ViewBag.Title = "Index";
@@ -12,13 +12,16 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.TipoDeVehiculo.NombreDeTipoDeVehiculo)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Patente)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DescripcionDeVehiculo)
+            @Html.DisplayNameFor(model => model.ClienteId)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TiposDeVehiculo.NombreTipoDeVehiculo)
+            @Html.DisplayNameFor(model => model.DescripcionDeVehiculo)
         </th>
         <th></th>
     </tr>
@@ -26,18 +29,21 @@
 @foreach (var item in Model) {
     <tr>
         <td>
+            @Html.DisplayFor(modelItem => item.TipoDeVehiculo.NombreDeTipoDeVehiculo)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.Patente)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ClienteId)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.DescripcionDeVehiculo)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.TiposDeVehiculo.NombreTipoDeVehiculo)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.IDVehiculo }) |
-            @Html.ActionLink("Details", "Details", new { id=item.IDVehiculo }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.IDVehiculo })
+            @Html.ActionLink("Edit", "Edit", new { id=item.VehiculoId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.VehiculoId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.VehiculoId })
         </td>
     </tr>
 }

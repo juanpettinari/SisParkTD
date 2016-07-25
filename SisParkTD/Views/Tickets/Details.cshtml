@@ -1,4 +1,4 @@
-﻿@model SisParkTD.Models.Tickets
+﻿@model SisParkTD.Models.Ticket
 
 @{
     ViewBag.Title = "Details";
@@ -7,23 +7,55 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Tickets</h4>
+    <h4>Ticket</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.HorarioDeLlegada)
+            @Html.DisplayNameFor(model => model.Abono.AbonoId)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.HorarioDeLlegada)
+            @Html.DisplayFor(model => model.Abono.AbonoId)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.HorarioDeSalida)
+            @Html.DisplayNameFor(model => model.Parcela.ParcelaId)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.HorarioDeSalida)
+            @Html.DisplayFor(model => model.Parcela.ParcelaId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Vehiculo.Patente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Vehiculo.Patente)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EstadoDeTicket)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EstadoDeTicket)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaYHoraDeEntrada)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaYHoraDeEntrada)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaYHoraDeSalida)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaYHoraDeSalida)
         </dd>
 
         <dt>
@@ -35,39 +67,16 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.PrecioTotal)
+            @Html.DisplayNameFor(model => model.PrecioTotalDecimal)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.PrecioTotal)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EstadosDeTicket.NombreEstadoDeTicket)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EstadosDeTicket.NombreEstadoDeTicket)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Parcelas.IDParcela)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Parcelas.IDParcela)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Vehiculos.Patente)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Vehiculos.Patente)
+            @Html.DisplayFor(model => model.PrecioTotalDecimal)
         </dd>
 
     </dl>
 </div>
 <p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.TicketId }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

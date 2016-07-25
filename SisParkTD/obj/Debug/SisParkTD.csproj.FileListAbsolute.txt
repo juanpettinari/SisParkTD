@@ -42,13 +42,12 @@ D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\es\System.Web.Razor.resources.d
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\es\System.Web.WebPages.resources.dll
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\es\System.Web.WebPages.Deployment.resources.dll
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\es\System.Web.WebPages.Razor.resources.dll
-D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.csprojResolveAssemblyReference.cache
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.dll
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.pdb
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\EntityFramework.dll
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\EntityFramework.SqlServer.dll
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\EntityFramework.xml
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\EntityFramework.SqlServer.xml
-D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\Glimpse.AspNet.dll
-D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\Glimpse.Core.dll
-D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\Glimpse.Mvc5.dll
+D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.csprojResolveAssemblyReference.cache
+D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.modelonuevo.resources
+D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.csproj.GenerateResource.Cache

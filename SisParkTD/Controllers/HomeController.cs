@@ -1,9 +1,11 @@
 ﻿using System.Web.Mvc;
+using SisParkTD.DAL;
 
 namespace SisParkTD.Controllers
 {
     public class HomeController : Controller
     {
+        private SpContext _db = new SpContext();
         public ActionResult Index()
         {
             return View();

@@ -1,4 +1,4 @@
-﻿@model SisParkTD.Models.Parcelas
+﻿@model SisParkTD.Models.Parcela
 
 @{
     ViewBag.Title = "Delete";
@@ -8,9 +8,17 @@
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>Parcelas</h4>
+    <h4>Parcela</h4>
     <hr />
     <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Tamaño.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tamaño.Descripcion)
+        </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.NumeroParcela)
         </dt>
@@ -25,14 +33,6 @@
 
         <dd>
             @Html.DisplayFor(model => model.Disponible)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Tamaños.NombreTamaño)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Tamaños.NombreTamaño)
         </dd>
 
     </dl>

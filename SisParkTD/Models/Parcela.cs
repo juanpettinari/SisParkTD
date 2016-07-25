@@ -13,6 +13,13 @@ namespace SisParkTD.Models
 
         public int TamañoId { get; set; }
 
+        public bool Disponible { get; set; }
+
+        public virtual Tamaño Tamaño { get; set; }
+
+        public virtual ICollection<Ticket> Tickets { get; set; }
+
+        public virtual ICollection<Abono> Abonos { get; set; }
 
     }
 }

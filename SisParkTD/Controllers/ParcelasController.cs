@@ -1,55 +1,58 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Web;
 using System.Web.Mvc;
+using SisParkTD.DAL;
 using SisParkTD.Models;
 
 namespace SisParkTD.Controllers
 {
     public class ParcelasController : Controller
     {
-        private readonly sisparkdbEntities _db = new sisparkdbEntities();
+        private readonly SpContext _db = new SpContext();
 
-
-        //GET
-        public ActionResult BuscarParcela(Vehiculos vehiculo)
+        public ActionResult BuscarParcela(Vehiculo vehiculo)
         {
-
-            var parcelaMasGrande = _db.Parcelas.Max(item => item.Tamaños.Valor);
-            var tipodevehiculo = _db.TiposDeVehiculo.Find(vehiculo.IDTipoDeVehiculo);
-            for (int i = tipodevehiculo.Tamaños.Valor; i <= parcelaMasGrande+1; i++)
+            var parcelaMasGrande = _db.Parcelas.Max(item => item.Tamaño.ValorTamaño);
+            var tipoDeVehiculo = _db.TiposDeVehiculo.Find(vehiculo.TipoDeVehiculoId);
+            for (int i = tipoDeVehiculo.Tamaño.ValorTamaño; i <= parcelaMasGrande + 1; i++)
             {
-                
-                var parcela = _db.Parcelas.FirstOrDefault(item => item.Tamaños.Valor == i && item.Disponible);
+
+                var parcela = _db.Parcelas.FirstOrDefault(p => p.Tamaño.ValorTamaño == i && p.Disponible);
 
                 if (parcela != null)
                 {
                     parcela.Disponible = false;
                     _db.Entry(parcela).State = EntityState.Modified;
                     _db.SaveChanges();
-                    return RedirectToAction("ConfirmarIngreso", "Tickets",  new {parcela.IDParcela,vehiculo.IDVehiculo});
+                    return RedirectToAction("ConfirmarIngreso", "Tickets", new { parcela.ParcelaId, vehiculo.VehiculoId });
                 }
             }
             return RedirectToAction("NoHayParcelas", "Tickets", vehiculo);
         }
 
-        public ActionResult LiberarParcela (int idticket)
+        public ActionResult LiberarParcela(int idticket)
         {
             var ticket = _db.Tickets.Find(idticket);
-            var parcela = ticket.Parcelas;
+            var parcela = ticket.Parcela;
 
             parcela.Disponible = true;
 
             _db.Entry(parcela).State = EntityState.Modified;
             _db.SaveChanges();
-            return RedirectToAction("ConfirmarEgreso", "Tickets",new {idticket });
+            return RedirectToAction("ConfirmarEgreso", "Tickets", new { idticket });
 
         }
+
 
         // GET: Parcelas
         public ActionResult Index()
         {
-            var parcelas = _db.Parcelas.Include(p => p.Tamaños);
+            var parcelas = _db.Parcelas.Include(p => p.Tamaño);
             return View(parcelas.ToList());
         }
 
@@ -60,18 +63,18 @@ namespace SisParkTD.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Parcelas parcelas = _db.Parcelas.Find(id);
-            if (parcelas == null)
+            Parcela parcela = _db.Parcelas.Find(id);
+            if (parcela == null)
             {
                 return HttpNotFound();
             }
-            return View(parcelas);
+            return View(parcela);
         }
 
         // GET: Parcelas/Create
         public ActionResult Create()
         {
-            ViewBag.IDTamaño = new SelectList(_db.Tamaños, "IDTamaño", "NombreTamaño");
+            ViewBag.TamañoId = new SelectList(_db.Tamaños, "TamañoId", "Descripcion");
             return View();
         }
 
@@ -80,17 +83,17 @@ namespace SisParkTD.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IDParcela,NumeroParcela,Disponible,IDTamaño")] Parcelas parcelas)
+        public ActionResult Create([Bind(Include = "ParcelaId,NumeroParcela,TamañoId,Disponible")] Parcela parcela)
         {
             if (ModelState.IsValid)
             {
-                _db.Parcelas.Add(parcelas);
+                _db.Parcelas.Add(parcela);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.IDTamaño = new SelectList(_db.Tamaños, "IDTamaño", "NombreTamaño", parcelas.IDTamaño);
-            return View(parcelas);
+            ViewBag.TamañoId = new SelectList(_db.Tamaños, "TamañoId", "Descripcion", parcela.TamañoId);
+            return View(parcela);
         }
 
         // GET: Parcelas/Edit/5
@@ -100,13 +103,13 @@ namespace SisParkTD.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Parcelas parcelas = _db.Parcelas.Find(id);
-            if (parcelas == null)
+            Parcela parcela = _db.Parcelas.Find(id);
+            if (parcela == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.IDTamaño = new SelectList(_db.Tamaños, "IDTamaño", "NombreTamaño", parcelas.IDTamaño);
-            return View(parcelas);
+            ViewBag.TamañoId = new SelectList(_db.Tamaños, "TamañoId", "Descripcion", parcela.TamañoId);
+            return View(parcela);
         }
 
         // POST: Parcelas/Edit/5
@@ -114,16 +117,16 @@ namespace SisParkTD.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IDParcela,NumeroParcela,Disponible,IDTamaño")] Parcelas parcelas)
+        public ActionResult Edit([Bind(Include = "ParcelaId,NumeroParcela,TamañoId,Disponible")] Parcela parcela)
         {
             if (ModelState.IsValid)
             {
-                _db.Entry(parcelas).State = EntityState.Modified;
+                _db.Entry(parcela).State = EntityState.Modified;
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.IDTamaño = new SelectList(_db.Tamaños, "IDTamaño", "NombreTamaño", parcelas.IDTamaño);
-            return View(parcelas);
+            ViewBag.TamañoId = new SelectList(_db.Tamaños, "TamañoId", "Descripcion", parcela.TamañoId);
+            return View(parcela);
         }
 
         // GET: Parcelas/Delete/5
@@ -133,12 +136,12 @@ namespace SisParkTD.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Parcelas parcelas = _db.Parcelas.Find(id);
-            if (parcelas == null)
+            Parcela parcela = _db.Parcelas.Find(id);
+            if (parcela == null)
             {
                 return HttpNotFound();
             }
-            return View(parcelas);
+            return View(parcela);
         }
 
         // POST: Parcelas/Delete/5
@@ -146,8 +149,8 @@ namespace SisParkTD.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Parcelas parcelas = _db.Parcelas.Find(id);
-            _db.Parcelas.Remove(parcelas);
+            Parcela parcela = _db.Parcelas.Find(id);
+            _db.Parcelas.Remove(parcela);
             _db.SaveChanges();
             return RedirectToAction("Index");
         }

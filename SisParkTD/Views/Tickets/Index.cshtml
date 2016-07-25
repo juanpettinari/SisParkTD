@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SisParkTD.Models.Tickets>
+﻿@model IEnumerable<SisParkTD.Models.Ticket>
 
 @{
     ViewBag.Title = "Index";
@@ -6,28 +6,34 @@
 
 <h2>Index</h2>
 
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.HorarioDeLlegada)
+            @Html.DisplayNameFor(model => model.Abono.AbonoId)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.HorarioDeSalida)
+            @Html.DisplayNameFor(model => model.Parcela.ParcelaId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Vehiculo.Patente)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EstadoDeTicket)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaYHoraDeEntrada)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaYHoraDeSalida)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.TiempoTotal)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PrecioTotal)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EstadosDeTicket.NombreEstadoDeTicket)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Parcelas.IDParcela)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Vehiculos.Patente)
+            @Html.DisplayNameFor(model => model.PrecioTotalDecimal)
         </th>
         <th></th>
     </tr>
@@ -35,27 +41,33 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.HorarioDeLlegada)
+            @Html.DisplayFor(modelItem => item.Abono.AbonoId)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.HorarioDeSalida)
+            @Html.DisplayFor(modelItem => item.Parcela.ParcelaId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Vehiculo.Patente)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EstadoDeTicket)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaYHoraDeEntrada)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaYHoraDeSalida)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.TiempoTotal)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.PrecioTotal)
+            @Html.DisplayFor(modelItem => item.PrecioTotalDecimal)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.EstadosDeTicket.NombreEstadoDeTicket)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Parcelas.IDParcela)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Vehiculos.Patente)
-        </td>
-        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.TicketId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.TicketId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.TicketId })
         </td>
     </tr>
 }
