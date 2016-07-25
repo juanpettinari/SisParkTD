@@ -22,9 +22,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Ingresar Vehiculo", "IngresarVehiculo", "Tickets")</li>
-                    <li>@Html.ActionLink("Retirar Vehiculo", "RetirarVehiculo", "Tickets")</li>
-                    <li>@Html.ActionLink("Re-Imprimir Ticket", "ReImprimirTicket", "Tickets")</li>
+                    @Html.Partial("_MenuPartial")
                 </ul>
             </div>
         </div>

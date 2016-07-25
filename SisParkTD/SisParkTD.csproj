@@ -224,10 +224,15 @@
     <Content Include="Views\Tickets\Edit.cshtml" />
     <Content Include="Views\Tickets\Index.cshtml" />
     <Content Include="Views\Vehiculos\Create.cshtml" />
-    <Content Include="Views\Vehiculos\Delete.cshtml" />
     <Content Include="Views\Vehiculos\Details.cshtml" />
     <Content Include="Views\Vehiculos\Edit.cshtml" />
     <Content Include="Views\Vehiculos\Index.cshtml" />
+    <Content Include="Views\Tickets\ImprimirTicket.cshtml" />
+    <Content Include="Views\Tickets\IngresarVehiculo.cshtml" />
+    <Content Include="Views\Tickets\NoHayParcelas.cshtml" />
+    <Content Include="Views\Tickets\ReImprimirTicket.cshtml" />
+    <Content Include="Views\Tickets\RetirarVehiculo.cshtml" />
+    <Content Include="Views\Shared\_MenuPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

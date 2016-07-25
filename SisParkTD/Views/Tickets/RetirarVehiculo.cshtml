@@ -1,0 +1,49 @@
+﻿@model IEnumerable<SisParkTD.Models.Ticket>
+
+@{
+    ViewBag.Title = "RetirarVehiculo";
+}
+
+<h2>RetirarVehiculo</h2>
+
+<table class="table table-hover">
+    <tr>
+        <td>
+            @Html.DisplayNameFor(model => model.Parcela.NumeroParcela)
+        </td>
+        <th>
+            @Html.DisplayNameFor(model => model.Vehiculo.Patente)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Vehiculo.TipoDeVehiculo.NombreDeTipoDeVehiculo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Vehiculo.DescripcionDeVehiculo)
+        </th>
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Parcela.NumeroParcela)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Vehiculo.Patente)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Vehiculo.TipoDeVehiculo.NombreDeTipoDeVehiculo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Vehiculo.DescripcionDeVehiculo)
+        </td>
+
+        <td>
+            @Html.ActionLink("Retirar","LiberarParcela","Parcelas", new { ticketId = item.TicketId }, new { @class = "btn btn-success" })
+        </td>
+    </tr>
+}
+
+</table>

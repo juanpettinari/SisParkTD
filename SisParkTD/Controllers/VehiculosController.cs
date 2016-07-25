@@ -18,7 +18,7 @@ namespace SisParkTD.Controllers
         public ActionResult BuscarExistenciaVehiculo(string patente)
         {
 
-            var vehiculo = _db.Vehiculos.FirstOrDefault(i => i.Patente == patente);
+            var vehiculo = _db.Vehiculos.FirstOrDefault(v => v.Patente == patente);
 
             var urlDeReferencia = Request.UrlReferrer?.Segments.Skip(2).Take(1).SingleOrDefault();
             if (urlDeReferencia != null)
@@ -33,7 +33,7 @@ namespace SisParkTD.Controllers
                         {
                             return RedirectToAction("Create", new { patente });
                         }
-                        else if (_db.Tickets.FirstOrDefault(item => item.IDVehiculo == vehiculo.IDVehiculo && item.EstadosDeTicket.NombreEstadoDeTicket == "Ingresado") == null)
+                        else if (_db.Tickets.FirstOrDefault(t => t.VehiculoId == vehiculo.VehiculoId && t.EstadoDeTicket == EstadoDeTicket.Ingresado) == null)
                         {
                             return RedirectToAction("BuscarParcela", "Parcelas", vehiculo);
                         }
@@ -47,6 +47,7 @@ namespace SisParkTD.Controllers
                         return RedirectToAction("RetirarVehiculo", "Tickets", null);
                 }
             }
+            
             return RedirectToAction("RetirarVehiculo", "Tickets", null);
         }
 
@@ -54,7 +55,7 @@ namespace SisParkTD.Controllers
         [HttpGet]
         public ActionResult Create(string patente)
         {
-            ViewBag.IDTipoDeVehiculo = new SelectList(_db.TiposDeVehiculo, "IDTipoDeVehiculo", "NombreTipoDeVehiculo");
+            ViewBag.IDTipoDeVehiculo = new SelectList(_db.TiposDeVehiculo, "TipoDeVehiculoId", "NombreDeTipoDeVehiculo");
             ViewBag.patente = patente;
             return View();
         }

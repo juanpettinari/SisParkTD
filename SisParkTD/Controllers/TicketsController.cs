@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using SisParkTD.DAL;
 using SisParkTD.Models;
@@ -18,7 +15,7 @@ namespace SisParkTD.Controllers
 
         public ActionResult RetirarVehiculo()
         {
-            var listadoTicketsIngresados = _db.Tickets.Where(item => item.EstadosDeTicket.NombreEstadoDeTicket == "Ingresado");
+            var listadoTicketsIngresados = _db.Tickets.Where(lti => lti.EstadoDeTicket == EstadoDeTicket.Ingresado);
 
             return View(listadoTicketsIngresados);
         }
@@ -31,20 +28,21 @@ namespace SisParkTD.Controllers
 
 
 
-            ticket.EstadosDeTicket = _db.EstadosDeTicket.FirstOrDefault(item => item.NombreEstadoDeTicket == "Finalizado");
-            ticket.HorarioDeSalida = DateTime.Now;
-            var tiempoTotal = ticket.HorarioDeSalida.Value.Subtract(ticket.HorarioDeLlegada);
+            ticket.EstadoDeTicket = EstadoDeTicket.Retirado;
+            ticket.FechaYHoraDeSalida = DateTime.Now;
+            var tiempoTotal = ticket.FechaYHoraDeSalida.Value.Subtract(ticket.FechaYHoraDeEntrada);
+
             var horas = tiempoTotal.TotalHours;
 
             ticket.TiempoTotal = Convert.ToDecimal(horas);
-            ticket.PrecioTotal = ticket.TiempoTotal * ticket.Vehiculos.TiposDeVehiculo.Tarifa;
+            ticket.PrecioTotalDecimal = ticket.TiempoTotal * ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
 
 
 
             _db.Entry(ticket).State = EntityState.Modified;
             _db.SaveChanges();
 
-            return RedirectToAction("ImprimirTicket", new { idticket = ticket.IDTicket });
+            return RedirectToAction("ImprimirTicket", new { idticket = ticket.TicketId });
 
         }
 
@@ -68,28 +66,28 @@ namespace SisParkTD.Controllers
                 return RedirectToAction("BuscarExistenciaVehiculo", "Vehiculos", new { patente });
         }
 
-        public ActionResult NoHayParcelas(Vehiculos vehiculo)
+        public ActionResult NoHayParcelas(Vehiculo vehiculo)
         {
-            var tipodevehiculo = _db.TiposDeVehiculo.Find(vehiculo.IDTipoDeVehiculo).NombreTipoDeVehiculo;
+            var tipodevehiculo = _db.TiposDeVehiculo.Find(vehiculo.TipoDeVehiculoId).NombreDeTipoDeVehiculo;
             ViewBag.TipoDeVehiculo = tipodevehiculo;
             return View();
         }
 
-        public ActionResult ConfirmarIngreso(int idParcela, int idVehiculo)
+        public ActionResult ConfirmarIngreso(int parcelaId, int vehiculoId)
         {
-            var ticket = new Tickets();
+            var ticket = new Ticket();
 
-            var vehiculo = _db.Vehiculos.Find(idVehiculo);
-            ticket.Vehiculos = vehiculo;
-            ticket.EstadosDeTicket = _db.EstadosDeTicket.FirstOrDefault(item => item.NombreEstadoDeTicket == "Ingresado");
-            ticket.Parcelas = _db.Parcelas.Find(idParcela);
-            ticket.HorarioDeLlegada = DateTime.Now;
+            var vehiculo = _db.Vehiculos.Find(vehiculoId);
+            ticket.Vehiculo = vehiculo;
+            ticket.EstadoDeTicket = EstadoDeTicket.Ingresado;
+            ticket.Parcela = _db.Parcelas.Find(parcelaId);
+            ticket.FechaYHoraDeEntrada = DateTime.Now;
             if (ModelState.IsValid)
             {
                 _db.Tickets.Add(ticket);
                 _db.SaveChanges();
             }
-            return RedirectToAction("ImprimirTicket", new { idticket = ticket.IDTicket });
+            return RedirectToAction("ImprimirTicket", new { idticket = ticket.TicketId });
 
 
         }
@@ -103,21 +101,21 @@ namespace SisParkTD.Controllers
         {
             var ticket = _db.Tickets.Find(idTicket);
             if (ticket != null)
-                return RedirectToAction("ImprimirTicket", new { idticket = ticket.IDTicket });
+                return RedirectToAction("ImprimirTicket", new { idticket = ticket.TicketId });
             ViewBag.errorNoExisteTicket = "El ticket ingresado no existe";
             return View();
         }
 
 
-        public ActionResult ImprimirTicket(int idticket)
+        public ActionResult ImprimirTicket(int ticketId)
         {
-            var ticket = _db.Tickets.Find(idticket);
+            var ticket = _db.Tickets.Find(ticketId);
             if (Request.UrlReferrer == null)
                 return View(ticket);
             var urlDeReferencia = Request.UrlReferrer.Segments.Skip(2).Take(1).SingleOrDefault();
-            if (urlDeReferencia != null && (ticket.HorarioDeSalida == null && urlDeReferencia.Trim('/') == "IngresarVehiculo"))
+            if (urlDeReferencia != null && ticket.FechaYHoraDeSalida == null && urlDeReferencia.Trim('/') == "IngresarVehiculo")
             {
-                ViewBag.infoParcela = "Indicar al conductor que se dirija a la parcela: " + ticket.Parcelas.NumeroParcela;
+                ViewBag.infoParcela = "Indicar al conductor que se dirija a la parcela: " + ticket.Parcela.NumeroParcela;
             }
             return View(ticket);
         }

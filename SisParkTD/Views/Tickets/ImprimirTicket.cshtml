@@ -1,0 +1,78 @@
+﻿@model SisParkTD.Models.Ticket
+
+@{ 
+    ViewBag.Title = "ImprimirTicket";
+}
+
+<h2>ImprimirTicket</h2>
+
+<div>
+    <h4>Tickets</h4>
+    <br />
+    <h4>@ViewBag.InfoParcela</h4>
+    <hr />
+
+    <dl class="dl-horizontal">
+        @* Patente*@
+        <dt>
+            @Html.DisplayNameFor(model => model.Vehiculo.Patente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Vehiculo.Patente)
+        </dd>
+        @* Parcela*@
+        <dt>
+            @Html.DisplayNameFor(model => model.Parcela.ParcelaId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Parcela.NumeroParcela)
+        </dd>
+        @*//Tipo Veh*@
+        <dt>
+            @Html.DisplayNameFor(model => model.Vehiculo.TipoDeVehiculo.NombreDeTipoDeVehiculo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Vehiculo.TipoDeVehiculo.NombreDeTipoDeVehiculo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaYHoraDeEntrada)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaYHoraDeEntrada)
+        </dd>
+
+        
+        @if (Model.FechaYHoraDeSalida != null)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.FechaYHoraDeSalida)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.FechaYHoraDeSalida)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TiempoTotal)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TiempoTotal)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.PrecioTotalDecimal)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PrecioTotalDecimal)
+            </dd>
+        }
+
+    </dl>
+</div>
