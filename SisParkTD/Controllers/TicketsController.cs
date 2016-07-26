@@ -22,27 +22,59 @@ namespace SisParkTD.Controllers
 
         //return RedirectToAction("BuscarExistenciaVehiculo", "Vehiculos", new { patente = patente});
 
-        public ActionResult ConfirmarEgreso(int idTicket)
+        public ActionResult ConfirmarEgreso(int ticketId)
         {
-            var ticket = _db.Tickets.Find(idTicket);
+            var ticket = _db.Tickets.Find(ticketId);
 
 
 
             ticket.EstadoDeTicket = EstadoDeTicket.Retirado;
             ticket.FechaYHoraDeSalida = DateTime.Now;
-            var tiempoTotal = ticket.FechaYHoraDeSalida.Value.Subtract(ticket.FechaYHoraDeEntrada);
+            ticket.TiempoTotal = ticket.FechaYHoraDeSalida.Value.Subtract(ticket.FechaYHoraDeEntrada);
+            
+            var fraccionesDeTiempo = ticket.TiempoTotal.Value.TotalMinutes/15;
+            //Si está menos de 5 minutos, no se cobra
+            if (fraccionesDeTiempo < 0.33)
+            {
+                ticket.PrecioTotalDecimal = 0;
+            }
+            {
+                var fraccionesDeTiempoRedondeado = Convert.ToInt32(Math.Ceiling(fraccionesDeTiempo));
 
-            var horas = tiempoTotal.TotalHours;
-
-            ticket.TiempoTotal = Convert.ToDecimal(horas);
-            ticket.PrecioTotalDecimal = ticket.TiempoTotal * ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
-
-
-
+                //Menor a 4hs se cobra la tarifa*fracciones.
+                //Entre 4 y 6, cobrar estadía de 6hs.
+                //Entre 6 y 8, cobrar estadía de 6hs.
+                //Entre 8 y 10, cobrar estadía de 6hs.
+                //Entre 10 y 12, cobrar estadía de 12hs.
+                //Mayor a 12Hs se cobra la estadía de 12 hs y el precio por hora de esa estadía.
+                
+                //<4hs
+                if (fraccionesDeTiempoRedondeado < 16)
+                    ticket.PrecioTotalDecimal = fraccionesDeTiempoRedondeado*
+                                                ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
+                else if (fraccionesDeTiempoRedondeado >= 16 | fraccionesDeTiempoRedondeado < 24)
+                    ticket.PrecioTotalDecimal = 16*ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
+                //6hs>=x>8
+                else if (fraccionesDeTiempoRedondeado >= 24 && fraccionesDeTiempoRedondeado < 32)
+                    ticket.PrecioTotalDecimal = 18*ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
+                //8hs>=x>10
+                else if (fraccionesDeTiempoRedondeado >= 32 && fraccionesDeTiempoRedondeado < 40)
+                    ticket.PrecioTotalDecimal = 20*ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
+                //10hs>=x>12
+                else if (fraccionesDeTiempoRedondeado >= 40 && fraccionesDeTiempoRedondeado < 48)
+                    ticket.PrecioTotalDecimal = 22*ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
+                //x>12
+                else if (fraccionesDeTiempoRedondeado > 48)
+                {
+                    ticket.PrecioTotalDecimal = fraccionesDeTiempoRedondeado*
+                                                Math.Round(ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal/2.1818m);
+                }
+            }
+            
             _db.Entry(ticket).State = EntityState.Modified;
             _db.SaveChanges();
 
-            return RedirectToAction("ImprimirTicket", new { idticket = ticket.TicketId });
+            return RedirectToAction("ImprimirTicket", new { ticketId = ticket.TicketId });
 
         }
 
@@ -87,7 +119,7 @@ namespace SisParkTD.Controllers
                 _db.Tickets.Add(ticket);
                 _db.SaveChanges();
             }
-            return RedirectToAction("ImprimirTicket", new { idticket = ticket.TicketId });
+            return RedirectToAction("ImprimirTicket", new { ticketId = ticket.TicketId });
 
 
         }
@@ -97,11 +129,11 @@ namespace SisParkTD.Controllers
         }
 
         [HttpPost]
-        public ActionResult ReImprimirTicket(int idTicket)
+        public ActionResult ReImprimirTicket(int ticketId)
         {
-            var ticket = _db.Tickets.Find(idTicket);
+            var ticket = _db.Tickets.Find(ticketId);
             if (ticket != null)
-                return RedirectToAction("ImprimirTicket", new { idticket = ticket.TicketId });
+                return RedirectToAction("ImprimirTicket", new { ticketId = ticket.TicketId });
             ViewBag.errorNoExisteTicket = "El ticket ingresado no existe";
             return View();
         }
@@ -143,35 +175,6 @@ namespace SisParkTD.Controllers
             {
                 return HttpNotFound();
             }
-            return View(ticket);
-        }
-
-        // GET: Tickets/Create
-        public ActionResult Create()
-        {
-            ViewBag.AbonoId = new SelectList(_db.Abonos, "AbonoId", "AbonoId");
-            ViewBag.ParcelaId = new SelectList(_db.Parcelas, "ParcelaId", "ParcelaId");
-            ViewBag.VehiculoId = new SelectList(_db.Vehiculos, "VehiculoId", "Patente");
-            return View();
-        }
-
-        // POST: Tickets/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "TicketId,VehiculoId,AbonoId,ParcelaId,EstadoDeTicket,FechaYHoraDeEntrada,FechaYHoraDeSalida,TiempoTotal,PrecioTotalDecimal")] Ticket ticket)
-        {
-            if (ModelState.IsValid)
-            {
-                _db.Tickets.Add(ticket);
-                _db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.AbonoId = new SelectList(_db.Abonos, "AbonoId", "AbonoId", ticket.AbonoId);
-            ViewBag.ParcelaId = new SelectList(_db.Parcelas, "ParcelaId", "ParcelaId", ticket.ParcelaId);
-            ViewBag.VehiculoId = new SelectList(_db.Vehiculos, "VehiculoId", "Patente", ticket.VehiculoId);
             return View(ticket);
         }
 

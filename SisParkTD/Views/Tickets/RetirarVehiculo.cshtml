@@ -39,9 +39,13 @@
         <td>
             @Html.DisplayFor(modelItem => item.Vehiculo.DescripcionDeVehiculo)
         </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaYHoraDeEntrada)
+        </td>
 
         <td>
-            @Html.ActionLink("Retirar","LiberarParcela","Parcelas", new { ticketId = item.TicketId }, new { @class = "btn btn-success" })
+            @Html.ActionLink("Retirar", "LiberarParcela", "Parcelas", new {ticketId = item.TicketId}, new {@class = "btn btn-success"}) |
+            @Html.ActionLink("Restar 1 Hora","About","Home",new { id=item.TicketId}, new {@class="btn btn-danger"})
         </td>
     </tr>
 }

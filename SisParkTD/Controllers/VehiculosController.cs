@@ -55,8 +55,8 @@ namespace SisParkTD.Controllers
         [HttpGet]
         public ActionResult Create(string patente)
         {
-            ViewBag.IDTipoDeVehiculo = new SelectList(_db.TiposDeVehiculo, "TipoDeVehiculoId", "NombreDeTipoDeVehiculo");
-            ViewBag.patente = patente;
+            ViewBag.TipoDeVehiculoId = new SelectList(_db.TiposDeVehiculo, "TipoDeVehiculoId", "NombreDeTipoDeVehiculo");
+            ViewBag.Patente = patente;
             return View();
         }
 
@@ -104,6 +104,8 @@ namespace SisParkTD.Controllers
             {
                 _db.Vehiculos.Add(vehiculo);
                 _db.SaveChanges();
+                if (Request.UrlReferrer != null && Request.UrlReferrer.Query != string.Empty)
+                    return RedirectToAction("BuscarParcela", "Parcelas", vehiculo);
                 return RedirectToAction("Index");
             }
 

@@ -6,18 +6,20 @@ namespace SisParkTD.Models
 {
     public class Ticket
     {
+        [Key]
         public int TicketId { get; set; }
 
         public int? VehiculoId { get; set; }
 
         public int? AbonoId { get; set; }
-
+        [Required]
         public int ParcelaId { get; set; }
-
+        [Required]
         public EstadoDeTicket EstadoDeTicket { get; set; }
-
+        [Required]
+        [DataType(DataType.DateTime)]
         public DateTime FechaYHoraDeEntrada { get; set; }
-        
+        [DataType(DataType.DateTime)]
         public DateTime? FechaYHoraDeSalida { get; set; }
 
         public TimeSpan? TiempoTotal { get; set; }

@@ -5,8 +5,9 @@ namespace SisParkTD.Models
 {
     public class Cuenta
     {
+        [Key]
         public int CuentaId { get; set; }
-
+        [Required]
         public int ClienteId { get; set; }
 
         [DataType(DataType.Currency)]

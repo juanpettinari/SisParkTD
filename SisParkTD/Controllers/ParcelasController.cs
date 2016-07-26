@@ -35,16 +35,16 @@ namespace SisParkTD.Controllers
             return RedirectToAction("NoHayParcelas", "Tickets", vehiculo);
         }
 
-        public ActionResult LiberarParcela(int idticket)
+        public ActionResult LiberarParcela(int ticketId)
         {
-            var ticket = _db.Tickets.Find(idticket);
+            var ticket = _db.Tickets.Find(ticketId);
             var parcela = ticket.Parcela;
 
             parcela.Disponible = true;
 
             _db.Entry(parcela).State = EntityState.Modified;
             _db.SaveChanges();
-            return RedirectToAction("ConfirmarEgreso", "Tickets", new { idticket });
+            return RedirectToAction("ConfirmarEgreso", "Tickets", new { ticketId });
 
         }
 

@@ -1,9 +1,12 @@
-﻿namespace SisParkTD.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SisParkTD.Models
 {
     public class Movimiento
     {
+        [Key]
         public int MovimientoId { get; set; }
-
+        [Required]
         public TipoDeMovimiento TipoDeMovimiento { get; set; }
 
         public int? CuentaId { get; set; }
@@ -19,6 +22,6 @@
     {
         Credito,
         Debito,
-        Pago
+        PagoOcasional
     }
 }
