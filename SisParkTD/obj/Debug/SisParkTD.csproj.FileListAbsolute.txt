@@ -54,3 +54,5 @@ D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.csproj.Generate
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.agregarTiposDeVehiculo.resources
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.AgregarKeysYNotNull.resources
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.datatypes.resources
+D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.a.resources
+D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.b.resources

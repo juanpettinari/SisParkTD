@@ -19,8 +19,6 @@ namespace SisParkTD.Models
 
         public virtual Parcela Parcela { get; set; }
 
-        public virtual Cuenta Cuenta { get; set; }
-
         public virtual ICollection<Ticket> Tickets { get; set; }
     }
 }

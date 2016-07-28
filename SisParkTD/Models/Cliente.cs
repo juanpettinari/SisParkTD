@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SisParkTD.Models
 {
@@ -14,7 +15,12 @@ namespace SisParkTD.Models
         public string Dni { get; set; }
         [Required]
         public string Telefono { get; set; }
+        [DataType(DataType.Currency)]
+        public decimal SaldoDecimal { get; set; }
 
+        public int VehiculoId { get; set; }
+        [Required]
         public virtual Vehiculo Vehiculo { get; set; }
+
     }
 }

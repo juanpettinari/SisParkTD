@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SisParkTD.Models
 {
@@ -14,11 +15,11 @@ namespace SisParkTD.Models
         [Required]
         public bool Disponible { get; set; }
 
-        public virtual Tamaño Tamaño { get; set; }
-
         public virtual ICollection<Ticket> Tickets { get; set; }
 
         public virtual ICollection<Abono> Abonos { get; set; }
 
+        public int TipoDeVehiculoId { get; set; }
+        public virtual TipoDeVehiculo TipoDeVehiculo { get; set; }
     }
 }

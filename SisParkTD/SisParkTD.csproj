@@ -154,13 +154,19 @@
     <Compile Include="Migrations\201607260812261_datatypes.Designer.cs">
       <DependentUpon>201607260812261_datatypes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607280403167_a.cs" />
+    <Compile Include="Migrations\201607280403167_a.Designer.cs">
+      <DependentUpon>201607280403167_a.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607280529485_b.cs" />
+    <Compile Include="Migrations\201607280529485_b.Designer.cs">
+      <DependentUpon>201607280529485_b.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Abono.cs" />
     <Compile Include="Models\Cliente.cs" />
-    <Compile Include="Models\Cuenta.cs" />
     <Compile Include="Models\Movimiento.cs" />
     <Compile Include="Models\Parcela.cs" />
-    <Compile Include="Models\Tamaño.cs" />
     <Compile Include="Models\Ticket.cs" />
     <Compile Include="Models\TipoDeVehiculo.cs" />
     <Compile Include="Models\Vehiculo.cs" />
@@ -266,6 +272,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607260812261_datatypes.resx">
       <DependentUpon>201607260812261_datatypes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607280403167_a.resx">
+      <DependentUpon>201607280403167_a.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607280529485_b.resx">
+      <DependentUpon>201607280529485_b.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

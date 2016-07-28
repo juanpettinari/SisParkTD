@@ -33,14 +33,15 @@ namespace SisParkTD.Controllers
                         {
                             return RedirectToAction("Create", new { patente });
                         }
-                        else if (_db.Tickets.FirstOrDefault(t => t.VehiculoId == vehiculo.VehiculoId && t.EstadoDeTicket == EstadoDeTicket.Ingresado) == null)
+                        if (_db.Tickets.FirstOrDefault(t => t.VehiculoId == vehiculo.VehiculoId && t.EstadoDeTicket == EstadoDeTicket.Ingresado) == null)
                         {
+                            //if (_db.Abonos en vehiculo.abono)
+                            //{
+                                
+                            //}
                             return RedirectToAction("BuscarParcela", "Parcelas", vehiculo);
                         }
-                        else
-                        {
                             return RedirectToAction("IngresarVehiculo", "Tickets", new { errorMessage = "Ya está ingresado un vehiculo con patente: " + vehiculo.Patente });
-                        }
                     case "RetirarVehiculo":
                         return RedirectToAction("LiberarParcela", "Parcelas", vehiculo);
                     default:
@@ -146,31 +147,31 @@ namespace SisParkTD.Controllers
             return View(vehiculo);
         }
 
-        // GET: Vehiculos/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Vehiculo vehiculo = _db.Vehiculos.Find(id);
-            if (vehiculo == null)
-            {
-                return HttpNotFound();
-            }
-            return View(vehiculo);
-        }
+        //// GET: Vehiculos/Delete/5
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Vehiculo vehiculo = _db.Vehiculos.Find(id);
+        //    if (vehiculo == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(vehiculo);
+        //}
 
-        // POST: Vehiculos/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Vehiculo vehiculo = _db.Vehiculos.Find(id);
-            _db.Vehiculos.Remove(vehiculo);
-            _db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+        //// POST: Vehiculos/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(int id)
+        //{
+        //    Vehiculo vehiculo = _db.Vehiculos.Find(id);
+        //    _db.Vehiculos.Remove(vehiculo);
+        //    _db.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
 
         protected override void Dispose(bool disposing)
         {
