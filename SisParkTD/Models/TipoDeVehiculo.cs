@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SisParkTD.Models
 {
@@ -9,21 +8,17 @@ namespace SisParkTD.Models
         [Key]
         public int TipoDeVehiculoId { get; set; }
         [Required]
-        public string NombreDeTipoDeVehiculo { get; set; }
+        public string Nombre { get; set; }
+
+        public TamanioVehiculo TamanioVehiculo { get; set; }
         [Required]
         public decimal TarifaOcasionalDecimal { get; set; }
         [Required]
         public decimal TarifaMensualDecimal { get; set; }
 
         public virtual ICollection<Vehiculo> Vehiculos { get; set; }
-        
 
-    }
+        public virtual ICollection<Parcela> Parcelas { get; set; }
 
-    public enum TamanioEnum
-    {
-        CHICO = 1,
-        MEDIANO,
-        GRANDE
     }
 }

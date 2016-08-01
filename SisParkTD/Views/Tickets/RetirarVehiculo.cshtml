@@ -15,7 +15,7 @@
             @Html.DisplayNameFor(model => model.Vehiculo.Patente)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Vehiculo.TipoDeVehiculo.NombreDeTipoDeVehiculo)
+            @Html.DisplayNameFor(model => model.Vehiculo.TipoDeVehiculo.Nombre)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Vehiculo.DescripcionDeVehiculo)
@@ -34,18 +34,28 @@
             @Html.DisplayFor(modelItem => item.Vehiculo.Patente)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Vehiculo.TipoDeVehiculo.NombreDeTipoDeVehiculo)
+            @Html.DisplayFor(modelItem => item.Vehiculo.TipoDeVehiculo.Nombre)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Vehiculo.DescripcionDeVehiculo)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FechaYHoraDeEntrada)
-        </td>
 
+            @foreach (var movimientos in item.MovimientosDeVehiculo)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => movimientos.Fecha)
+                </td>
+                <td>
+                    @DateTime.Now.Subtract(movimientos.Fecha).Hours
+                </td>
+            }
+        
         <td>
-            @Html.ActionLink("Retirar", "LiberarParcela", "Parcelas", new {ticketId = item.TicketId}, new {@class = "btn btn-success"}) |
-            @Html.ActionLink("Restar 1 Hora","About","Home",new { id=item.TicketId}, new {@class="btn btn-danger"})
+            @Html.ActionLink("Retirar", "ConfirmarEgreso", "Tickets", new {ticketId = item.TicketId}, new {@class = "btn btn-success"}) |
+            @Html.ActionLink("-1H", "About", "Home", new {id = item.TicketId, h = 1}, new {@class = "btn btn-danger"}) |
+            @Html.ActionLink("-3H", "About", "Home", new {id = item.TicketId, h = 3}, new {@class = "btn btn-danger"}) |
+            @Html.ActionLink("-5H", "About", "Home", new {id = item.TicketId, h = 5}, new {@class = "btn btn-danger"})
+
         </td>
     </tr>
 }

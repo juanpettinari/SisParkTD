@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SisParkTD.Models
 {
@@ -8,6 +7,7 @@ namespace SisParkTD.Models
     {
         [Key]
         public int VehiculoId { get; set; }
+        [StringLength(7, MinimumLength = 6, ErrorMessage = "Debe ingresar una patente de {0} a {1} caracteres")]
         [Required]
         public string Patente { get; set; }
 
@@ -16,7 +16,6 @@ namespace SisParkTD.Models
         public int TipoDeVehiculoId { get; set; }
         
         public string DescripcionDeVehiculo { get; set; }
-
 
         public virtual Cliente Cliente { get; set; }
 

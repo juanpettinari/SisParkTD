@@ -1,4 +1,6 @@
-﻿@model SisParkTD.Models.Ticket
+﻿@using SisParkTD.Models
+@model Ticket
+
 
 @{ 
     ViewBag.Title = "ImprimirTicket";
@@ -11,9 +13,10 @@
     <br />
     <h4>@ViewBag.InfoParcela</h4>
     <hr />
-
+    
     <dl class="dl-horizontal">
         @* Patente*@
+        
         <dt>
             @Html.DisplayNameFor(model => model.Vehiculo.Patente)
         </dt>
@@ -31,38 +34,34 @@
         </dd>
         @*//Tipo Veh*@
         <dt>
-            @Html.DisplayNameFor(model => model.Vehiculo.TipoDeVehiculo.NombreDeTipoDeVehiculo)
+            @Html.DisplayNameFor(model => model.Vehiculo.TipoDeVehiculo.Nombre)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Vehiculo.TipoDeVehiculo.NombreDeTipoDeVehiculo)
+            @Html.DisplayFor(model => model.Vehiculo.TipoDeVehiculo.Nombre)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FechaYHoraDeEntrada)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FechaYHoraDeEntrada)
-        </dd>
-
-        
-        @if (Model.FechaYHoraDeSalida != null)
+        @foreach (var item in Model.MovimientosDeVehiculo)
         {
-            <dt>
-                @Html.DisplayNameFor(model => model.FechaYHoraDeSalida)
-            </dt>
-
+            if (item.TipoDeMovimientoDeVehiculo.Equals(TipoDeMovimientoDeVehiculo.Entrada))
+            {
+                <dt>Fecha Y Hora Ingreso</dt>
+            }
+            else
+            {
+                <dt>Fecha Y Hora Egreso</dt>
+            }
             <dd>
-                @Html.DisplayFor(model => model.FechaYHoraDeSalida)
+                @Html.DisplayFor(modelItem => item.Fecha)
             </dd>
+        }
+        @if (Model.EstadoDeTicket == EstadoDeTicket.Retirado)
+        {
 
             <dt>
                 @Html.DisplayNameFor(model => model.TiempoTotal)
             </dt>
-
             <dd>
-                @Html.DisplayFor(model => model.TiempoTotal)
+                @ViewBag.Tiempo
             </dd>
 
             <dt>

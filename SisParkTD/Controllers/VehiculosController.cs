@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using SisParkTD.DAL;
 using SisParkTD.Models;
@@ -14,55 +10,6 @@ namespace SisParkTD.Controllers
     public class VehiculosController : Controller
     {
         private readonly SpContext _db = new SpContext();
-
-        public ActionResult BuscarExistenciaVehiculo(string patente)
-        {
-
-            var vehiculo = _db.Vehiculos.FirstOrDefault(v => v.Patente == patente);
-
-            var urlDeReferencia = Request.UrlReferrer?.Segments.Skip(2).Take(1).SingleOrDefault();
-            if (urlDeReferencia != null)
-            {
-                var value = urlDeReferencia.Trim('/');
-
-
-                switch (value)
-                {
-                    case "IngresarVehiculo":
-                        if (vehiculo == null)
-                        {
-                            return RedirectToAction("Create", new { patente });
-                        }
-                        if (_db.Tickets.FirstOrDefault(t => t.VehiculoId == vehiculo.VehiculoId && t.EstadoDeTicket == EstadoDeTicket.Ingresado) == null)
-                        {
-                            //if (_db.Abonos en vehiculo.abono)
-                            //{
-                                
-                            //}
-                            return RedirectToAction("BuscarParcela", "Parcelas", vehiculo);
-                        }
-                            return RedirectToAction("IngresarVehiculo", "Tickets", new { errorMessage = "Ya está ingresado un vehiculo con patente: " + vehiculo.Patente });
-                    case "RetirarVehiculo":
-                        return RedirectToAction("LiberarParcela", "Parcelas", vehiculo);
-                    default:
-                        return RedirectToAction("RetirarVehiculo", "Tickets", null);
-                }
-            }
-            
-            return RedirectToAction("RetirarVehiculo", "Tickets", null);
-        }
-
-        // GET: Vehiculos/Create
-        [HttpGet]
-        public ActionResult Create(string patente)
-        {
-            ViewBag.TipoDeVehiculoId = new SelectList(_db.TiposDeVehiculo, "TipoDeVehiculoId", "NombreDeTipoDeVehiculo");
-            ViewBag.Patente = patente;
-            return View();
-        }
-
-
-
 
 
         // GET: Vehiculos
@@ -87,6 +34,17 @@ namespace SisParkTD.Controllers
             return View(vehiculo);
         }
 
+
+        // GET: Vehiculos/Create
+        [HttpGet]
+        public ActionResult Create(string patente)
+        {
+            ViewBag.TipoDeVehiculoId = new SelectList(_db.TiposDeVehiculo, "TipoDeVehiculoId", "Nombre");
+            ViewBag.Patente = patente;
+            return View();
+        }
+
+
         // GET: Vehiculos/Create
         public ActionResult Create()
         {
@@ -106,7 +64,10 @@ namespace SisParkTD.Controllers
                 _db.Vehiculos.Add(vehiculo);
                 _db.SaveChanges();
                 if (Request.UrlReferrer != null && Request.UrlReferrer.Query != string.Empty)
-                    return RedirectToAction("BuscarParcela", "Parcelas", vehiculo);
+                {
+                    return RedirectToAction("ConfirmarIngreso", "Tickets", new { vehiculo.Patente});
+                }
+                
                 return RedirectToAction("Index");
             }
 

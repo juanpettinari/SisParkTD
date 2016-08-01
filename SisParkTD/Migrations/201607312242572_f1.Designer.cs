@@ -7,13 +7,13 @@ namespace SisParkTD.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class a : IMigrationMetadata
+    public sealed partial class f1 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(a));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(f1));
         
         string IMigrationMetadata.Id
         {
-            get { return "201607280403167_a"; }
+            get { return "201607312242572_f1"; }
         }
         
         string IMigrationMetadata.Source

@@ -5,7 +5,7 @@ namespace SisParkTD.Models
 {
     public class Cliente
     {
-        [Key]
+        [Key, ForeignKey("Vehiculo")]
         public int ClienteId { get; set; }
         [Required]
         public string Nombre { get; set; }
@@ -18,7 +18,6 @@ namespace SisParkTD.Models
         [DataType(DataType.Currency)]
         public decimal SaldoDecimal { get; set; }
 
-        public int VehiculoId { get; set; }
         [Required]
         public virtual Vehiculo Vehiculo { get; set; }
 

@@ -131,43 +131,53 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ParcelasController.cs" />
     <Compile Include="Controllers\TicketsController.cs" />
     <Compile Include="Controllers\VehiculosController.cs" />
     <Compile Include="DAL\SPContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201607250844107_modelonuevo.cs" />
-    <Compile Include="Migrations\201607250844107_modelonuevo.Designer.cs">
-      <DependentUpon>201607250844107_modelonuevo.cs</DependentUpon>
+    <Compile Include="Migrations\201607290737047_a.cs" />
+    <Compile Include="Migrations\201607290737047_a.Designer.cs">
+      <DependentUpon>201607290737047_a.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201607260649242_agregarTiposDeVehiculo.cs" />
-    <Compile Include="Migrations\201607260649242_agregarTiposDeVehiculo.Designer.cs">
-      <DependentUpon>201607260649242_agregarTiposDeVehiculo.cs</DependentUpon>
+    <Compile Include="Migrations\201607300250589_b.cs" />
+    <Compile Include="Migrations\201607300250589_b.Designer.cs">
+      <DependentUpon>201607300250589_b.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201607260713470_AgregarKeysYNotNull.cs" />
-    <Compile Include="Migrations\201607260713470_AgregarKeysYNotNull.Designer.cs">
-      <DependentUpon>201607260713470_AgregarKeysYNotNull.cs</DependentUpon>
+    <Compile Include="Migrations\201607300427193_c.cs" />
+    <Compile Include="Migrations\201607300427193_c.Designer.cs">
+      <DependentUpon>201607300427193_c.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201607260812261_datatypes.cs" />
-    <Compile Include="Migrations\201607260812261_datatypes.Designer.cs">
-      <DependentUpon>201607260812261_datatypes.cs</DependentUpon>
+    <Compile Include="Migrations\201607300607298_d.cs" />
+    <Compile Include="Migrations\201607300607298_d.Designer.cs">
+      <DependentUpon>201607300607298_d.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201607280403167_a.cs" />
-    <Compile Include="Migrations\201607280403167_a.Designer.cs">
-      <DependentUpon>201607280403167_a.cs</DependentUpon>
+    <Compile Include="Migrations\201607310717159_e.cs" />
+    <Compile Include="Migrations\201607310717159_e.Designer.cs">
+      <DependentUpon>201607310717159_e.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201607280529485_b.cs" />
-    <Compile Include="Migrations\201607280529485_b.Designer.cs">
-      <DependentUpon>201607280529485_b.cs</DependentUpon>
+    <Compile Include="Migrations\201607310841177_f.cs" />
+    <Compile Include="Migrations\201607310841177_f.Designer.cs">
+      <DependentUpon>201607310841177_f.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607312242572_f1.cs" />
+    <Compile Include="Migrations\201607312242572_f1.Designer.cs">
+      <DependentUpon>201607312242572_f1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608010129469_g.cs" />
+    <Compile Include="Migrations\201608010129469_g.Designer.cs">
+      <DependentUpon>201608010129469_g.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Abono.cs" />
     <Compile Include="Models\Cliente.cs" />
-    <Compile Include="Models\Movimiento.cs" />
+    <Compile Include="Models\MovimientoFinanciero.cs" />
+    <Compile Include="Models\MovimientoDeVehiculo.cs" />
     <Compile Include="Models\Parcela.cs" />
+    <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\Ticket.cs" />
+    <Compile Include="Models\TipoDeMovimientoFinanciero.cs" />
     <Compile Include="Models\TipoDeVehiculo.cs" />
     <Compile Include="Models\Vehiculo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -246,13 +256,13 @@
     <Content Include="Views\Tickets\ImprimirTicket.cshtml" />
     <Content Include="Views\Tickets\IngresarVehiculo.cshtml" />
     <Content Include="Views\Tickets\NoHayParcelas.cshtml" />
-    <Content Include="Views\Tickets\ReImprimirTicket.cshtml" />
     <Content Include="Views\Tickets\RetirarVehiculo.cshtml" />
     <Content Include="Views\Shared\_MenuPartial.cshtml" />
     <Content Include="Views\Tickets\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -261,23 +271,29 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201607250844107_modelonuevo.resx">
-      <DependentUpon>201607250844107_modelonuevo.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201607290737047_a.resx">
+      <DependentUpon>201607290737047_a.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201607260649242_agregarTiposDeVehiculo.resx">
-      <DependentUpon>201607260649242_agregarTiposDeVehiculo.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201607300250589_b.resx">
+      <DependentUpon>201607300250589_b.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201607260713470_AgregarKeysYNotNull.resx">
-      <DependentUpon>201607260713470_AgregarKeysYNotNull.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201607300427193_c.resx">
+      <DependentUpon>201607300427193_c.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201607260812261_datatypes.resx">
-      <DependentUpon>201607260812261_datatypes.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201607300607298_d.resx">
+      <DependentUpon>201607300607298_d.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201607280403167_a.resx">
-      <DependentUpon>201607280403167_a.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201607310717159_e.resx">
+      <DependentUpon>201607310717159_e.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201607280529485_b.resx">
-      <DependentUpon>201607280529485_b.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201607310841177_f.resx">
+      <DependentUpon>201607310841177_f.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607312242572_f1.resx">
+      <DependentUpon>201607312242572_f1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608010129469_g.resx">
+      <DependentUpon>201608010129469_g.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

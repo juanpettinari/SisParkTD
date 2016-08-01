@@ -7,13 +7,13 @@ namespace SisParkTD.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class agregarTiposDeVehiculo : IMigrationMetadata
+    public sealed partial class d : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(agregarTiposDeVehiculo));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(d));
         
         string IMigrationMetadata.Id
         {
-            get { return "201607260649242_agregarTiposDeVehiculo"; }
+            get { return "201607300607298_d"; }
         }
         
         string IMigrationMetadata.Source

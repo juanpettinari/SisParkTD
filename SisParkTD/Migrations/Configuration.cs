@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Data.Entity.ModelConfiguration.Conventions;
 using SisParkTD.Models;
 
 namespace SisParkTD.Migrations
@@ -15,43 +14,45 @@ namespace SisParkTD.Migrations
 
         //protected override void Seed(DAL.SpContext context)
         //{
-        //    var tamaños = new List<Tamaño>
+        //    var tiposDeMovimientoFinanciero = new List<TipoDeMovimientoFinanciero>
         //    {
-        //        new Tamaño {Descripcion = "Pequeños", ValorTamaño = 1},
-        //        new Tamaño {Descripcion = "Mediano", ValorTamaño = 2},
-        //        new Tamaño {Descripcion = "Grande", ValorTamaño = 3}
+        //        new TipoDeMovimientoFinanciero {Nombre = "Facturación Ticket Abono", Descripcion = "La facturación mensual del ticket de un abono", Signo = Signo.Negativo},
+        //        new TipoDeMovimientoFinanciero {Nombre = "Pago Ticket Abono", Descripcion = "El pago del ticket de abono mensual", Signo = Signo.Positivo},
+        //        new TipoDeMovimientoFinanciero {Nombre = "Facturación Ocasional", Descripcion = "La facturación de un ticket ocasional", Signo = Signo.Negativo},
+        //        new TipoDeMovimientoFinanciero {Nombre = "Pago Ticket Ocasional", Descripcion = "El pago de un ticket ocasional", Signo = Signo.Positivo}
         //    };
+        //    tiposDeMovimientoFinanciero.ForEach(t => context.TiposDeMovimientoFinanciero.AddOrUpdate(n => n.Nombre, t));
+        //    context.SaveChanges();
 
-        //    tamaños.ForEach(t => context.Tamaños.AddOrUpdate(p=>p.Descripcion,t));
+        //}
+
+
+        //protected override void Seed(DAL.SpContext context)
+        //{
+        //    var tiposDeVehiculo = new List<TipoDeVehiculo>
+        //    {
+        //        new TipoDeVehiculo {Nombre = "Moto",     TamanioVehiculo = TamanioVehiculo.Chico,TarifaMensualDecimal = 800,TarifaOcasionalDecimal = 4},
+        //        new TipoDeVehiculo {Nombre = "Automóvil",TamanioVehiculo = TamanioVehiculo.Mediano,TarifaMensualDecimal = 2000,TarifaOcasionalDecimal = 10},
+        //        new TipoDeVehiculo {Nombre = "Camioneta",TamanioVehiculo = TamanioVehiculo.Grande,TarifaMensualDecimal = 2400,TarifaOcasionalDecimal = 12}
+        //    };
+            
+        //    tiposDeVehiculo.ForEach(tdv => context.TiposDeVehiculo.AddOrUpdate(p => p.Nombre, tdv));
 
         //    context.SaveChanges();
 
         //    var parcelas = new List<Parcela>
         //    {
-        //        new Parcela {Disponible = true, NumeroParcela = 1, TamañoId = tamaños[0].TamañoId},
-        //        new Parcela {Disponible = true, NumeroParcela = 2, TamañoId = tamaños[0].TamañoId},
-        //        new Parcela {Disponible = true, NumeroParcela = 3, TamañoId = tamaños[1].TamañoId},
-        //        new Parcela {Disponible = true, NumeroParcela = 4, TamañoId = tamaños[1].TamañoId},
-        //        new Parcela {Disponible = true, NumeroParcela = 5, TamañoId = tamaños[1].TamañoId},
-        //        new Parcela {Disponible = true, NumeroParcela = 6, TamañoId = tamaños[1].TamañoId},
-        //        new Parcela {Disponible = true, NumeroParcela = 7, TamañoId = tamaños[2].TamañoId},
-        //        new Parcela {Disponible = true, NumeroParcela = 8, TamañoId = tamaños[2].TamañoId}
+        //        new Parcela {Disponible = true, NumeroParcela = 1,TipoDeVehiculo = tiposDeVehiculo[0]},
+        //        new Parcela {Disponible = true, NumeroParcela = 2, TipoDeVehiculo = tiposDeVehiculo[0]},
+        //        new Parcela {Disponible = true, NumeroParcela = 3, TipoDeVehiculo = tiposDeVehiculo[1]},
+        //        new Parcela {Disponible = true, NumeroParcela = 4, TipoDeVehiculo = tiposDeVehiculo[1]},
+        //        new Parcela {Disponible = true, NumeroParcela = 5, TipoDeVehiculo = tiposDeVehiculo[1]},
+        //        new Parcela {Disponible = true, NumeroParcela = 6, TipoDeVehiculo = tiposDeVehiculo[1]},
+        //        new Parcela {Disponible = true, NumeroParcela = 7, TipoDeVehiculo = tiposDeVehiculo[2]},
+        //        new Parcela {Disponible = true, NumeroParcela = 8, TipoDeVehiculo = tiposDeVehiculo[2]}
         //    };
 
-        //    parcelas.ForEach(p => context.Parcelas.AddOrUpdate(pa=> pa.NumeroParcela,p));
-
-
-
-        //    var tiposDeVehiculo = new List<TipoDeVehiculo>
-        //    {
-        //        new TipoDeVehiculo {NombreDeTipoDeVehiculo = "Moto",TamañoId = tamaños[0].TamañoId,TarifaMensualDecimal = 800,TarifaOcasionalDecimal = 4},
-        //        new TipoDeVehiculo {NombreDeTipoDeVehiculo = "Automóvil",TamañoId = tamaños[1].TamañoId,TarifaMensualDecimal = 2000,TarifaOcasionalDecimal = 10},
-        //        new TipoDeVehiculo {NombreDeTipoDeVehiculo = "Camioneta",TamañoId = tamaños[2].TamañoId,TarifaMensualDecimal = 2400,TarifaOcasionalDecimal = 12}
-        //    };
-
-        //    tiposDeVehiculo.ForEach(tdv => context.TiposDeVehiculo.AddOrUpdate(p=> p.NombreDeTipoDeVehiculo,tdv));
-
-        //    context.SaveChanges();
+        //    parcelas.ForEach(p => context.Parcelas.AddOrUpdate(pa => pa.NumeroParcela, p));
         //}
     }
 }

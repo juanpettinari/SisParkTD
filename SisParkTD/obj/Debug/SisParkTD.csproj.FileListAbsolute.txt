@@ -49,10 +49,12 @@ D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\EntityFramework.SqlServer.dll
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\EntityFramework.xml
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\EntityFramework.SqlServer.xml
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.csprojResolveAssemblyReference.cache
-D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.modelonuevo.resources
-D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.csproj.GenerateResource.Cache
-D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.agregarTiposDeVehiculo.resources
-D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.AgregarKeysYNotNull.resources
-D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.datatypes.resources
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.a.resources
+D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.csproj.GenerateResource.Cache
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.b.resources
+D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.c.resources
+D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.d.resources
+D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.e.resources
+D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.f.resources
+D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.f1.resources
+D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.g.resources

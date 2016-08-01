@@ -13,73 +13,7 @@ namespace SisParkTD.Controllers
         private readonly SpContext _db = new SpContext();
 
 
-        public ActionResult RetirarVehiculo()
-        {
-            var listadoTicketsIngresados = _db.Tickets.Where(lti => lti.EstadoDeTicket == EstadoDeTicket.Ingresado);
-
-            return View(listadoTicketsIngresados);
-        }
-
-        //return RedirectToAction("BuscarExistenciaVehiculo", "Vehiculos", new { patente = patente});
-
-        public ActionResult ConfirmarEgreso(int ticketId)
-        {
-            var ticket = _db.Tickets.Find(ticketId);
-
-
-
-            ticket.EstadoDeTicket = EstadoDeTicket.Retirado;
-            ticket.FechaYHoraDeSalida = DateTime.Now;
-            ticket.TiempoTotal = ticket.FechaYHoraDeSalida.Value.Subtract(ticket.FechaYHoraDeEntrada);
-            
-            var fraccionesDeTiempo = ticket.TiempoTotal.Value.TotalMinutes/15;
-            //Si está menos de 5 minutos, no se cobra
-            if (fraccionesDeTiempo < 0.33)
-            {
-                ticket.PrecioTotalDecimal = 0;
-            }
-            {
-                var fraccionesDeTiempoRedondeado = Convert.ToInt32(Math.Ceiling(fraccionesDeTiempo));
-
-                //Menor a 4hs se cobra la tarifa*fracciones.
-                //Entre 4 y 6, cobrar estadía de 6hs.
-                //Entre 6 y 8, cobrar estadía de 6hs.
-                //Entre 8 y 10, cobrar estadía de 6hs.
-                //Entre 10 y 12, cobrar estadía de 12hs.
-                //Mayor a 12Hs se cobra la estadía de 12 hs y el precio por hora de esa estadía.
-                
-                //<4hs
-                if (fraccionesDeTiempoRedondeado < 16)
-                    ticket.PrecioTotalDecimal = fraccionesDeTiempoRedondeado*
-                                                ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
-                else if (fraccionesDeTiempoRedondeado >= 16 | fraccionesDeTiempoRedondeado < 24)
-                    ticket.PrecioTotalDecimal = 16*ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
-                //6hs>=x>8
-                else if (fraccionesDeTiempoRedondeado >= 24 && fraccionesDeTiempoRedondeado < 32)
-                    ticket.PrecioTotalDecimal = 18*ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
-                //8hs>=x>10
-                else if (fraccionesDeTiempoRedondeado >= 32 && fraccionesDeTiempoRedondeado < 40)
-                    ticket.PrecioTotalDecimal = 20*ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
-                //10hs>=x>12
-                else if (fraccionesDeTiempoRedondeado >= 40 && fraccionesDeTiempoRedondeado < 48)
-                    ticket.PrecioTotalDecimal = 22*ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
-                //x>12
-                else if (fraccionesDeTiempoRedondeado > 48)
-                {
-                    ticket.PrecioTotalDecimal = fraccionesDeTiempoRedondeado*
-                                                Math.Round(ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal/2.1818m);
-                }
-            }
-            
-            _db.Entry(ticket).State = EntityState.Modified;
-            _db.SaveChanges();
-
-            return RedirectToAction("ImprimirTicket", new { ticketId = ticket.TicketId });
-
-        }
-
-
-        public ActionResult IngresarVehiculo(string errorMessage)
+        public ActionResult IngresarVehiculo(string patente, string errorMessage)
         {
             ViewBag.errorMessage = errorMessage;
             return View();
@@ -89,69 +23,243 @@ namespace SisParkTD.Controllers
         [HttpPost]
         public ActionResult IngresarVehiculo_Post(string patente)
         {
-            if (patente == "")
+            if (patente == string.Empty)
             {
-                ViewBag.errorMessage = "Error: Ingrese una patente";
+                ViewBag.errorMessage = "Escriba una patente";
                 return View();
             }
-            else
-                return RedirectToAction("BuscarExistenciaVehiculo", "Vehiculos", new { patente });
+
+            //TODO Aca Va La implementacion de cuando divide caminos por si es un abonado.
+            return RedirectToAction("ConfirmarIngreso", new { patente });
         }
 
-        public ActionResult NoHayParcelas(Vehiculo vehiculo)
-        {
-            var tipodevehiculo = _db.TiposDeVehiculo.Find(vehiculo.TipoDeVehiculoId).NombreDeTipoDeVehiculo;
-            ViewBag.TipoDeVehiculo = tipodevehiculo;
-            return View();
-        }
 
-        public ActionResult ConfirmarIngreso(int parcelaId, int vehiculoId)
-        {
-            var ticket = new Ticket();
 
-            var vehiculo = _db.Vehiculos.Find(vehiculoId);
-            ticket.Vehiculo = vehiculo;
-            ticket.EstadoDeTicket = EstadoDeTicket.Ingresado;
-            ticket.Parcela = _db.Parcelas.Find(parcelaId);
-            ticket.FechaYHoraDeEntrada = DateTime.Now;
-            if (ModelState.IsValid)
+
+        public ActionResult ConfirmarIngreso(string patente)
+        {
+
+            // Logica buscar vehiculo
+            var vehiculo = _db.Vehiculos.FirstOrDefault(v => v.Patente == patente);
+
+            if (vehiculo == null)
             {
-                _db.Tickets.Add(ticket);
-                _db.SaveChanges();
+                return RedirectToAction("Create", "Vehiculos", new { patente });
             }
-            return RedirectToAction("ImprimirTicket", new { ticketId = ticket.TicketId });
+            //Logica buscar tickets
+            var tickets = _db.Tickets.Where(t => t.VehiculoId == vehiculo.VehiculoId);
+            
+            if (!tickets.Any(t => t.EstadoDeTicket == EstadoDeTicket.Activo))
+            {
+                if (tickets.Any(t => t.TipoDeTicket == TipoDeTicket.Abono && t.EstadoDeTicket == EstadoDeTicket.Inactivo))
+                {
+                    var ticket = tickets.Single(t => t.EstadoDeTicket == EstadoDeTicket.Inactivo);
 
+                    ticket.EstadoDeTicket = EstadoDeTicket.Activo;
+                    var movimientoDeVehiculo = new MovimientoDeVehiculo
+                    {
+                        TipoDeMovimientoDeVehiculo = TipoDeMovimientoDeVehiculo.Entrada,
+                        Fecha = DateTime.Now
+                    };
+
+                    ticket.MovimientosDeVehiculo.Add(movimientoDeVehiculo);
+                    _db.SaveChanges();
+                    return RedirectToAction("IngresarVehiculo");
+                }
+                var parcelaMasGrande = (int)Enum.GetValues(typeof(TamanioVehiculo)).Cast<TamanioVehiculo>().Max();
+                for (int i = (int)vehiculo.TipoDeVehiculo.TamanioVehiculo; i <= parcelaMasGrande; i++)
+                {
+                    var parcela =
+                        _db.Parcelas.FirstOrDefault(p => (int)p.TipoDeVehiculo.TamanioVehiculo == i && p.Disponible);
+
+                    if (parcela != null)
+                    {
+                        // Logica bloquear parcela
+
+                        parcela.Disponible = false;
+                        _db.Entry(parcela).State = EntityState.Modified;
+                        _db.SaveChanges();
+
+                        // Logica Guardar Ticket
+
+                        var movimientoDeTicket = new MovimientoDeVehiculo
+                        {
+                            TipoDeMovimientoDeVehiculo = TipoDeMovimientoDeVehiculo.Entrada,
+                            Fecha = DateTime.Now
+                        };
+
+                        var ticket = new Ticket
+                        {
+                            Vehiculo = vehiculo,
+                            EstadoDeTicket = EstadoDeTicket.Activo,
+                            Parcela = parcela,
+                            FechaYHoraCreacionTicket = DateTime.Now,
+                            TipoDeTicket = TipoDeTicket.Ocasional
+                        };
+
+                        if (ModelState.IsValid)
+                        {
+                            _db.Tickets.Add(ticket);
+                            _db.SaveChanges();
+
+                            movimientoDeTicket.TicketId = ticket.TicketId;
+                            _db.MovimientosDeVehiculo.Add(movimientoDeTicket);
+                            _db.SaveChanges();
+                        }
+                        TempData["ticket"] = ticket;
+                        return RedirectToAction("ImprimirTicket");
+                    }
+
+
+
+                }
+                return RedirectToAction("NoHayParcelas", new { vehiculo.TipoDeVehiculoId });
+            }
+            // Logica vehiculo patente xx ya ingresado en la parcela:yy
+
+            ViewBag.errorMessage = "Ya está ingresado un vehiculo con patente: " + vehiculo.Patente + " en la parcela: " +
+                vehiculo.Tickets.Where(t => t.VehiculoId == vehiculo.VehiculoId && t.EstadoDeTicket == EstadoDeTicket.Activo)
+                .Select(t => t.Parcela.NumeroParcela);
+            return View("IngresarVehiculo");
+        }
+
+        public ActionResult RetirarVehiculo()
+        {
+            var listadoTicketsIngresados = _db.Tickets.Where(lti => lti.EstadoDeTicket == EstadoDeTicket.Activo);
+
+            return View(listadoTicketsIngresados);
+        }
+
+        //return RedirectToAction("BuscarExistenciaVehiculo", "Vehiculos", new { patente = patente});
+
+        public ActionResult ConfirmarEgreso(int ticketId)
+        {
+            var ticket = _db.Tickets.Find(ticketId);
+            
+            // Si es abono
+            if (ticket.TipoDeTicket == TipoDeTicket.Abono)
+            {
+                ticket.EstadoDeTicket = EstadoDeTicket.Inactivo;
+                var movimientoDeVehiculo = new MovimientoDeVehiculo
+                {
+                    TipoDeMovimientoDeVehiculo = TipoDeMovimientoDeVehiculo.Salida,
+                    Fecha = DateTime.Now
+                };
+
+                ticket.MovimientosDeVehiculo.Add(movimientoDeVehiculo);
+                _db.SaveChanges();
+                return RedirectToAction("IngresarVehiculo");
+
+            }
+            //Si es ocasional
+            else
+            {
+                //Logica Liberar Parcela
+                var parcela = _db.Parcelas.Find(ticket.ParcelaId);
+                parcela.Disponible = true;
+                _db.Entry(parcela).State = EntityState.Modified;
+                _db.SaveChanges();
+
+                ticket.EstadoDeTicket = EstadoDeTicket.Inactivo;
+
+                var movimientoDeVehiculo = new MovimientoDeVehiculo
+                {
+                    Fecha = DateTime.Now,
+                    TipoDeMovimientoDeVehiculo = TipoDeMovimientoDeVehiculo.Salida,
+                    TicketId = ticketId
+                };
+                _db.MovimientosDeVehiculo.Add(movimientoDeVehiculo);
+                _db.SaveChanges();
+
+                var timeSpan = DateTime.Now.Subtract(ticket.MovimientosDeVehiculo.Where(mdv => mdv.TipoDeMovimientoDeVehiculo == TipoDeMovimientoDeVehiculo.Entrada).Select(mdv => mdv.Fecha).Single());
+                ticket.TiempoTotal = (int)timeSpan.TotalSeconds;
+
+                var fraccionesDeTiempo = timeSpan.TotalMinutes / 15;
+                //Si está menos de 5 minutos, no se cobra
+                if (fraccionesDeTiempo < 0.33)
+                {
+                    ticket.PrecioTotalDecimal = 0;
+                }
+                {
+                    var fraccionesDeTiempoRedondeado = Convert.ToInt32(Math.Ceiling(fraccionesDeTiempo));
+
+                    //Menor a 4hs se cobra la tarifa*fracciones.
+                    //Entre 4 y 6, cobrar estadía de 6hs.
+                    //Entre 6 y 8, cobrar estadía de 8hs.
+                    //Entre 8 y 10, cobrar estadía de 10hs.
+                    //Entre 10 y 12, cobrar estadía de 12hs.
+                    //Mayor a 12Hs se cobra la estadía de 12 hs + precio por hora de esa estadía de las horas excedentes.
+
+                    //<4hs
+                    if (fraccionesDeTiempoRedondeado < 16)
+                        ticket.PrecioTotalDecimal = fraccionesDeTiempoRedondeado *
+                                                    ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
+                    else if (fraccionesDeTiempoRedondeado >= 16 && fraccionesDeTiempoRedondeado < 24)
+                        ticket.PrecioTotalDecimal = 16 * ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
+                    //6hs>=x>8
+                    else if (fraccionesDeTiempoRedondeado >= 24 && fraccionesDeTiempoRedondeado < 32)
+                        ticket.PrecioTotalDecimal = 18 * ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
+                    //8hs>=x>10
+                    else if (fraccionesDeTiempoRedondeado >= 32 && fraccionesDeTiempoRedondeado < 40)
+                        ticket.PrecioTotalDecimal = 20 * ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
+                    //10hs>=x>12
+                    else if (fraccionesDeTiempoRedondeado >= 40 && fraccionesDeTiempoRedondeado < 48)
+                        ticket.PrecioTotalDecimal = 22 * ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
+                    //x>12
+                    else if (fraccionesDeTiempoRedondeado > 48)
+                    {
+                        ticket.PrecioTotalDecimal = fraccionesDeTiempoRedondeado *
+                                                    Math.Round(ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal / 2.1818m);
+                    }
+                }
+
+                _db.Entry(ticket).State = EntityState.Modified;
+                _db.SaveChanges();
+                TempData["ticket"] = ticket;
+                return RedirectToAction("ImprimirTicket");
+            }
+            
 
         }
-        public ActionResult ReImprimirTicket()
+
+
+
+        public ActionResult NoHayParcelas(int tipoDeVehiculoId)
         {
+            var tipodevehiculo = _db.TiposDeVehiculo.Find(tipoDeVehiculoId);
+            if (tipodevehiculo.Nombre != null) ViewBag.TipoDeVehiculo = tipodevehiculo.Nombre;
             return View();
         }
 
-        [HttpPost]
-        public ActionResult ReImprimirTicket(int ticketId)
-        {
-            var ticket = _db.Tickets.Find(ticketId);
-            if (ticket != null)
-                return RedirectToAction("ImprimirTicket", new { ticketId = ticket.TicketId });
-            ViewBag.errorNoExisteTicket = "El ticket ingresado no existe";
-            return View();
-        }
 
-
-        public ActionResult ImprimirTicket(int ticketId)
+        public ActionResult ImprimirTicket()
         {
-            var ticket = _db.Tickets.Find(ticketId);
+            var ticket = TempData["ticket"] as Ticket;
+            if (ticket == null)
+                return RedirectToAction("IngresarVehiculo");
             if (Request.UrlReferrer == null)
                 return View(ticket);
             var urlDeReferencia = Request.UrlReferrer.Segments.Skip(2).Take(1).SingleOrDefault();
-            if (urlDeReferencia != null && ticket.FechaYHoraDeSalida == null && urlDeReferencia.Trim('/') == "IngresarVehiculo")
+            if (urlDeReferencia != null && ticket.TipoDeTicket == TipoDeTicket.Ocasional &&
+                ticket.EstadoDeTicket == EstadoDeTicket.Activo &&
+                urlDeReferencia.Trim('/') == "IngresarVehiculo" || urlDeReferencia?.Trim('/') == "Create")
             {
                 ViewBag.infoParcela = "Indicar al conductor que se dirija a la parcela: " + ticket.Parcela.NumeroParcela;
             }
+            else
+            {
+                // Si el tiempo es mayor a 1 día, que muestre el día.
+                if (ticket.TiempoTotal != null && ticket.TiempoTotal.Value >= 86400)
+                    ViewBag.Tiempo = TimeSpan.FromSeconds(Convert.ToDouble(ticket.TiempoTotal)).ToString("d'd 'h'h 'm'm 's's'");
+                else
+                {
+                    ViewBag.Tiempo = TimeSpan.FromSeconds(Convert.ToDouble(ticket.TiempoTotal)).ToString("h'h 'm'm 's's'");
+                }
+
+
+            }
             return View(ticket);
         }
-
 
 
 

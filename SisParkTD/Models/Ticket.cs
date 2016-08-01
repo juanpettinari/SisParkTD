@@ -9,22 +9,23 @@ namespace SisParkTD.Models
         [Key]
         public int TicketId { get; set; }
 
-        public int? VehiculoId { get; set; }
+        public int VehiculoId { get; set; }
 
         public int? AbonoId { get; set; }
         [Required]
         public int ParcelaId { get; set; }
         [Required]
         public EstadoDeTicket EstadoDeTicket { get; set; }
-        [Required]
-        [DataType(DataType.DateTime)]
-        public DateTime FechaYHoraDeEntrada { get; set; }
-        [DataType(DataType.DateTime)]
-        public DateTime? FechaYHoraDeSalida { get; set; }
 
-        public TimeSpan? TiempoTotal { get; set; }
+        public TipoDeTicket TipoDeTicket { get; set; }
+        [DataType(DataType.DateTime)]
+        public DateTime FechaYHoraCreacionTicket { get; set; }
+
+        public int? TiempoTotal { get; set; }
         [DataType(DataType.Currency)]
         public decimal? PrecioTotalDecimal { get; set; }
+
+        public bool Pagado { get; set; }
 
         public virtual Abono Abono { get; set; }
 
@@ -32,13 +33,9 @@ namespace SisParkTD.Models
 
         public virtual Vehiculo Vehiculo { get; set; }
 
-        public virtual ICollection<Movimiento> Movimientos { get; set; }
+        public virtual ICollection<MovimientoFinanciero> MovimientosFinancieros { get; set; }
 
-    }
+        public virtual ICollection<MovimientoDeVehiculo> MovimientosDeVehiculo { get; set; }
 
-    public enum EstadoDeTicket
-    {
-        Ingresado,
-        Retirado
     }
 }

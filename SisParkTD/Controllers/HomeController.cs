@@ -1,7 +1,8 @@
-﻿using System;
-using System.Data.Entity;
+﻿using System.Data.Entity;
+using System.Linq;
 using System.Web.Mvc;
 using SisParkTD.DAL;
+using SisParkTD.Models;
 
 namespace SisParkTD.Controllers
 {
@@ -13,14 +14,18 @@ namespace SisParkTD.Controllers
             return View();
         }
 
-        public ActionResult About(int? id)
+        public ActionResult About(int? id, int h)
         {
             ViewBag.Message = "Your application description page.";
             if (id != null)
             {
                 var ticket = _db.Tickets.Find(id);
-                ticket.FechaYHoraDeEntrada = ticket.FechaYHoraDeEntrada.AddHours(-1);
-                _db.Entry(ticket).State = EntityState.Modified;
+                var movimiento =
+                    _db.MovimientosDeVehiculo.Single(mdv => mdv.TicketId == ticket.TicketId 
+                    && mdv.TipoDeMovimientoDeVehiculo == TipoDeMovimientoDeVehiculo.Entrada);
+                movimiento.Fecha = movimiento.Fecha.AddHours(-h);
+                    //ticket.FechaYHoraDeEntrada.AddHours(-h);
+                _db.Entry(movimiento).State = EntityState.Modified;
                 _db.SaveChanges();
             }
 
