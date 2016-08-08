@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace SisParkTD.Models
@@ -9,7 +10,7 @@ namespace SisParkTD.Models
         public int MovimientoDeVehiculoId { get; set; }
 
         public DateTime Fecha { get; set; }
-
+        [DisplayName("Tipo")]
         public TipoDeMovimientoDeVehiculo TipoDeMovimientoDeVehiculo { get; set; }
 
         public int TicketId { get; set; }

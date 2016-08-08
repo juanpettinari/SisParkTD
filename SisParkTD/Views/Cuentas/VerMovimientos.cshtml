@@ -1,0 +1,76 @@
+﻿@using SisParkTD.Models
+@model Cuenta
+
+<div>
+    <h4>Cuenta</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Cliente.RazonSocial)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cliente.RazonSocial)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SaldoDecimal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SaldoDecimal)
+        </dd>
+    </dl>
+    <table class="table table-hover">
+        <tr>
+            <th>
+                Fecha
+            </th>
+            <th>
+                Tipo De Movimiento
+            </th>
+            <th>
+                Importe
+            </th>
+            
+            <th>
+
+            </th>
+        </tr>
+        @foreach (var item in Model.MovimientosFinancieros)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fecha)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoDeMovimientoFinanciero.Nombre)
+                </td>
+                <td>
+                    @if (item.TipoDeMovimientoFinanciero.Signo == Signo.Negativo)
+                    {
+                        @:-@Html.DisplayFor(modelItem => item.Ticket.PrecioTotalDecimal)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Ticket.PrecioTotalDecimal)
+                    }
+                </td>
+
+
+                <td>
+                    @if (item.TipoDeMovimientoFinancieroId == (int)TipoDeMovimientoFinancieroenum.FacturacionAbono && item.Ticket.Pagado == false)
+                    {
+                        @Html.ActionLink("Pagar", "PagarAbono", new { id = item.TicketId }, new { @class = "btn btn-success" })
+                    }
+                </td>
+            </tr>
+
+
+        }
+    </table>
+</div>
+<p>
+    @Html.ActionLink("Volver", "Index")
+</p>

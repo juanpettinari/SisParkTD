@@ -5,5 +5,11 @@
 
 <h2>No Hay Parcelas</h2>
 
-
-No hay parcelas disponibles del tamaño de @ViewBag.TipoDeVehiculo o mayores.
+@if (Request.UrlReferrer?.Segments[2] == "IngresarVehiculo")
+{
+    <h5>No hay parcelas disponibles del tamaño de @ViewBag.TipoDeVehiculo o mayores.</h5>
+}
+else
+{
+    <h5>No hay parcelas disponibles del tamaño de @ViewBag.TipoDeVehiculo</h5>
+}

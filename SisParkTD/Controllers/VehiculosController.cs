@@ -17,6 +17,7 @@ namespace SisParkTD.Controllers
         {
             var vehiculos = _db.Vehiculos.Include(v => v.TipoDeVehiculo);
             return View(vehiculos.ToList());
+            
         }
 
         // GET: Vehiculos/Details/5
@@ -26,7 +27,7 @@ namespace SisParkTD.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Vehiculo vehiculo = _db.Vehiculos.Find(id);
+            var vehiculo = _db.Vehiculos.Find(id);
             if (vehiculo == null)
             {
                 return HttpNotFound();
@@ -39,7 +40,7 @@ namespace SisParkTD.Controllers
         [HttpGet]
         public ActionResult Create(string patente)
         {
-            ViewBag.TipoDeVehiculoId = new SelectList(_db.TiposDeVehiculo, "TipoDeVehiculoId", "Nombre");
+            ViewBag.ListaDeTipoDeVehiculo = new SelectList(_db.TiposDeVehiculo, "TipoDeVehiculoId", "Nombre");
             ViewBag.Patente = patente;
             return View();
         }
@@ -48,7 +49,7 @@ namespace SisParkTD.Controllers
         // GET: Vehiculos/Create
         public ActionResult Create()
         {
-            ViewBag.TipoDeVehiculoId = new SelectList(_db.TiposDeVehiculo, "TipoDeVehiculoId", "NombreDeTipoDeVehiculo");
+            ViewBag.TipoDeVehiculoId = new SelectList(_db.TiposDeVehiculo, "TipoDeVehiculoId", "Nombre");
             return View();
         }
 
@@ -59,19 +60,25 @@ namespace SisParkTD.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "VehiculoId,Patente,ClienteId,TipoDeVehiculoId,DescripcionDeVehiculo")] Vehiculo vehiculo)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && !_db.Vehiculos.Any(v => v.Patente == vehiculo.Patente))
             {
                 _db.Vehiculos.Add(vehiculo);
                 _db.SaveChanges();
-                if (Request.UrlReferrer != null && Request.UrlReferrer.Query != string.Empty)
+                var urlPrevia = TempData["urlPrevia"] as string;
+                if (urlPrevia != null)
                 {
-                    return RedirectToAction("ConfirmarIngreso", "Tickets", new { vehiculo.Patente});
+                    switch (urlPrevia)
+                    {
+                        case "ConfirmarIngreso":
+                            return RedirectToAction("ConfirmarIngreso", "Tickets", new {vehiculo.Patente});
+                        case "IngresarAbono":
+                            return RedirectToAction("IngresarAbono", "Abonos", new {vehiculo.Patente});
+                    }
                 }
-                
                 return RedirectToAction("Index");
             }
-
-            ViewBag.TipoDeVehiculoId = new SelectList(_db.TiposDeVehiculo, "TipoDeVehiculoId", "NombreDeTipoDeVehiculo", vehiculo.TipoDeVehiculoId);
+            ModelState.AddModelError(string.Empty, "Ya existe un vehículo con esta patente en la base de datos");
+            ViewBag.TipoDeVehiculoId = new SelectList(_db.TiposDeVehiculo, "TipoDeVehiculoId", "Nombre", vehiculo.TipoDeVehiculoId);
             return View(vehiculo);
         }
 
@@ -82,12 +89,12 @@ namespace SisParkTD.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Vehiculo vehiculo = _db.Vehiculos.Find(id);
+            var vehiculo = _db.Vehiculos.Find(id);
             if (vehiculo == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.TipoDeVehiculoId = new SelectList(_db.TiposDeVehiculo, "TipoDeVehiculoId", "NombreDeTipoDeVehiculo", vehiculo.TipoDeVehiculoId);
+            ViewBag.TipoDeVehiculoId = new SelectList(_db.TiposDeVehiculo, "TipoDeVehiculoId", "Nombre", vehiculo.TipoDeVehiculoId);
             return View(vehiculo);
         }
 
@@ -104,7 +111,7 @@ namespace SisParkTD.Controllers
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.TipoDeVehiculoId = new SelectList(_db.TiposDeVehiculo, "TipoDeVehiculoId", "NombreDeTipoDeVehiculo", vehiculo.TipoDeVehiculoId);
+            ViewBag.TipoDeVehiculoId = new SelectList(_db.TiposDeVehiculo, "TipoDeVehiculoId", "Nombre", vehiculo.TipoDeVehiculoId);
             return View(vehiculo);
         }
 

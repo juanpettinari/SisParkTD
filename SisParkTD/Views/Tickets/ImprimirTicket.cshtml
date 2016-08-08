@@ -9,7 +9,15 @@
 <h2>ImprimirTicket</h2>
 
 <div>
-    <h4>Tickets</h4>
+    @if (Model.TipoDeTicket == TipoDeTicket.Abono)
+
+    {
+        <h4>Ticket Abonado</h4>
+    }
+    else
+    {
+        <h4>Ticket Ocasional</h4>
+    }
     <br />
     <h4>@ViewBag.InfoParcela</h4>
     <hr />
@@ -26,7 +34,7 @@
         </dd>
         @* Parcela*@
         <dt>
-            @Html.DisplayNameFor(model => model.Parcela.ParcelaId)
+            @Html.DisplayNameFor(model => model.Parcela.NumeroParcela)
         </dt>
 
         <dd>
@@ -40,30 +48,32 @@
         <dd>
             @Html.DisplayFor(model => model.Vehiculo.TipoDeVehiculo.Nombre)
         </dd>
+
         @foreach (var item in Model.MovimientosDeVehiculo)
         {
             if (item.TipoDeMovimientoDeVehiculo.Equals(TipoDeMovimientoDeVehiculo.Entrada))
             {
-                <dt>Fecha Y Hora Ingreso</dt>
+                <dt>Fecha y Hora Ingreso</dt>
             }
             else
             {
-                <dt>Fecha Y Hora Egreso</dt>
+                <dt>Fecha y Hora Egreso</dt>
             }
             <dd>
                 @Html.DisplayFor(modelItem => item.Fecha)
             </dd>
         }
-        @if (Model.EstadoDeTicket == EstadoDeTicket.Retirado)
+        @if (Model.EstadoDeTicket == EstadoDeTicket.Inactivo)
         {
 
             <dt>
                 @Html.DisplayNameFor(model => model.TiempoTotal)
             </dt>
+            if (Model.TipoDeTicket == TipoDeTicket.Ocasional) { 
             <dd>
                 @ViewBag.Tiempo
             </dd>
-
+            }
             <dt>
                 @Html.DisplayNameFor(model => model.PrecioTotalDecimal)
             </dt>

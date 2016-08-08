@@ -11,7 +11,7 @@ namespace SisParkTD.Migrations
         
         public override void Down()
         {
-            AddColumn("dbo.Ticket", "MovimientoDeVehiculoId", c => c.Int(nullable: false));
+            AddColumn("dbo.Ticket", "MovimientoDeVehiculoId", c => c.Int(false));
         }
     }
 }

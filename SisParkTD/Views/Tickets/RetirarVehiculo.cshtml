@@ -1,11 +1,11 @@
-﻿@model IEnumerable<SisParkTD.Models.Ticket>
+﻿@using SisParkTD.Models
+@model IEnumerable<Ticket>
 
 @{
     ViewBag.Title = "RetirarVehiculo";
 }
 
 <h2>RetirarVehiculo</h2>
-
 <table class="table table-hover">
     <tr>
         <td>
@@ -51,10 +51,14 @@
             }
         
         <td>
-            @Html.ActionLink("Retirar", "ConfirmarEgreso", "Tickets", new {ticketId = item.TicketId}, new {@class = "btn btn-success"}) |
-            @Html.ActionLink("-1H", "About", "Home", new {id = item.TicketId, h = 1}, new {@class = "btn btn-danger"}) |
-            @Html.ActionLink("-3H", "About", "Home", new {id = item.TicketId, h = 3}, new {@class = "btn btn-danger"}) |
-            @Html.ActionLink("-5H", "About", "Home", new {id = item.TicketId, h = 5}, new {@class = "btn btn-danger"})
+            @Html.ActionLink("Retirar", "ConfirmarEgreso", "Tickets", new { ticketId = item.TicketId }, new { @class = "btn btn-success" }) |
+            @if (item.TipoDeTicket == TipoDeTicket.Abono && item.Abono.FechaFin < DateTime.Now)
+            {
+               @Html.ActionLink("Grua", "ConfirmarEgresoConGrua", "Tickets", new { ticketId = item.TicketId }, new { @class = "btn btn-danger" }) @Html.DisplayText(" |")
+            }
+            @Html.ActionLink("-1H", "About", "Home", new { id = item.TicketId, h = 1 }, new { @class = "btn btn-danger" }) | 
+            @Html.ActionLink("-3H", "About", "Home", new { id = item.TicketId, h = 3 }, new { @class = "btn btn-danger" }) |
+            @Html.ActionLink("-5H", "About", "Home", new { id = item.TicketId, h = 5 }, new { @class = "btn btn-danger" })
 
         </td>
     </tr>

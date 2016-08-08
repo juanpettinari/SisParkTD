@@ -10,9 +10,9 @@ namespace SisParkTD.Models
         public int AbonoId { get; set; }
 
         [Required]
-        public DateTime FechaMesInicio { get; set; }
+        public DateTime FechaInicio { get; set; }
 
-        public DateTime? FechaMesFin { get; set; }
+        public DateTime? FechaFin { get; set; }
 
         public virtual ICollection<Ticket> Tickets { get; set; }
     }

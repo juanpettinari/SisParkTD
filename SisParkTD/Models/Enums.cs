@@ -31,4 +31,26 @@
         Mediano,
         Grande
     }
+
+    public enum Mes
+    {
+        Enero = 1,
+        Febrero,
+        Marzo,
+        Abril,
+        Mayo,
+        Junio,
+        Julio,
+        Agosto,
+        Septiembre,
+        Octubre,
+        Noviembre,
+        Diciembre
+    }
+
+    public enum TipoDocumento
+    {
+        Dni = 1,
+        Cuit
+    }
 }

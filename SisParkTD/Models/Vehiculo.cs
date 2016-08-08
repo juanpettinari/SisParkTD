@@ -7,7 +7,7 @@ namespace SisParkTD.Models
     {
         [Key]
         public int VehiculoId { get; set; }
-        [StringLength(7, MinimumLength = 6, ErrorMessage = "Debe ingresar una patente de {0} a {1} caracteres")]
+        [StringLength(7, MinimumLength = 6, ErrorMessage = "Debe ingresar una {0} de {2} a {1} caracteres")]
         [Required]
         public string Patente { get; set; }
 

@@ -10,10 +10,12 @@ namespace SisParkTD.DAL
         {
         }
 
-
+        
 
         public DbSet<Abono> Abonos { get; set; }
         public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<Cuenta> Cuentas { get; set; }
+
         public DbSet<MovimientoFinanciero> MovimientosFinancieros { get; set; }
         public DbSet<TipoDeMovimientoFinanciero> TiposDeMovimientoFinanciero { get; set; }
         

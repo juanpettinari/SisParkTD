@@ -10,8 +10,8 @@ namespace SisParkTD.Migrations
                 "dbo.Abono",
                 c => new
                     {
-                        AbonoId = c.Int(nullable: false, identity: true),
-                        FechaMesInicio = c.DateTime(nullable: false),
+                        AbonoId = c.Int(false, true),
+                        FechaMesInicio = c.DateTime(false),
                         FechaMesFin = c.DateTime(),
                     })
                 .PrimaryKey(t => t.AbonoId);
@@ -20,12 +20,12 @@ namespace SisParkTD.Migrations
                 "dbo.Ticket",
                 c => new
                     {
-                        TicketId = c.Int(nullable: false, identity: true),
-                        VehiculoId = c.Int(nullable: false),
+                        TicketId = c.Int(false, true),
+                        VehiculoId = c.Int(false),
                         AbonoId = c.Int(),
-                        ParcelaId = c.Int(nullable: false),
-                        EstadoDeTicket = c.Int(nullable: false),
-                        FechaYHoraDeEntrada = c.DateTime(nullable: false),
+                        ParcelaId = c.Int(false),
+                        EstadoDeTicket = c.Int(false),
+                        FechaYHoraDeEntrada = c.DateTime(false),
                         FechaYHoraDeSalida = c.DateTime(),
                         TiempoTotal = c.Time(precision: 7),
                         PrecioTotalDecimal = c.Decimal(precision: 18, scale: 2),
@@ -42,9 +42,9 @@ namespace SisParkTD.Migrations
                 "dbo.Movimiento",
                 c => new
                     {
-                        MovimientoId = c.Int(nullable: false, identity: true),
-                        TicketId = c.Int(nullable: false),
-                        TipoDeMovimientoId = c.Int(nullable: false),
+                        MovimientoId = c.Int(false, true),
+                        TicketId = c.Int(false),
+                        TipoDeMovimientoId = c.Int(false),
                     })
                 .PrimaryKey(t => t.MovimientoId)
                 .ForeignKey("dbo.Ticket", t => t.TicketId)
@@ -56,10 +56,10 @@ namespace SisParkTD.Migrations
                 "dbo.TipoDeMovimiento",
                 c => new
                     {
-                        TipoDeMovimientoId = c.Int(nullable: false, identity: true),
+                        TipoDeMovimientoId = c.Int(false, true),
                         Nombre = c.String(),
                         Descripcion = c.String(),
-                        Signo = c.Int(nullable: false),
+                        Signo = c.Int(false),
                     })
                 .PrimaryKey(t => t.TipoDeMovimientoId);
             
@@ -67,10 +67,10 @@ namespace SisParkTD.Migrations
                 "dbo.Parcela",
                 c => new
                     {
-                        ParcelaId = c.Int(nullable: false, identity: true),
-                        NumeroParcela = c.Int(nullable: false),
-                        Disponible = c.Boolean(nullable: false),
-                        TipoDeVehiculoId = c.Int(nullable: false),
+                        ParcelaId = c.Int(false, true),
+                        NumeroParcela = c.Int(false),
+                        Disponible = c.Boolean(false),
+                        TipoDeVehiculoId = c.Int(false),
                     })
                 .PrimaryKey(t => t.ParcelaId)
                 .ForeignKey("dbo.TipoDeVehiculo", t => t.TipoDeVehiculoId)
@@ -80,11 +80,11 @@ namespace SisParkTD.Migrations
                 "dbo.TipoDeVehiculo",
                 c => new
                     {
-                        TipoDeVehiculoId = c.Int(nullable: false, identity: true),
-                        Nombre = c.String(nullable: false),
-                        TamanioVehiculo = c.Int(nullable: false),
-                        TarifaOcasionalDecimal = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        TarifaMensualDecimal = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        TipoDeVehiculoId = c.Int(false, true),
+                        Nombre = c.String(false),
+                        TamanioVehiculo = c.Int(false),
+                        TarifaOcasionalDecimal = c.Decimal(false, 18, 2),
+                        TarifaMensualDecimal = c.Decimal(false, 18, 2),
                     })
                 .PrimaryKey(t => t.TipoDeVehiculoId);
             
@@ -92,9 +92,9 @@ namespace SisParkTD.Migrations
                 "dbo.Vehiculo",
                 c => new
                     {
-                        VehiculoId = c.Int(nullable: false, identity: true),
-                        Patente = c.String(nullable: false),
-                        TipoDeVehiculoId = c.Int(nullable: false),
+                        VehiculoId = c.Int(false, true),
+                        Patente = c.String(false),
+                        TipoDeVehiculoId = c.Int(false),
                         DescripcionDeVehiculo = c.String(),
                     })
                 .PrimaryKey(t => t.VehiculoId)
@@ -105,12 +105,12 @@ namespace SisParkTD.Migrations
                 "dbo.Cliente",
                 c => new
                     {
-                        ClienteId = c.Int(nullable: false),
-                        Nombre = c.String(nullable: false),
-                        Apellido = c.String(nullable: false),
-                        Dni = c.String(nullable: false),
-                        Telefono = c.String(nullable: false),
-                        SaldoDecimal = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        ClienteId = c.Int(false),
+                        Nombre = c.String(false),
+                        Apellido = c.String(false),
+                        Dni = c.String(false),
+                        Telefono = c.String(false),
+                        SaldoDecimal = c.Decimal(false, 18, 2),
                     })
                 .PrimaryKey(t => t.ClienteId)
                 .ForeignKey("dbo.Vehiculo", t => t.ClienteId)

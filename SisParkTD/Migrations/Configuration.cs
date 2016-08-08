@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using SisParkTD.Models;
-
 namespace SisParkTD.Migrations
 {
     using System.Data.Entity.Migrations;
@@ -16,10 +13,9 @@ namespace SisParkTD.Migrations
         //{
         //    var tiposDeMovimientoFinanciero = new List<TipoDeMovimientoFinanciero>
         //    {
-        //        new TipoDeMovimientoFinanciero {Nombre = "Facturación Ticket Abono", Descripcion = "La facturación mensual del ticket de un abono", Signo = Signo.Negativo},
-        //        new TipoDeMovimientoFinanciero {Nombre = "Pago Ticket Abono", Descripcion = "El pago del ticket de abono mensual", Signo = Signo.Positivo},
-        //        new TipoDeMovimientoFinanciero {Nombre = "Facturación Ocasional", Descripcion = "La facturación de un ticket ocasional", Signo = Signo.Negativo},
-        //        new TipoDeMovimientoFinanciero {Nombre = "Pago Ticket Ocasional", Descripcion = "El pago de un ticket ocasional", Signo = Signo.Positivo}
+        //        new TipoDeMovimientoFinanciero {TipoDeMovimientoFinancieroId = 1, Nombre = "Facturación Ticket Abono", Descripcion = "La facturación mensual del ticket de un abono", Signo = Signo.Negativo},
+        //        new TipoDeMovimientoFinanciero {TipoDeMovimientoFinancieroId = 2, Nombre = "Pago Ticket Abono", Descripcion = "El pago del ticket de abono mensual", Signo = Signo.Positivo},
+        //        new TipoDeMovimientoFinanciero {TipoDeMovimientoFinancieroId = 3, Nombre = "Pago Ticket Ocasional", Descripcion = "El pago de un ticket ocasional", Signo = Signo.Positivo}
         //    };
         //    tiposDeMovimientoFinanciero.ForEach(t => context.TiposDeMovimientoFinanciero.AddOrUpdate(n => n.Nombre, t));
         //    context.SaveChanges();
@@ -35,7 +31,7 @@ namespace SisParkTD.Migrations
         //        new TipoDeVehiculo {Nombre = "Automóvil",TamanioVehiculo = TamanioVehiculo.Mediano,TarifaMensualDecimal = 2000,TarifaOcasionalDecimal = 10},
         //        new TipoDeVehiculo {Nombre = "Camioneta",TamanioVehiculo = TamanioVehiculo.Grande,TarifaMensualDecimal = 2400,TarifaOcasionalDecimal = 12}
         //    };
-            
+
         //    tiposDeVehiculo.ForEach(tdv => context.TiposDeVehiculo.AddOrUpdate(p => p.Nombre, tdv));
 
         //    context.SaveChanges();

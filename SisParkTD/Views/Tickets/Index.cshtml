@@ -1,14 +1,11 @@
 ﻿@model IEnumerable<SisParkTD.Models.Ticket>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Tickets";
 }
 
-<h2>Index</h2>
+<h2>Tickets</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -24,11 +21,14 @@
             @Html.DisplayNameFor(model => model.EstadoDeTicket)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.Pagado)
+        </th>
+        @*<th>
             @Html.DisplayNameFor(model => model.FechaYHoraDeEntrada)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.FechaYHoraDeSalida)
-        </th>
+        </th>*@
         <th>
             @Html.DisplayNameFor(model => model.TiempoTotal)
         </th>
@@ -53,11 +53,14 @@
             @Html.DisplayFor(modelItem => item.EstadoDeTicket)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.Pagado)
+        </td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.FechaYHoraDeEntrada)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.FechaYHoraDeSalida)
-        </td>
+        </td>*@
         <td>
             @Html.DisplayFor(modelItem => item.TiempoTotal)
         </td>

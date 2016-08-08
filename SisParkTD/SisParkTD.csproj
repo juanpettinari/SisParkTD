@@ -57,6 +57,14 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -112,10 +120,6 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="WebGrease">
-      <Private>True</Private>
-      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
-    </Reference>
     <Reference Include="Antlr3.Runtime">
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
@@ -130,8 +134,12 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AbonosController.cs" />
+    <Compile Include="Controllers\CuentasController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MovimientosDeVehiculoController.cs" />
     <Compile Include="Controllers\TicketsController.cs" />
+    <Compile Include="Controllers\TiposDeMovimientoFinancieroController.cs" />
     <Compile Include="Controllers\VehiculosController.cs" />
     <Compile Include="DAL\SPContext.cs" />
     <Compile Include="Global.asax.cs">
@@ -169,9 +177,50 @@
     <Compile Include="Migrations\201608010129469_g.Designer.cs">
       <DependentUpon>201608010129469_g.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201608010528291_h.cs" />
+    <Compile Include="Migrations\201608010528291_h.Designer.cs">
+      <DependentUpon>201608010528291_h.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608010813085_j.cs" />
+    <Compile Include="Migrations\201608010813085_j.Designer.cs">
+      <DependentUpon>201608010813085_j.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608010822193_k.cs" />
+    <Compile Include="Migrations\201608010822193_k.Designer.cs">
+      <DependentUpon>201608010822193_k.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608011043124_l.cs" />
+    <Compile Include="Migrations\201608011043124_l.Designer.cs">
+      <DependentUpon>201608011043124_l.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608012233596_m.cs" />
+    <Compile Include="Migrations\201608012233596_m.Designer.cs">
+      <DependentUpon>201608012233596_m.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608012314291_n.cs" />
+    <Compile Include="Migrations\201608012314291_n.Designer.cs">
+      <DependentUpon>201608012314291_n.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608020145094_o.cs" />
+    <Compile Include="Migrations\201608020145094_o.Designer.cs">
+      <DependentUpon>201608020145094_o.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608020149513_p.cs" />
+    <Compile Include="Migrations\201608020149513_p.Designer.cs">
+      <DependentUpon>201608020149513_p.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608020345250_q.cs" />
+    <Compile Include="Migrations\201608020345250_q.Designer.cs">
+      <DependentUpon>201608020345250_q.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608042225561_r.cs" />
+    <Compile Include="Migrations\201608042225561_r.Designer.cs">
+      <DependentUpon>201608042225561_r.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Abono.cs" />
     <Compile Include="Models\Cliente.cs" />
+    <Compile Include="Models\Cuenta.cs" />
     <Compile Include="Models\MovimientoFinanciero.cs" />
     <Compile Include="Models\MovimientoDeVehiculo.cs" />
     <Compile Include="Models\Parcela.cs" />
@@ -180,6 +229,7 @@
     <Compile Include="Models\TipoDeMovimientoFinanciero.cs" />
     <Compile Include="Models\TipoDeVehiculo.cs" />
     <Compile Include="Models\Vehiculo.cs" />
+    <Compile Include="Models\ViewModels\AbonoViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -189,6 +239,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -241,12 +292,6 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Parcelas\Create.cshtml" />
-    <Content Include="Views\Parcelas\Delete.cshtml" />
-    <Content Include="Views\Parcelas\Details.cshtml" />
-    <Content Include="Views\Parcelas\Edit.cshtml" />
-    <Content Include="Views\Parcelas\Index.cshtml" />
-    <Content Include="Views\Tickets\Delete.cshtml" />
     <Content Include="Views\Tickets\Details.cshtml" />
     <Content Include="Views\Tickets\Index.cshtml" />
     <Content Include="Views\Vehiculos\Create.cshtml" />
@@ -259,10 +304,29 @@
     <Content Include="Views\Tickets\RetirarVehiculo.cshtml" />
     <Content Include="Views\Shared\_MenuPartial.cshtml" />
     <Content Include="Views\Tickets\Edit.cshtml" />
+    <Content Include="Views\Abonos\Create.cshtml" />
+    <Content Include="Views\Abonos\Delete.cshtml" />
+    <Content Include="Views\Abonos\Details.cshtml" />
+    <Content Include="Views\Abonos\Edit.cshtml" />
+    <Content Include="Views\Abonos\Index.cshtml" />
+    <Content Include="Views\Cuentas\Create.cshtml" />
+    <Content Include="Views\Cuentas\Delete.cshtml" />
+    <Content Include="Views\Cuentas\Details.cshtml" />
+    <Content Include="Views\Cuentas\Edit.cshtml" />
+    <Content Include="Views\Cuentas\Index.cshtml" />
+    <Content Include="Views\Cuentas\VerMovimientos.cshtml" />
+    <Content Include="Views\Cuentas\FacturacionGenerada.cshtml" />
+    <Content Include="Views\Abonos\IngresarAbono.cshtml" />
+    <Content Include="Views\Abonos\ConfirmarAbono.cshtml" />
+    <Content Include="Views\TiposDeMovimientoFinanciero\Create.cshtml" />
+    <Content Include="Views\TiposDeMovimientoFinanciero\Delete.cshtml" />
+    <Content Include="Views\TiposDeMovimientoFinanciero\Details.cshtml" />
+    <Content Include="Views\TiposDeMovimientoFinanciero\Edit.cshtml" />
+    <Content Include="Views\TiposDeMovimientoFinanciero\Index.cshtml" />
+    <Content Include="Views\MovimientosDeVehiculo\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -295,10 +359,44 @@
     <EmbeddedResource Include="Migrations\201608010129469_g.resx">
       <DependentUpon>201608010129469_g.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608010528291_h.resx">
+      <DependentUpon>201608010528291_h.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608010813085_j.resx">
+      <DependentUpon>201608010813085_j.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608010822193_k.resx">
+      <DependentUpon>201608010822193_k.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608011043124_l.resx">
+      <DependentUpon>201608011043124_l.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608012233596_m.resx">
+      <DependentUpon>201608012233596_m.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608012314291_n.resx">
+      <DependentUpon>201608012314291_n.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608020145094_o.resx">
+      <DependentUpon>201608020145094_o.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608020149513_p.resx">
+      <DependentUpon>201608020149513_p.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608020345250_q.resx">
+      <DependentUpon>201608020345250_q.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608042225561_r.resx">
+      <DependentUpon>201608042225561_r.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

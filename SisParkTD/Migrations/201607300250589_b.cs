@@ -6,12 +6,12 @@ namespace SisParkTD.Migrations
     {
         public override void Up()
         {
-            AlterColumn("dbo.Vehiculo", "Patente", c => c.String(nullable: false, maxLength: 7));
+            AlterColumn("dbo.Vehiculo", "Patente", c => c.String(false, 7));
         }
         
         public override void Down()
         {
-            AlterColumn("dbo.Vehiculo", "Patente", c => c.String(nullable: false));
+            AlterColumn("dbo.Vehiculo", "Patente", c => c.String(false));
         }
     }
 }

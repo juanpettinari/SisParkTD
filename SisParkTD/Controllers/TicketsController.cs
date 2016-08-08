@@ -29,7 +29,6 @@ namespace SisParkTD.Controllers
                 return View();
             }
 
-            //TODO Aca Va La implementacion de cuando divide caminos por si es un abonado.
             return RedirectToAction("ConfirmarIngreso", new { patente });
         }
 
@@ -44,13 +43,15 @@ namespace SisParkTD.Controllers
 
             if (vehiculo == null)
             {
+                TempData["urlPrevia"] = Request.RequestContext.RouteData.Values["action"];
                 return RedirectToAction("Create", "Vehiculos", new { patente });
             }
             //Logica buscar tickets
             var tickets = _db.Tickets.Where(t => t.VehiculoId == vehiculo.VehiculoId);
-            
+
             if (!tickets.Any(t => t.EstadoDeTicket == EstadoDeTicket.Activo))
             {
+                //Ingreso de un abonado
                 if (tickets.Any(t => t.TipoDeTicket == TipoDeTicket.Abono && t.EstadoDeTicket == EstadoDeTicket.Inactivo))
                 {
                     var ticket = tickets.Single(t => t.EstadoDeTicket == EstadoDeTicket.Inactivo);
@@ -66,8 +67,9 @@ namespace SisParkTD.Controllers
                     _db.SaveChanges();
                     return RedirectToAction("IngresarVehiculo");
                 }
+                //Ingreso de un vehiculo ocasional.
                 var parcelaMasGrande = (int)Enum.GetValues(typeof(TamanioVehiculo)).Cast<TamanioVehiculo>().Max();
-                for (int i = (int)vehiculo.TipoDeVehiculo.TamanioVehiculo; i <= parcelaMasGrande; i++)
+                for (var i = (int)vehiculo.TipoDeVehiculo.TamanioVehiculo; i <= parcelaMasGrande; i++)
                 {
                     var parcela =
                         _db.Parcelas.FirstOrDefault(p => (int)p.TipoDeVehiculo.TamanioVehiculo == i && p.Disponible);
@@ -78,11 +80,10 @@ namespace SisParkTD.Controllers
 
                         parcela.Disponible = false;
                         _db.Entry(parcela).State = EntityState.Modified;
-                        _db.SaveChanges();
 
                         // Logica Guardar Ticket
 
-                        var movimientoDeTicket = new MovimientoDeVehiculo
+                        var movimientoDeVehiculo = new MovimientoDeVehiculo
                         {
                             TipoDeMovimientoDeVehiculo = TipoDeMovimientoDeVehiculo.Entrada,
                             Fecha = DateTime.Now
@@ -94,32 +95,37 @@ namespace SisParkTD.Controllers
                             EstadoDeTicket = EstadoDeTicket.Activo,
                             Parcela = parcela,
                             FechaYHoraCreacionTicket = DateTime.Now,
-                            TipoDeTicket = TipoDeTicket.Ocasional
+                            TipoDeTicket = TipoDeTicket.Ocasional,
+                            Pagado = false
                         };
+
 
                         if (ModelState.IsValid)
                         {
                             _db.Tickets.Add(ticket);
-                            _db.SaveChanges();
 
-                            movimientoDeTicket.TicketId = ticket.TicketId;
-                            _db.MovimientosDeVehiculo.Add(movimientoDeTicket);
+                            movimientoDeVehiculo.TicketId = ticket.TicketId;
+                            _db.MovimientosDeVehiculo.Add(movimientoDeVehiculo);
                             _db.SaveChanges();
                         }
-                        TempData["ticket"] = ticket;
-                        return RedirectToAction("ImprimirTicket");
+
+                        if (ticket.TipoDeTicket == TipoDeTicket.Ocasional)
+                        {
+                            ViewBag.infoParcela = "Indicar al conductor que se dirija a la parcela: " + ticket.Parcela.NumeroParcela;
+                            ViewBag.Tiempo =
+                                TimeSpan.FromSeconds(Convert.ToDouble(ticket.TiempoTotal))
+                                    .ToString(ticket.TiempoTotal >= 86400 ? "d'd 'h'h 'm'm 's's'" : "h'h 'm'm 's's'");
+                        }
+                        return View("ImprimirTicket", ticket);
                     }
-
-
 
                 }
                 return RedirectToAction("NoHayParcelas", new { vehiculo.TipoDeVehiculoId });
             }
             // Logica vehiculo patente xx ya ingresado en la parcela:yy
 
-            ViewBag.errorMessage = "Ya está ingresado un vehiculo con patente: " + vehiculo.Patente + " en la parcela: " +
-                vehiculo.Tickets.Where(t => t.VehiculoId == vehiculo.VehiculoId && t.EstadoDeTicket == EstadoDeTicket.Activo)
-                .Select(t => t.Parcela.NumeroParcela);
+            ViewBag.errorMessage = "Ya está ingresado el vehiculo con patente: " + vehiculo.Patente + " en la parcela: " +
+                tickets.Where(t => t.VehiculoId == vehiculo.VehiculoId && t.EstadoDeTicket == EstadoDeTicket.Activo).Select(t => t.Parcela.NumeroParcela).Single();
             return View("IngresarVehiculo");
         }
 
@@ -130,98 +136,137 @@ namespace SisParkTD.Controllers
             return View(listadoTicketsIngresados);
         }
 
-        //return RedirectToAction("BuscarExistenciaVehiculo", "Vehiculos", new { patente = patente});
-
         public ActionResult ConfirmarEgreso(int ticketId)
         {
             var ticket = _db.Tickets.Find(ticketId);
-            
+
             // Si es abono
-            if (ticket.TipoDeTicket == TipoDeTicket.Abono)
+            switch (ticket.TipoDeTicket)
             {
-                ticket.EstadoDeTicket = EstadoDeTicket.Inactivo;
-                var movimientoDeVehiculo = new MovimientoDeVehiculo
+                case TipoDeTicket.Abono:
                 {
-                    TipoDeMovimientoDeVehiculo = TipoDeMovimientoDeVehiculo.Salida,
-                    Fecha = DateTime.Now
-                };
-
-                ticket.MovimientosDeVehiculo.Add(movimientoDeVehiculo);
-                _db.SaveChanges();
-                return RedirectToAction("IngresarVehiculo");
-
-            }
-            //Si es ocasional
-            else
-            {
-                //Logica Liberar Parcela
-                var parcela = _db.Parcelas.Find(ticket.ParcelaId);
-                parcela.Disponible = true;
-                _db.Entry(parcela).State = EntityState.Modified;
-                _db.SaveChanges();
-
-                ticket.EstadoDeTicket = EstadoDeTicket.Inactivo;
-
-                var movimientoDeVehiculo = new MovimientoDeVehiculo
-                {
-                    Fecha = DateTime.Now,
-                    TipoDeMovimientoDeVehiculo = TipoDeMovimientoDeVehiculo.Salida,
-                    TicketId = ticketId
-                };
-                _db.MovimientosDeVehiculo.Add(movimientoDeVehiculo);
-                _db.SaveChanges();
-
-                var timeSpan = DateTime.Now.Subtract(ticket.MovimientosDeVehiculo.Where(mdv => mdv.TipoDeMovimientoDeVehiculo == TipoDeMovimientoDeVehiculo.Entrada).Select(mdv => mdv.Fecha).Single());
-                ticket.TiempoTotal = (int)timeSpan.TotalSeconds;
-
-                var fraccionesDeTiempo = timeSpan.TotalMinutes / 15;
-                //Si está menos de 5 minutos, no se cobra
-                if (fraccionesDeTiempo < 0.33)
-                {
-                    ticket.PrecioTotalDecimal = 0;
-                }
-                {
-                    var fraccionesDeTiempoRedondeado = Convert.ToInt32(Math.Ceiling(fraccionesDeTiempo));
-
-                    //Menor a 4hs se cobra la tarifa*fracciones.
-                    //Entre 4 y 6, cobrar estadía de 6hs.
-                    //Entre 6 y 8, cobrar estadía de 8hs.
-                    //Entre 8 y 10, cobrar estadía de 10hs.
-                    //Entre 10 y 12, cobrar estadía de 12hs.
-                    //Mayor a 12Hs se cobra la estadía de 12 hs + precio por hora de esa estadía de las horas excedentes.
-
-                    //<4hs
-                    if (fraccionesDeTiempoRedondeado < 16)
-                        ticket.PrecioTotalDecimal = fraccionesDeTiempoRedondeado *
-                                                    ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
-                    else if (fraccionesDeTiempoRedondeado >= 16 && fraccionesDeTiempoRedondeado < 24)
-                        ticket.PrecioTotalDecimal = 16 * ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
-                    //6hs>=x>8
-                    else if (fraccionesDeTiempoRedondeado >= 24 && fraccionesDeTiempoRedondeado < 32)
-                        ticket.PrecioTotalDecimal = 18 * ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
-                    //8hs>=x>10
-                    else if (fraccionesDeTiempoRedondeado >= 32 && fraccionesDeTiempoRedondeado < 40)
-                        ticket.PrecioTotalDecimal = 20 * ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
-                    //10hs>=x>12
-                    else if (fraccionesDeTiempoRedondeado >= 40 && fraccionesDeTiempoRedondeado < 48)
-                        ticket.PrecioTotalDecimal = 22 * ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
-                    //x>12
-                    else if (fraccionesDeTiempoRedondeado > 48)
+                    ticket.EstadoDeTicket = EstadoDeTicket.Inactivo;
+                    var movimientoDeVehiculo = new MovimientoDeVehiculo
                     {
-                        ticket.PrecioTotalDecimal = fraccionesDeTiempoRedondeado *
-                                                    Math.Round(ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal / 2.1818m);
-                    }
+                        TipoDeMovimientoDeVehiculo = TipoDeMovimientoDeVehiculo.Salida,
+                        Fecha = DateTime.Now
+                    };
+                    _db.Entry(ticket).State = EntityState.Modified;
+                    ticket.MovimientosDeVehiculo.Add(movimientoDeVehiculo);
+                    _db.SaveChanges();
+                    return RedirectToAction("IngresarVehiculo");
+
                 }
+                case TipoDeTicket.Ocasional:
+                {
+                    //Logica Liberar Parcela
+                    var parcela = _db.Parcelas.Find(ticket.ParcelaId);
+                    parcela.Disponible = true;
+                    _db.Entry(parcela).State = EntityState.Modified;
 
-                _db.Entry(ticket).State = EntityState.Modified;
-                _db.SaveChanges();
-                TempData["ticket"] = ticket;
-                return RedirectToAction("ImprimirTicket");
+                    ticket.EstadoDeTicket = EstadoDeTicket.Inactivo;
+
+                    var movimientoDeVehiculo = new MovimientoDeVehiculo
+                    {
+                        Fecha = DateTime.Now,
+                        TipoDeMovimientoDeVehiculo = TipoDeMovimientoDeVehiculo.Salida,
+                        TicketId = ticketId
+                    };
+                    _db.MovimientosDeVehiculo.Add(movimientoDeVehiculo);
+
+                    var timeSpan = DateTime.Now.Subtract(ticket.MovimientosDeVehiculo.Where(mdv => mdv.TipoDeMovimientoDeVehiculo == TipoDeMovimientoDeVehiculo.Entrada).Select(mdv => mdv.Fecha).Single());
+                    ticket.TiempoTotal = (int)timeSpan.TotalSeconds;
+
+                    var fraccionesDeTiempo = timeSpan.TotalMinutes / 15;
+                    //Si está menos de 5 minutos, no se cobra
+                    if (fraccionesDeTiempo < 0.33)
+                    {
+                        ticket.PrecioTotalDecimal = 0;
+                    }
+                    else {
+                        var fraccionesDeTiempoRedondeado = Convert.ToInt32(Math.Ceiling(fraccionesDeTiempo));
+
+                        //Menor a 4hs se cobra la tarifa*fracciones.
+                        //Entre 4 y 6, cobrar estadía de 6hs.
+                        //Entre 6 y 8, cobrar estadía de 8hs.
+                        //Entre 8 y 10, cobrar estadía de 10hs.
+                        //Entre 10 y 12, cobrar estadía de 12hs.
+                        //Mayor a 12Hs se cobra la estadía de 12 hs + precio por hora de esa estadía de las horas excedentes.
+
+                        //<4hs
+                        if (fraccionesDeTiempoRedondeado < 16)
+                            ticket.PrecioTotalDecimal = fraccionesDeTiempoRedondeado *
+                                                        ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
+                        else if (fraccionesDeTiempoRedondeado >= 16 && fraccionesDeTiempoRedondeado < 24)
+                            ticket.PrecioTotalDecimal = 16 * ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
+                        //6hs>=x>8
+                        else if (fraccionesDeTiempoRedondeado >= 24 && fraccionesDeTiempoRedondeado < 32)
+                            ticket.PrecioTotalDecimal = 18 * ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
+                        //8hs>=x>10
+                        else if (fraccionesDeTiempoRedondeado >= 32 && fraccionesDeTiempoRedondeado < 40)
+                            ticket.PrecioTotalDecimal = 20 * ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
+                        //10hs>=x>12
+                        else if (fraccionesDeTiempoRedondeado >= 40 && fraccionesDeTiempoRedondeado < 48)
+                            ticket.PrecioTotalDecimal = 22 * ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
+                        //x>12
+                        else if (fraccionesDeTiempoRedondeado > 48)
+                        {
+                            ticket.PrecioTotalDecimal = fraccionesDeTiempoRedondeado *
+                                                        Math.Round(ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal / 2.1818m);
+                        }
+                    }
+                    if (ticket.PrecioTotalDecimal != 0)
+                    {
+                        var movimientoFinanciero = new MovimientoFinanciero
+                        {
+                            TipoDeMovimientoFinancieroId = (int)TipoDeMovimientoFinancieroenum.PagoOcasional,
+                            Ticket = ticket,
+                            Fecha = DateTime.Now
+                        };
+                        _db.MovimientosFinancieros.Add(movimientoFinanciero);
+                    }
+
+
+                    _db.Entry(ticket).State = EntityState.Modified;
+                    _db.SaveChanges();
+
+                    ViewBag.Tiempo =
+                        TimeSpan.FromSeconds(Convert.ToDouble(ticket.TiempoTotal))
+                            .ToString(ticket.TiempoTotal >= 86400 ? "d'd 'h'h 'm'm 's's'" : "h'h 'm'm 's's'");
+
+                    return View("ImprimirTicket", ticket);
+                }
+                default:
+                    ViewBag.errorMessage = "No existe el ticket ingresado.";
+                    return View("IngresarVehiculo");
             }
-            
-
         }
 
+        public ActionResult ConfirmarEgresoConGrua(int ticketId)
+        {
+            var ticket = _db.Tickets.Find(ticketId);
+
+            var parcela = ticket.Parcela;
+
+            parcela.Disponible = true;
+            ticket.EstadoDeTicket = EstadoDeTicket.Historico;
+
+            var movimientoDeVehiculo = new MovimientoDeVehiculo
+            {
+                Fecha = DateTime.Now,
+                TipoDeMovimientoDeVehiculo = TipoDeMovimientoDeVehiculo.Salida
+            };
+
+
+            _db.Entry(parcela).State = EntityState.Modified;
+            _db.Entry(ticket).State = EntityState.Modified;
+            ticket.MovimientosDeVehiculo.Add(movimientoDeVehiculo);
+            _db.SaveChanges();
+
+
+            return RedirectToAction("RetirarVehiculo");
+
+        }
 
 
         public ActionResult NoHayParcelas(int tipoDeVehiculoId)
@@ -230,37 +275,6 @@ namespace SisParkTD.Controllers
             if (tipodevehiculo.Nombre != null) ViewBag.TipoDeVehiculo = tipodevehiculo.Nombre;
             return View();
         }
-
-
-        public ActionResult ImprimirTicket()
-        {
-            var ticket = TempData["ticket"] as Ticket;
-            if (ticket == null)
-                return RedirectToAction("IngresarVehiculo");
-            if (Request.UrlReferrer == null)
-                return View(ticket);
-            var urlDeReferencia = Request.UrlReferrer.Segments.Skip(2).Take(1).SingleOrDefault();
-            if (urlDeReferencia != null && ticket.TipoDeTicket == TipoDeTicket.Ocasional &&
-                ticket.EstadoDeTicket == EstadoDeTicket.Activo &&
-                urlDeReferencia.Trim('/') == "IngresarVehiculo" || urlDeReferencia?.Trim('/') == "Create")
-            {
-                ViewBag.infoParcela = "Indicar al conductor que se dirija a la parcela: " + ticket.Parcela.NumeroParcela;
-            }
-            else
-            {
-                // Si el tiempo es mayor a 1 día, que muestre el día.
-                if (ticket.TiempoTotal != null && ticket.TiempoTotal.Value >= 86400)
-                    ViewBag.Tiempo = TimeSpan.FromSeconds(Convert.ToDouble(ticket.TiempoTotal)).ToString("d'd 'h'h 'm'm 's's'");
-                else
-                {
-                    ViewBag.Tiempo = TimeSpan.FromSeconds(Convert.ToDouble(ticket.TiempoTotal)).ToString("h'h 'm'm 's's'");
-                }
-
-
-            }
-            return View(ticket);
-        }
-
 
 
 
@@ -278,7 +292,7 @@ namespace SisParkTD.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Ticket ticket = _db.Tickets.Find(id);
+            var ticket = _db.Tickets.Find(id);
             if (ticket == null)
             {
                 return HttpNotFound();
@@ -293,7 +307,7 @@ namespace SisParkTD.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Ticket ticket = _db.Tickets.Find(id);
+            var ticket = _db.Tickets.Find(id);
             if (ticket == null)
             {
                 return HttpNotFound();
@@ -323,31 +337,6 @@ namespace SisParkTD.Controllers
             return View(ticket);
         }
 
-        // GET: Tickets/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Ticket ticket = _db.Tickets.Find(id);
-            if (ticket == null)
-            {
-                return HttpNotFound();
-            }
-            return View(ticket);
-        }
-
-        // POST: Tickets/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Ticket ticket = _db.Tickets.Find(id);
-            _db.Tickets.Remove(ticket);
-            _db.SaveChanges();
-            return RedirectToAction("Index");
-        }
 
         protected override void Dispose(bool disposing)
         {

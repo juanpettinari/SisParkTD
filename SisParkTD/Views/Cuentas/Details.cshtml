@@ -1,0 +1,34 @@
+﻿@model SisParkTD.Models.Cuenta
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Cuenta</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Cliente.RazonSocial)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cliente.RazonSocial)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SaldoDecimal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SaldoDecimal)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CuentaId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

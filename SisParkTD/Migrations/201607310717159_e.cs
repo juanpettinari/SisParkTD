@@ -14,10 +14,10 @@ namespace SisParkTD.Migrations
                 "dbo.MovimientoDeVehiculo",
                 c => new
                     {
-                        MovimientoDeVehiculoId = c.Int(nullable: false, identity: true),
-                        Fecha = c.DateTime(nullable: false),
-                        TipoDeMovimientoDeVehiculo = c.Int(nullable: false),
-                        TicketId = c.Int(nullable: false),
+                        MovimientoDeVehiculoId = c.Int(false, true),
+                        Fecha = c.DateTime(false),
+                        TipoDeMovimientoDeVehiculo = c.Int(false),
+                        TicketId = c.Int(false),
                     })
                 .PrimaryKey(t => t.MovimientoDeVehiculoId)
                 .ForeignKey("dbo.Ticket", t => t.TicketId)
@@ -27,9 +27,9 @@ namespace SisParkTD.Migrations
                 "dbo.MovimientoFinanciero",
                 c => new
                     {
-                        MovimientoFinancieroId = c.Int(nullable: false, identity: true),
-                        TicketId = c.Int(nullable: false),
-                        TipoDeMovimientoFinancieroId = c.Int(nullable: false),
+                        MovimientoFinancieroId = c.Int(false, true),
+                        TicketId = c.Int(false),
+                        TipoDeMovimientoFinancieroId = c.Int(false),
                     })
                 .PrimaryKey(t => t.MovimientoFinancieroId)
                 .ForeignKey("dbo.Ticket", t => t.TicketId)
@@ -41,16 +41,16 @@ namespace SisParkTD.Migrations
                 "dbo.TipoDeMovimientoFinanciero",
                 c => new
                     {
-                        TipoDeMovimientoFinancieroId = c.Int(nullable: false, identity: true),
+                        TipoDeMovimientoFinancieroId = c.Int(false, true),
                         Nombre = c.String(),
                         Descripcion = c.String(),
-                        Signo = c.Int(nullable: false),
+                        Signo = c.Int(false),
                     })
                 .PrimaryKey(t => t.TipoDeMovimientoFinancieroId);
             
-            AddColumn("dbo.Ticket", "MovimientoDeVehiculoId", c => c.Int(nullable: false));
-            AddColumn("dbo.Ticket", "TipoDeTicket", c => c.Int(nullable: false));
-            AddColumn("dbo.Ticket", "FechaYHoraCreacionTicket", c => c.DateTime(nullable: false));
+            AddColumn("dbo.Ticket", "MovimientoDeVehiculoId", c => c.Int(false));
+            AddColumn("dbo.Ticket", "TipoDeTicket", c => c.Int(false));
+            AddColumn("dbo.Ticket", "FechaYHoraCreacionTicket", c => c.DateTime(false));
             DropColumn("dbo.Ticket", "FechaYHoraDeEntrada");
             DropColumn("dbo.Ticket", "FechaYHoraDeSalida");
             DropTable("dbo.Movimiento");
@@ -63,10 +63,10 @@ namespace SisParkTD.Migrations
                 "dbo.TipoDeMovimiento",
                 c => new
                     {
-                        TipoDeMovimientoId = c.Int(nullable: false, identity: true),
+                        TipoDeMovimientoId = c.Int(false, true),
                         Nombre = c.String(),
                         Descripcion = c.String(),
-                        Signo = c.Int(nullable: false),
+                        Signo = c.Int(false),
                     })
                 .PrimaryKey(t => t.TipoDeMovimientoId);
             
@@ -74,14 +74,14 @@ namespace SisParkTD.Migrations
                 "dbo.Movimiento",
                 c => new
                     {
-                        MovimientoId = c.Int(nullable: false, identity: true),
-                        TicketId = c.Int(nullable: false),
-                        TipoDeMovimientoId = c.Int(nullable: false),
+                        MovimientoId = c.Int(false, true),
+                        TicketId = c.Int(false),
+                        TipoDeMovimientoId = c.Int(false),
                     })
                 .PrimaryKey(t => t.MovimientoId);
             
             AddColumn("dbo.Ticket", "FechaYHoraDeSalida", c => c.DateTime());
-            AddColumn("dbo.Ticket", "FechaYHoraDeEntrada", c => c.DateTime(nullable: false));
+            AddColumn("dbo.Ticket", "FechaYHoraDeEntrada", c => c.DateTime(false));
             DropForeignKey("dbo.MovimientoFinanciero", "TipoDeMovimientoFinancieroId", "dbo.TipoDeMovimientoFinanciero");
             DropForeignKey("dbo.MovimientoFinanciero", "TicketId", "dbo.Ticket");
             DropForeignKey("dbo.MovimientoDeVehiculo", "TicketId", "dbo.Ticket");

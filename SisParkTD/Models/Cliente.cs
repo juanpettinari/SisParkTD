@@ -8,18 +8,18 @@ namespace SisParkTD.Models
         [Key, ForeignKey("Vehiculo")]
         public int ClienteId { get; set; }
         [Required]
-        public string Nombre { get; set; }
+        public string RazonSocial { get; set; }
         [Required]
-        public string Apellido { get; set; }
+        public TipoDocumento? TipoDocumento { get; set; }
+        [StringLength(11, MinimumLength = 7, ErrorMessage = "Ingrese un {0} que tenga entre {2} y {1} numeros")]
         [Required]
-        public string Dni { get; set; }
+        public string NumeroDocumento { get; set; }
         [Required]
         public string Telefono { get; set; }
-        [DataType(DataType.Currency)]
-        public decimal SaldoDecimal { get; set; }
 
         [Required]
         public virtual Vehiculo Vehiculo { get; set; }
 
+        public virtual Cuenta Cuenta { get; set; }
     }
 }
