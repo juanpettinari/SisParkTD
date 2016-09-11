@@ -1,4 +1,30 @@
-﻿<li>@Html.ActionLink("Ingresar Vehiculo", "IngresarVehiculo", "Tickets")</li>
-<li>@Html.ActionLink("Retirar Vehiculo", "RetirarVehiculo", "Tickets")</li>
-<li>@Html.ActionLink("Abono", "IngresarAbono", "Abonos")</li>
-<li>@Html.ActionLink("Cuentas", "Index", "Cuentas")</li>
+﻿<div class="navbar-collapse collapse">
+    <ul class="nav navbar-nav">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+               aria-expanded="False">Vehiculos<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li>@Html.ActionLink("Ingresar Vehículo", "IngresarVehiculo", "Tickets")</li>
+                <li>@Html.ActionLink("Retirar Vehículo", "RetirarVehiculo", "Tickets")</li>
+                <li role="separator" class="divider"></li>
+                <li>@Html.ActionLink("Listado Vehículos", "Index", "Vehiculos")</li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+               aria-expanded="False">Abonos<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li>@Html.ActionLink("Nuevo Abono", "IngresarAbono", "Abonos")</li>
+                <li role="separator" class="divider"></li>
+                <li>@Html.ActionLink("Listado de Abonos", "Index", "Abonos")</li>
+                <li>@Html.ActionLink("Listado de Abonos Actuales", "VerAbonosActuales", "Abonos")</li>
+            </ul>
+        </li>
+        <li>@Html.ActionLink("Movimientos de Vehiculos", "Index", "MovimientosDeVehiculo")</li>
+        <li>@Html.ActionLink("Movimientos Financieros", "Index", "MovimientosFinancieros")</li>
+        <li>@Html.ActionLink("Cuentas", "Index", "Cuentas")</li>
+        <li>@Html.ActionLink("Tickets", "Index", "Tickets")</li>
+        <li>@Html.ActionLink("Parcelas", "Index", "Parcelas")</li>
+
+    </ul>
+</div>

@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="es-AR">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Sispark</title>
@@ -17,13 +17,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Sispark", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <a href="" class="navbar-brand"><i class="fa fa-car"></i> SisPark</a>
+                
+                
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    @Html.Partial("_MenuPartial")
-                </ul>
-            </div>
+            @Html.Partial("_MenuPartial")
+
         </div>
     </div>
     <div class="container body-content">

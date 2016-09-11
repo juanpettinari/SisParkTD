@@ -1,4 +1,5 @@
-﻿@model SisParkTD.Models.Ticket
+﻿@using SisParkTD.Models
+@model Ticket
 
 @{
     ViewBag.Title = "Details";
@@ -41,35 +42,29 @@
         <dd>
             @Html.DisplayFor(model => model.EstadoDeTicket)
         </dd>
+        @if (Model.TipoDeTicket == TipoDeTicket.Ocasional)
+        {
+            foreach (var movimiento in Model.MovimientosDeVehiculo)
+            {
+                <dt>
+                    @Html.DisplayNameFor(modelItem => movimiento.Fecha)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(modelItem => movimiento.Fecha)
+                </dd>
+            }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.FechaYHoraDeEntrada)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.TiempoTotal)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.FechaYHoraDeEntrada)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FechaYHoraDeSalida)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FechaYHoraDeSalida)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TiempoTotal)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TiempoTotal)
-        </dd>
-
+            <dd>
+                @Html.DisplayFor(model => model.TiempoTotal)
+            </dd>
+        }
         <dt>
             @Html.DisplayNameFor(model => model.PrecioTotalDecimal)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.PrecioTotalDecimal)
         </dd>
@@ -77,6 +72,5 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.TicketId }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Volver", "Index")
 </p>

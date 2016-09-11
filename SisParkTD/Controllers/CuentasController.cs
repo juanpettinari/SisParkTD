@@ -62,7 +62,7 @@ namespace SisParkTD.Controllers
                     else
                     {
                         ticket.Parcela.Disponible = true;
-                        
+                        ticket.Abono.Activo = false;
                         ticket.EstadoDeTicket = EstadoDeTicket.Historico;
                         _db.Entry(ticket).State = EntityState.Modified;
                     }
@@ -94,8 +94,6 @@ namespace SisParkTD.Controllers
                     if (ticketNuevo.PrecioTotalDecimal != null)
                         ticketNuevo.Vehiculo.Cliente.Cuenta.SaldoDecimal =
                             ticketNuevo.Vehiculo.Cliente.Cuenta.SaldoDecimal - (decimal)ticketNuevo.PrecioTotalDecimal;
-
-                    _db.Entry(ticketNuevo).State = EntityState.Modified;
 
                     
                     var movimientoFinanciero = new MovimientoFinanciero

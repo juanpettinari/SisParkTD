@@ -5,7 +5,7 @@
 
 @{
     ViewBag.Title = "Movimientos De Vehiculo";
-    var pagedList = (IPagedList) Model;
+    var pagedList = (IPagedList)Model;
 }
 
 <h2>Movimientos De Vehiculo</h2>
@@ -25,22 +25,22 @@
 
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Ticket.Vehiculo.Patente)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TipoDeMovimientoDeVehiculo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Fecha)
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ticket.Vehiculo.Patente)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoDeMovimientoDeVehiculo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fecha)
+            </td>
+        </tr>
+    }
 
 </table>
-<br/>
 Página @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) de @pagedList.PageCount
 
-@Html.PagedListPager(pagedList, page => Url.Action("Index", new {page}))
+@Html.PagedListPager(pagedList, page => Url.Action("Index", new { page }))

@@ -51,6 +51,10 @@ namespace SisParkTD.Controllers
         public ActionResult ConfirmarAbono(string patente)
         {
             // Verificar que haya parcelas
+            if (patente == null)
+            {
+                return RedirectToAction("IngresarAbono");
+            }
             var vehiculo = _db.Vehiculos.FirstOrDefault(v => v.Patente == patente);
             if (
                 _db.Parcelas.FirstOrDefault(
@@ -60,8 +64,7 @@ namespace SisParkTD.Controllers
                 if (vehiculo != null)
                     return RedirectToAction("NoHayParcelas", "Tickets", new { vehiculo.TipoDeVehiculoId });
             }
-
-            if (patente == null) return View();
+            
             ViewBag.patente = patente;
             if (vehiculo?.Cliente == null) return View();
             var abonoViewModel = new AbonoViewModel
@@ -97,6 +100,7 @@ namespace SisParkTD.Controllers
                 // Crear Abono
                 var abono = new Abono
                 {
+                    Activo = true,
                     FechaInicio = DateTime.Now,
                     FechaFin = fechafin
                 };
@@ -193,6 +197,22 @@ namespace SisParkTD.Controllers
             return View(await _db.Abonos.ToListAsync());
         }
 
+        public ActionResult VerAbonosActuales()
+        {
+
+            var abonosActuales = _db.Abonos.Where(aa => aa.FechaFin > DateTime.Now);
+            return View(abonosActuales);
+        }
+
+        public async Task<ActionResult> VerAbonosHistoricos()
+        {
+
+            return View(await _db.Abonos.ToListAsync());
+        }
+
+
+
+
         // GET: Abonos/Details/5
         public async Task<ActionResult> Details(int? id)
         {
@@ -208,28 +228,6 @@ namespace SisParkTD.Controllers
             return View(abono);
         }
 
-        // GET: Abonos/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Abonos/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "AbonoId,FechaMesInicio,FechaMesFin")] Abono abono)
-        {
-            if (ModelState.IsValid)
-            {
-                _db.Abonos.Add(abono);
-                await _db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-
-            return View(abono);
-        }
 
         // GET: Abonos/Edit/5
         public async Task<ActionResult> Edit(int? id)

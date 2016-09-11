@@ -21,12 +21,10 @@ D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\Microsoft.Web.Infrastructure.dl
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\Newtonsoft.Json.dll
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\System.Web.Helpers.dll
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\System.Web.Mvc.dll
-D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\System.Web.Optimization.dll
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\System.Web.Razor.dll
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\System.Web.WebPages.Deployment.dll
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\System.Web.WebPages.dll
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\System.Web.WebPages.Razor.dll
-D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\WebGrease.dll
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\EntityFramework.xml
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\EntityFramework.SqlServer.xml
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
@@ -72,3 +70,7 @@ D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\PagedList.dll
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\PagedList.Mvc.dll
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\PagedList.xml
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\PagedList.Mvc.xml
+D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.s.resources
+D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\System.Web.Optimization.dll
+D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\WebGrease.dll
+D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.T.resources

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace SisParkTD.Models
@@ -14,7 +15,7 @@ namespace SisParkTD.Models
         
         [Required]
         public int TipoDeVehiculoId { get; set; }
-        
+        [DisplayName("Descripción de Vehículo")]
         public string DescripcionDeVehiculo { get; set; }
 
         public virtual Cliente Cliente { get; set; }

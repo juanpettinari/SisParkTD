@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using SisParkTD.DAL;
-using SisParkTD.Models;
 using PagedList;
 
 
@@ -22,9 +15,9 @@ namespace SisParkTD.Controllers
         public ActionResult Index(int? page)
         {
             var movimientosDeVehiculo = _db.MovimientosDeVehiculo.Include(m => m.Ticket).OrderByDescending(m => m.Fecha);
-            const int pageSize = 10;
+            const int pageSize = 9;
             var pageNumber = page ?? 1;
-            return View(movimientosDeVehiculo.ToPagedList(pageNumber,pageSize));
+            return View(movimientosDeVehiculo.ToPagedList(pageNumber, pageSize));
         }
 
         protected override void Dispose(bool disposing)

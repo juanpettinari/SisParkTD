@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using PagedList;
 using SisParkTD.DAL;
 using SisParkTD.Models;
 
@@ -13,10 +14,12 @@ namespace SisParkTD.Controllers
 
 
         // GET: Vehiculos
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            var vehiculos = _db.Vehiculos.Include(v => v.TipoDeVehiculo);
-            return View(vehiculos.ToList());
+            var vehiculos = _db.Vehiculos.Include(v => v.TipoDeVehiculo).OrderByDescending(m => m.Patente);
+            const int pageSize = 10;
+            var pageNumber = page ?? 1;
+            return View(vehiculos.ToPagedList(pageNumber, pageSize));
             
         }
 

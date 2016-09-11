@@ -10,7 +10,7 @@ namespace SisParkTD.Models
         public int MovimientoDeVehiculoId { get; set; }
 
         public DateTime Fecha { get; set; }
-        [DisplayName("Tipo")]
+        [DisplayName("Tipo de Movimiento")]
         public TipoDeMovimientoDeVehiculo TipoDeMovimientoDeVehiculo { get; set; }
 
         public int TicketId { get; set; }

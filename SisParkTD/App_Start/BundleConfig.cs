@@ -25,7 +25,8 @@ namespace SisParkTD
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/PagedList.css",
-                      "~/Content/site.css"
+                      "~/Content/site.css",
+                      "~/Content/font-awesome.css"
                       ));
         }
     }

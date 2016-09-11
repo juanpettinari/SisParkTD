@@ -1,15 +1,18 @@
 ﻿@model IEnumerable<SisParkTD.Models.Vehiculo>
+@using PagedList
+@using PagedList.Mvc
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Vehículos";
+    var pagedList = (IPagedList)Model;
 }
 
-<h2>Index</h2>
+<h2>Vehículos</h2>
 
 <p>
     @Html.ActionLink("Nuevo", "Create")
 </p>
-<table class="table">
+<table class="table table-responsive table-hover">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.TipoDeVehiculo.Nombre)
@@ -41,10 +44,12 @@
             @Html.DisplayFor(modelItem => item.DescripcionDeVehiculo)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.VehiculoId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.VehiculoId })
+            @Html.ActionLink("Editar", "Edit", new {id = item.VehiculoId})
         </td>
     </tr>
 }
 
 </table>
+Página @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) de @pagedList.PageCount
+
+@Html.PagedListPager(pagedList, page => Url.Action("Index", new { page }))

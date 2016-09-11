@@ -6,10 +6,10 @@
 
 <h2>Tickets</h2>
 
-<table class="table">
+<table class="table table-hover table-responsive">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Abono.AbonoId)
+            @Html.DisplayNameFor(model => model.TipoDeTicket)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Parcela.ParcelaId)
@@ -23,12 +23,6 @@
         <th>
             @Html.DisplayNameFor(model => model.Pagado)
         </th>
-        @*<th>
-            @Html.DisplayNameFor(model => model.FechaYHoraDeEntrada)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FechaYHoraDeSalida)
-        </th>*@
         <th>
             @Html.DisplayNameFor(model => model.TiempoTotal)
         </th>
@@ -41,7 +35,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Abono.AbonoId)
+            @Html.DisplayFor(modelItem => item.TipoDeTicket)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Parcela.ParcelaId)
@@ -55,12 +49,6 @@
         <td>
             @Html.DisplayFor(modelItem => item.Pagado)
         </td>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.FechaYHoraDeEntrada)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FechaYHoraDeSalida)
-        </td>*@
         <td>
             @Html.DisplayFor(modelItem => item.TiempoTotal)
         </td>
@@ -68,9 +56,7 @@
             @Html.DisplayFor(modelItem => item.PrecioTotalDecimal)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.TicketId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.TicketId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.TicketId })
+            @Html.ActionLink("Details", "Details", new {id = item.TicketId})
         </td>
     </tr>
 }

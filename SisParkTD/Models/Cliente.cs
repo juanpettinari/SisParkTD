@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SisParkTD.Models
@@ -7,6 +8,7 @@ namespace SisParkTD.Models
     {
         [Key, ForeignKey("Vehiculo")]
         public int ClienteId { get; set; }
+        [DisplayName("Razón Social")]
         [Required]
         public string RazonSocial { get; set; }
         [Required]
