@@ -49,7 +49,7 @@
             @Html.DisplayFor(model => model.Vehiculo.TipoDeVehiculo.Nombre)
         </dd>
 
-        @foreach (var item in Model.MovimientosDeVehiculo)
+        @foreach (var item in Model.MovimientosDeVehiculo.Reverse())
         {
             if (item.TipoDeMovimientoDeVehiculo.Equals(TipoDeMovimientoDeVehiculo.Entrada))
             {

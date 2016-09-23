@@ -224,6 +224,8 @@ namespace SisParkTD.Controllers
                                                             Math.Round(ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal / 2.1818m);
                             }
                         }
+						// TODO MODIFICAR LO DE ABAJO PARA QUE QUEDE ADENTRO DEL OTRO BLOQUE DE CODIGO,
+						// Y NO TENER QUE HACER ESTE IF DE ABAJO
                         if (ticket.PrecioTotalDecimal != 0)
                         {
                             var movimientoFinanciero = new MovimientoFinanciero

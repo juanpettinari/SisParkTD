@@ -25,7 +25,14 @@ namespace SisParkTD.DAL
         public DbSet<Parcela> Parcelas { get; set; }
         public DbSet<TipoDeVehiculo> TiposDeVehiculo { get; set; }
         public DbSet<Vehiculo> Vehiculos { get; set; }
-        
+
+        public DbSet<Accion> Acciones { get; set; }
+        public DbSet<Pagina> Paginas { get; set; }
+        public DbSet<Permiso> Permisos { get; set; }
+        public DbSet<Rol> Roles { get; set; }
+        public DbSet<RolUsuario> RolesUsuarios { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
+
 
 
 

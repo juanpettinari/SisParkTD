@@ -125,8 +125,8 @@
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
@@ -233,17 +233,27 @@
     <Compile Include="Migrations\201609021834560_T.Designer.cs">
       <DependentUpon>201609021834560_T.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609230913136_U.cs" />
+    <Compile Include="Migrations\201609230913136_U.Designer.cs">
+      <DependentUpon>201609230913136_U.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Abono.cs" />
+    <Compile Include="Models\Accion.cs" />
     <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\Cuenta.cs" />
     <Compile Include="Models\MovimientoFinanciero.cs" />
     <Compile Include="Models\MovimientoDeVehiculo.cs" />
+    <Compile Include="Models\Pagina.cs" />
     <Compile Include="Models\Parcela.cs" />
     <Compile Include="Models\Enums.cs" />
+    <Compile Include="Models\Permiso.cs" />
+    <Compile Include="Models\Rol.cs" />
     <Compile Include="Models\Ticket.cs" />
     <Compile Include="Models\TipoDeMovimientoFinanciero.cs" />
     <Compile Include="Models\TipoDeVehiculo.cs" />
+    <Compile Include="Models\Usuario.cs" />
+    <Compile Include="Models\RolUsuario.cs" />
     <Compile Include="Models\Vehiculo.cs" />
     <Compile Include="Models\ViewModels\AbonoViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -556,6 +566,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609021834560_T.resx">
       <DependentUpon>201609021834560_T.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609230913136_U.resx">
+      <DependentUpon>201609230913136_U.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

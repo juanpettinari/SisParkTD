@@ -15,7 +15,10 @@ namespace SisParkTD
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            
+
+            ViewEngines.Engines.Clear();
+            IViewEngine razorEngine = new RazorViewEngine() { FileExtensions = new string[] { "cshtml" } };
+            ViewEngines.Engines.Add(razorEngine);
         }
 
         protected void Application_BeginRequest()

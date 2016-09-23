@@ -74,3 +74,4 @@ D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.s.re
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\System.Web.Optimization.dll
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\WebGrease.dll
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.T.resources
+D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.U.resources
