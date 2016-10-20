@@ -1,10 +1,42 @@
 ﻿@model IEnumerable<SisParkTD.Models.Ticket>
+@using PagedList
+@using PagedList.Mvc
 
 @{
     ViewBag.Title = "Tickets";
+    var pagedList = (IPagedList)Model;
 }
 
 <h2>Tickets</h2>
+
+@using (Html.BeginForm("Index", "Tickets", FormMethod.Get))
+{
+    <table class="table table-bordered">
+        <tr>
+            <th>Tipo de Ticket</th>
+            <th>Patente</th>
+            <th>Estado de Ticket</th>
+            <th>Pagado</th>
+        </tr>
+        <tr>
+            <td>
+                @Html.DropDownList("ddTipoDeTicket", null, "", new { @onchange = "this.form.submit();" })
+            </td>
+            <td>
+                @Html.DropDownList("ddPatente", null, "", new { @onchange = "this.form.submit();" })
+            </td>
+            <td>
+                @Html.DropDownList("ddEstadoDeTicket", null, "", new { @onchange = "this.form.submit();" })
+            </td>
+            <td>
+                @Html.DropDownList("ddPagado", null, "", new { @onchange = "this.form.submit();" })
+            </td>
+            <td>
+                <input type="submit" value="Filtrar" class="btn btn-default" />
+            </td>
+        </tr>
+    </table>
+}
 
 <table class="table table-hover table-responsive">
     <tr>
@@ -32,33 +64,38 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.TipoDeTicket)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Parcela.ParcelaId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Vehiculo.Patente)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EstadoDeTicket)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Pagado)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TiempoTotal)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PrecioTotalDecimal)
-        </td>
-        <td>
-            @Html.ActionLink("Details", "Details", new {id = item.TicketId})
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoDeTicket)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Parcela.ParcelaId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Vehiculo.Patente)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstadoDeTicket)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pagado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TiempoTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrecioTotalDecimal)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.TicketId })
+            </td>
+        </tr>
+    }
 
 </table>
+
+Página @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) de @pagedList.PageCount
+
+@Html.PagedListPager(pagedList, page => Url.Action("Index", new { page, ddTipoDeTicket = ViewBag.TipoDeTicket, ddPatente = ViewBag.Patente, ddEstadoDeTicket = ViewBag.EstadoDeTicket, ddPagado = ViewBag.Pagado }))

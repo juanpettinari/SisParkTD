@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using PagedList;
 using SisParkTD.DAL;
 using SisParkTD.Models;
+using static System.String;
 
 namespace SisParkTD.Controllers
 {
@@ -23,7 +26,7 @@ namespace SisParkTD.Controllers
         [HttpPost]
         public ActionResult IngresarVehiculo_Post(string patente)
         {
-            if (patente == string.Empty)
+            if (patente == Empty)
             {
                 ViewBag.errorMessage = "Escriba una patente";
                 return View();
@@ -161,7 +164,6 @@ namespace SisParkTD.Controllers
                         ticket.MovimientosDeVehiculo.Add(movimientoDeVehiculo);
                         _db.SaveChanges();
                         return RedirectToAction("IngresarVehiculo");
-
                     }
                 case TipoDeTicket.Ocasional:
                     {
@@ -203,6 +205,8 @@ namespace SisParkTD.Controllers
                             //Mayor a 12Hs se cobra la estadía de 12 hs + precio por hora de esa estadía de las horas excedentes.
 
                             //<4hs
+
+                            //Template method
                             if (fraccionesDeTiempoRedondeado < 16)
                                 ticket.PrecioTotalDecimal = fraccionesDeTiempoRedondeado *
                                                             ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
@@ -289,10 +293,68 @@ namespace SisParkTD.Controllers
 
 
         // GET: Tickets
-        public ActionResult Index()
+        public ActionResult Index(int? page, string ddTipoDeTicket, string ddPatente, string ddEstadoDeTicket, string ddPagado)
         {
-            var tickets = _db.Tickets.Include(t => t.Abono).Include(t => t.Parcela).Include(t => t.Vehiculo);
-            return View(tickets.ToList());
+            ViewBag.TipoDeTicket = ddTipoDeTicket;
+            ViewBag.Patente = ddPatente;
+            ViewBag.EstadoDeTicket = ddEstadoDeTicket;
+            ViewBag.Pagado = ddPagado;
+
+            var listaTipoDeTicket = new List<string>();
+            var consultaTipodeTicket = from m in _db.Tickets
+                                       orderby m.TipoDeTicket
+                                       select m.TipoDeTicket.ToString();
+            listaTipoDeTicket.AddRange(consultaTipodeTicket.Distinct());
+            ViewBag.ddTipoDeTicket = new SelectList(listaTipoDeTicket);
+
+            var listaPatente = new List<string>();
+            var consultaPatente = from m in _db.Tickets
+                                       orderby m.Vehiculo.Patente
+                                       select m.Vehiculo.Patente;
+            listaPatente.AddRange(consultaPatente.Distinct());
+            ViewBag.ddPatente = new SelectList(listaPatente);
+
+            var listaEstadoDeTicket = new List<string>();
+            var consultaEstadoDeTicket = from m in _db.Tickets
+                                       orderby m.EstadoDeTicket
+                                       select m.EstadoDeTicket.ToString();
+            listaEstadoDeTicket.AddRange(consultaEstadoDeTicket.Distinct());
+            ViewBag.ddEstadoDeTicket = new SelectList(listaEstadoDeTicket);
+
+            var listaPagado = new List<string>();
+            var consultaPagado = from m in _db.Tickets
+                                       orderby m.Pagado
+                                       select m.Pagado.ToString();
+            listaPagado.AddRange(consultaPagado.Distinct());
+            ViewBag.ddPagado = new SelectList(listaPagado);
+
+            var tickets = from t in _db.Tickets select t;
+
+            if (!IsNullOrEmpty(ddTipoDeTicket))
+            {
+                tickets = tickets.Where(m => m.TipoDeTicket.ToString() == ddTipoDeTicket);
+            }
+
+            if (!IsNullOrEmpty(ddPatente))
+            {
+                tickets = tickets.Where(m => m.Vehiculo.Patente == ddPatente);
+            }
+
+            if (!IsNullOrEmpty(ddEstadoDeTicket))
+            {
+                tickets = tickets.Where(m => m.EstadoDeTicket.ToString() == ddEstadoDeTicket);
+            }
+
+            if (!IsNullOrEmpty(ddPagado))
+            {
+                tickets = tickets.Where(m => m.Pagado.ToString() == ddPagado);
+            }
+
+            const int pageSize = 9;
+            var pageNumber = page ?? 1;
+            tickets = tickets.OrderBy(t => t.FechaYHoraCreacionTicket);
+            
+            return View(tickets.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Tickets/Details/5

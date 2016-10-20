@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace SisParkTD.Models
@@ -7,6 +8,7 @@ namespace SisParkTD.Models
     {
         [Key]
         public int PaginaId { get; set; }
+        [DisplayName("Página")]
         [Required]
         public string Descripcion { get; set; }
 

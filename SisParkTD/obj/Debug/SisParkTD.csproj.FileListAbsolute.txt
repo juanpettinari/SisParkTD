@@ -44,7 +44,6 @@ D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\es\System.Web.Razor.resources.d
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\es\System.Web.WebPages.resources.dll
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\es\System.Web.WebPages.Deployment.resources.dll
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\es\System.Web.WebPages.Razor.resources.dll
-D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.csprojResolveAssemblyReference.cache
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.a.resources
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.b.resources
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.c.resources
@@ -75,3 +74,6 @@ D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\System.Web.Optimization.dll
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\bin\WebGrease.dll
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.T.resources
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.U.resources
+D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.V.resources
+D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.csprojResolveAssemblyReference.cache
+D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.W.resources

@@ -139,15 +139,23 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Common\PasswordHash.cs" />
     <Compile Include="Controllers\AbonosController.cs" />
+    <Compile Include="Controllers\AccionesController.cs" />
+    <Compile Include="Controllers\AuditoriasLogInController.cs" />
     <Compile Include="Controllers\CuentasController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MovimientosFinancierosController.cs" />
     <Compile Include="Controllers\MovimientosDeVehiculoController.cs" />
+    <Compile Include="Controllers\PaginasController.cs" />
     <Compile Include="Controllers\ParcelasController.cs" />
+    <Compile Include="Controllers\PermisosController.cs" />
+    <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\RolesUsuariosController.cs" />
     <Compile Include="Controllers\TicketsController.cs" />
     <Compile Include="Controllers\TiposDeMovimientoFinancieroController.cs" />
     <Compile Include="Controllers\TiposDeVehiculoController.cs" />
+    <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Controllers\VehiculosController.cs" />
     <Compile Include="DAL\SPContext.cs" />
     <Compile Include="Global.asax.cs">
@@ -237,9 +245,18 @@
     <Compile Include="Migrations\201609230913136_U.Designer.cs">
       <DependentUpon>201609230913136_U.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610141540117_V.cs" />
+    <Compile Include="Migrations\201610141540117_V.Designer.cs">
+      <DependentUpon>201610141540117_V.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610141729484_W.cs" />
+    <Compile Include="Migrations\201610141729484_W.Designer.cs">
+      <DependentUpon>201610141729484_W.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Abono.cs" />
     <Compile Include="Models\Accion.cs" />
+    <Compile Include="Models\AuditoriaLogIn.cs" />
     <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\Cuenta.cs" />
     <Compile Include="Models\MovimientoFinanciero.cs" />
@@ -256,6 +273,9 @@
     <Compile Include="Models\RolUsuario.cs" />
     <Compile Include="Models\Vehiculo.cs" />
     <Compile Include="Models\ViewModels\AbonoViewModel.cs" />
+    <Compile Include="Models\ViewModels\CuentaUsuarioViewModel.cs" />
+    <Compile Include="Models\ViewModels\PermisosViewModel.cs" />
+    <Compile Include="Models\ViewModels\RolUsuarioViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -468,7 +488,6 @@
     <Content Include="Views\Tickets\NoHayParcelas.cshtml" />
     <Content Include="Views\Tickets\RetirarVehiculo.cshtml" />
     <Content Include="Views\Shared\_MenuPartial.cshtml" />
-    <Content Include="Views\Tickets\Edit.cshtml" />
     <Content Include="Views\Abonos\Delete.cshtml" />
     <Content Include="Views\Abonos\Details.cshtml" />
     <Content Include="Views\Abonos\Edit.cshtml" />
@@ -496,6 +515,27 @@
     <Content Include="Views\TiposDeVehiculo\Index.cshtml" />
     <Content Include="Views\Abonos\VerAbonosActuales.cshtml" />
     <Content Include="Views\MovimientosFinancieros\Index.cshtml" />
+    <Content Include="Views\Paginas\Create.cshtml" />
+    <Content Include="Views\Paginas\Delete.cshtml" />
+    <Content Include="Views\Paginas\Edit.cshtml" />
+    <Content Include="Views\Paginas\Index.cshtml" />
+    <Content Include="Views\Roles\Create.cshtml" />
+    <Content Include="Views\Roles\Delete.cshtml" />
+    <Content Include="Views\Roles\Edit.cshtml" />
+    <Content Include="Views\Roles\Index.cshtml" />
+    <Content Include="Views\Acciones\Create.cshtml" />
+    <Content Include="Views\Acciones\Delete.cshtml" />
+    <Content Include="Views\Acciones\Edit.cshtml" />
+    <Content Include="Views\Acciones\Index.cshtml" />
+    <Content Include="Views\Usuarios\Registration.cshtml" />
+    <Content Include="Views\Usuarios\Delete.cshtml" />
+    <Content Include="Views\Usuarios\Details.cshtml" />
+    <Content Include="Views\Usuarios\Edit.cshtml" />
+    <Content Include="Views\Usuarios\Index.cshtml" />
+    <Content Include="Views\Permisos\Index.cshtml" />
+    <Content Include="Views\AuditoriasLogIn\Index.cshtml" />
+    <Content Include="Views\Usuarios\LogIn.cshtml" />
+    <Content Include="Views\RolesUsuarios\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -569,6 +609,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609230913136_U.resx">
       <DependentUpon>201609230913136_U.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610141540117_V.resx">
+      <DependentUpon>201610141540117_V.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610141729484_W.resx">
+      <DependentUpon>201610141729484_W.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -33,6 +33,8 @@ namespace SisParkTD.DAL
         public DbSet<RolUsuario> RolesUsuarios { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
 
+        public DbSet<AuditoriaLogIn> AuditoriasLogIn { get; set; }
+
 
 
 

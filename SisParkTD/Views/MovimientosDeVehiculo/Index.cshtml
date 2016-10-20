@@ -10,7 +10,34 @@
 
 <h2>Movimientos De Vehiculo</h2>
 
-
+@using (Html.BeginForm("Index", "MovimientosDeVehiculo", FormMethod.Get))
+{
+    <table class="table table-bordered">
+        <tr>
+            <th>Patente</th>
+            <th>Tipo Movimiento</th>
+            <th>Fecha Desde</th>
+            <th>Fecha Hasta</th>
+        </tr>
+        <tr>
+            <td>
+                @Html.DropDownList("ddPatente", null, "", new { @onchange = "this.form.submit();" })
+            </td>
+            <td>
+                @Html.DropDownList("ddTipoMovimiento", null, "", new { @onchange = "this.form.submit();" })
+            </td>
+            <td>
+                <input type="date" name="fechaDesde" />
+            </td>
+            <td>
+                <input type="date" name="fechaHasta" />
+            </td>
+            <td>
+                <input type="submit" value="Filtrar" class="btn btn-default" />
+            </td>
+        </tr>
+    </table>
+}
 <table class="table">
     <tr>
         <th>
@@ -43,4 +70,4 @@
 </table>
 Página @(pagedList.PageCount < pagedList.PageNumber ? 0 : pagedList.PageNumber) de @pagedList.PageCount
 
-@Html.PagedListPager(pagedList, page => Url.Action("Index", new { page }))
+@Html.PagedListPager(pagedList, page => Url.Action("Index", new { page , ddPatente = ViewBag.Patente, ddTipoMovimiento = ViewBag.TipoMovimiento, ddFechaDesde = ViewBag.fechaDesde,ddFechaHasta = ViewBag.FechaHasta}))
