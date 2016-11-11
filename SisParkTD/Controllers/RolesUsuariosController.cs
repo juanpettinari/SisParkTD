@@ -28,54 +28,56 @@ namespace SisParkTD.Controllers
             */
 
         // GET: RolesUsuarios
-        public ActionResult Index(string ddUsuario, string ddRol)
+        public ActionResult MostrarRolesParaUsuario(int usuarioId)
         {
+            var usuario = _db.Usuarios.Find(usuarioId);
+            ViewBag.usuario = usuario.NombreDeUsuario;
             var listaRolUsuarioVM = new List<RolUsuarioViewModel>();
             foreach (var rol in _db.Roles)
             {
-                foreach (var usuario in _db.Usuarios)
+                var rolUsuario = new RolUsuarioViewModel
                 {
-                    var usuarioRol = new RolUsuarioViewModel
-                    {
-                        Usuario = usuario,
-                        Rol = rol,
-                        EstaEnElRol = _db.RolesUsuarios.Find(rol.RolId, usuario.UsuarioId) != null
-                    };
+                    Usuario = usuario,
+                    Rol = rol,
+                    EstaEnElRol = _db.RolesUsuarios.Find(rol.RolId, usuario.UsuarioId) != null
+                };
+                listaRolUsuarioVM.Add(rolUsuario);
+            }
 
-                    listaRolUsuarioVM.Add(usuarioRol);
+
+            return View(listaRolUsuarioVM);
+        }
+
+        [HttpPost]
+        public ActionResult MostrarRolesParaUsuario(List<RolUsuarioViewModel> listaRolUsuarioViewModel)
+        {
+            foreach (var rolUsuarioNuevo in listaRolUsuarioViewModel)
+            {
+                var rolUsuarioViejo = _db.RolesUsuarios.Find(rolUsuarioNuevo.Rol.RolId, rolUsuarioNuevo.Usuario.UsuarioId);
+                if (rolUsuarioViejo == null) // ANTES NO EXISTÍA EL PAR ROL USUARIO
+                {
+                    if (rolUsuarioNuevo.EstaEnElRol)
+                    {
+                        var rolUsuario = new RolUsuario
+                        {
+                            RolId = rolUsuarioNuevo.Rol.RolId,
+                            UsuarioId = rolUsuarioNuevo.Usuario.UsuarioId
+                        };
+                        _db.RolesUsuarios.Add(rolUsuario);
+                        
+                    }
+                }
+                else
+                {
+                    if (!rolUsuarioNuevo.EstaEnElRol)
+                    {
+                        _db.RolesUsuarios.Remove(rolUsuarioViejo);
+                    }
                 }
             }
-
-            var listaUsuario = new List<string>();
-
-            var consultaUsuario = from m in _db.Usuarios
-                                  orderby m.NombreDeUsuario
-                                  select m.NombreDeUsuario;
-            listaUsuario.AddRange(consultaUsuario.Distinct());
-            ViewBag.ddUsuario = new SelectList(listaUsuario);
-
-            var listaRol = new List<string>();
-
-            var consultaRol = from m in _db.Roles
-                              orderby m.Descripcion
-                              select m.Descripcion;
-            listaRol.AddRange(consultaRol.Distinct());
-            ViewBag.ddRol = new SelectList(listaRol);
-
-            var usuariosRoles = from ur in listaRolUsuarioVM
-                                select ur;
-
-            if (!IsNullOrEmpty(ddUsuario))
-            {
-                usuariosRoles = usuariosRoles.Where(ur => ur.Usuario.NombreDeUsuario == ddUsuario);
-            }
-
-            if (!IsNullOrEmpty(ddRol))
-            {
-                usuariosRoles = usuariosRoles.Where(ur => ur.Rol.Descripcion == ddRol);
-            }
-            usuariosRoles = usuariosRoles.OrderByDescending(ur => ur.EstaEnElRol);
-            return View(usuariosRoles);
+            _db.SaveChanges();
+            var usuarioId = listaRolUsuarioViewModel.FirstOrDefault()?.Usuario.UsuarioId;
+            return RedirectToAction("MostrarRolesParaUsuario", new {usuarioId } );
         }
 
 
@@ -110,7 +112,7 @@ namespace SisParkTD.Controllers
             var rolUsuario = _db.RolesUsuarios.Find(id);
             _db.RolesUsuarios.Remove(rolUsuario);
             _db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("MostrarRolesParaUsuario");
         }
 
         protected override void Dispose(bool disposing)

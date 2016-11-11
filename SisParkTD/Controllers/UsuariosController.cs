@@ -98,6 +98,8 @@ namespace SisParkTD.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Registration([Bind(Include = "UsuarioId,Nombre,Apellido,Telefono,Email,Dni,NombreDeUsuario,Contrasenia")] Usuario usuario)
         {
+
+            //TODO username IS UNIQUE
             if (ModelState.IsValid)
             {
                 if (usuario.Contrasenia != null)

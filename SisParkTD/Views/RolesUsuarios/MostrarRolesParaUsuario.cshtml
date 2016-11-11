@@ -1,0 +1,32 @@
+﻿@model List<SisParkTD.Models.ViewModels.RolUsuarioViewModel>
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Roles para el usuario:</h2>
+
+<h3>@ViewBag.usuario</h3>
+
+@using (Html.BeginForm())
+{
+    for (var i = 0; i < Model.Count; i++)
+    {
+        @Html.HiddenFor(modelItem => Model[i].Rol.RolId)
+        @Html.HiddenFor(modelItem => Model[i].Usuario.UsuarioId)
+        @Html.DisplayFor(modelItem => Model[i].Rol.Descripcion)
+        @Html.EditorFor(modelItem => Model[i].EstaEnElRol)
+        <br />
+
+    }
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Guardar" class="btn btn-default" />
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Volver", "Index","Usuarios")
+</div>

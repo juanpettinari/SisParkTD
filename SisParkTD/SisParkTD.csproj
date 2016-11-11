@@ -535,7 +535,7 @@
     <Content Include="Views\Permisos\Index.cshtml" />
     <Content Include="Views\AuditoriasLogIn\Index.cshtml" />
     <Content Include="Views\Usuarios\LogIn.cshtml" />
-    <Content Include="Views\RolesUsuarios\Index.cshtml" />
+    <Content Include="Views\RolesUsuarios\MostrarRolesParaUsuario.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
