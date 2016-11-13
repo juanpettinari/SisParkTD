@@ -161,6 +161,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Managers\WebParameters.cs" />
     <Compile Include="Migrations\201607290737047_a.cs" />
     <Compile Include="Migrations\201607290737047_a.Designer.cs">
       <DependentUpon>201607290737047_a.cs</DependentUpon>
