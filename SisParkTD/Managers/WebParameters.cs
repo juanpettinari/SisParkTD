@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
+
+/// <summary>
+/// Singleton Pattern
+/// </summary>
 namespace SisParkTD.Managers
 {
     public class WebParameters
@@ -10,7 +12,7 @@ namespace SisParkTD.Managers
         private static WebParameters Instance { get; set; }
         private Random _random = new Random();
 
-        const string WebName = "SysPark";
+        const string WebName = "SisPark";
         const float IVA = 21;
         private List<string> Parameters = new List<string>();
 
@@ -28,7 +30,7 @@ namespace SisParkTD.Managers
             Parameters.Add("ServerV");
         }
 
-        public static WebParameters GetLoadBalancer()
+        public static WebParameters GetParameters()
         {
             // Support multithreaded applications through
             // 'Double checked locking' pattern which (once
