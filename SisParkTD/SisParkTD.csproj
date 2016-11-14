@@ -161,6 +161,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Managers\AuditoriaManager.cs" />
+    <Compile Include="Managers\MenuManager.cs" />
     <Compile Include="Managers\TicketManager.cs" />
     <Compile Include="Managers\WebParameters.cs" />
     <Compile Include="Migrations\201607290737047_a.cs" />
