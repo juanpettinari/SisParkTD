@@ -1,0 +1,76 @@
+﻿@using SisParkTD.Models
+@model Ticket
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Ticket</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Abono.AbonoId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Abono.AbonoId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Parcela.ParcelaId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Parcela.ParcelaId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Vehiculo.Patente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Vehiculo.Patente)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EstadoDeTicket)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EstadoDeTicket)
+        </dd>
+        @if (Model.TipoDeTicket == TipoDeTicket.Ocasional)
+        {
+            foreach (var movimiento in Model.MovimientosDeVehiculo)
+            {
+                <dt>
+                    @Html.DisplayNameFor(modelItem => movimiento.Fecha)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(modelItem => movimiento.Fecha)
+                </dd>
+            }
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TiempoTotal)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TiempoTotal)
+            </dd>
+        }
+        <dt>
+            @Html.DisplayNameFor(model => model.PrecioTotalDecimal)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PrecioTotalDecimal)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Volver", "Index")
+</p>

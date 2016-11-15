@@ -1,0 +1,89 @@
+﻿<div class="navbar-collapse collapse">
+    <ul class="nav navbar-nav">
+        @if (Request.IsAuthenticated)
+        {
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                   aria-expanded="False">Vehiculos<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li>@Html.ActionLink("Ingresar Vehículo", "IngresarVehiculo", "Tickets")</li>
+                    <li>@Html.ActionLink("Retirar Vehículo", "RetirarVehiculo", "Tickets")</li>
+                    <li role="separator" class="divider"></li>
+                    <li>@Html.ActionLink("Listado Vehículos", "Index", "Vehiculos")</li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                   aria-expanded="False">Abonos<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li>@Html.ActionLink("Nuevo Abono", "IngresarAbono", "Abonos")</li>
+                    <li role="separator" class="divider"></li>
+                    <li>@Html.ActionLink("Listado de Abonos", "Index", "Abonos")</li>
+                    <li>@Html.ActionLink("Listado de Abonos Actuales", "VerAbonosActuales", "Abonos")</li>
+                </ul>
+            </li>
+
+            <li>@Html.ActionLink("Cuentas", "Index", "Cuentas")</li>
+            <li>@Html.ActionLink("Tickets", "Index", "Tickets")</li>
+            <li>@Html.ActionLink("Parcelas", "Index", "Parcelas")</li>
+
+
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                   aria-expanded="False">Auditoria<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li>@Html.ActionLink("Log In/Log Out", "Index", "AuditoriasLogIn")</li>
+                </ul>
+            </li>
+
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                   aria-expanded="False">Movimientos<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li>@Html.ActionLink("Movimientos de Vehiculos", "Index", "MovimientosDeVehiculo")</li>
+                    <li>@Html.ActionLink("Movimientos Financieros", "Index", "MovimientosFinancieros")</li>
+                </ul>
+            </li>
+
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                   aria-expanded="False">Usuarios<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li>@Html.ActionLink("Roles", "Index", "Roles")</li>
+                    <li>@Html.ActionLink("Usuarios", "Index", "Usuarios")</li>
+                </ul>
+            </li>
+
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                   aria-expanded="False">Permisos<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li>@Html.ActionLink("Permisos", "Index", "Permisos")</li>
+                    <li role="separator" class="divider"></li>
+                    <li>@Html.ActionLink("Acciones", "Index", "Acciones")</li>
+                    <li>@Html.ActionLink("Páginas", "Index", "Paginas")</li>
+                </ul>
+            </li>
+
+            <li style="background-color: #EE0019; cursor: pointer;" class="dropdown">
+                <a href="#" class="dropdown-toggle" id="menu_font" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                    @User.Identity.Name
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu pull-right">
+                    <li>@Html.ActionLink("Salir", "LogOut", "Usuarios")</li>
+                </ul>
+            </li>
+
+        }
+        else
+        {
+            <li id="mnuLogin">
+                <a class="page-scroll" href="@Url.Content("~/Usuarios/LogIn")" style="background-color:#EE0019;">
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                </a>
+            </li>
+        }
+    </ul>
+</div>

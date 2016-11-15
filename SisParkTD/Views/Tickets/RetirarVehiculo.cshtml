@@ -1,0 +1,73 @@
+﻿@using SisParkTD.Models
+@model IEnumerable<Ticket>
+
+@{
+    ViewBag.Title = "RetirarVehiculo";
+}
+
+<h2>RetirarVehiculo</h2>
+<table class="table table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Vehiculo.Patente)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Parcela.NumeroParcela)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Vehiculo.TipoDeVehiculo.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Vehiculo.DescripcionDeVehiculo)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.TipoDeTicket)
+        </th>
+
+        <th>Fecha y Hora Ingreso</th>
+        <th>
+
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Vehiculo.Patente)
+            </td>
+			<td>
+                @Html.DisplayFor(modelItem => item.Parcela.NumeroParcela)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Vehiculo.TipoDeVehiculo.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Vehiculo.DescripcionDeVehiculo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoDeTicket)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MovimientosDeVehiculo.LastOrDefault().Fecha)
+            </td>
+            <td>
+                @Html.ActionLink("Retirar", "ConfirmarEgreso", "Tickets", new { ticketId = item.TicketId }, new { @class = "btn btn-success" })
+                @if (item.TipoDeTicket == TipoDeTicket.Abono && item.Abono.FechaFin < DateTime.Now)
+                {
+                    @Html.ActionLink("Grua", "ConfirmarEgresoConGrua", "Tickets", new { ticketId = item.TicketId }, new { @class = "btn btn-danger" }) @Html.DisplayText(" |")
+                }
+                @if (item.TipoDeTicket == TipoDeTicket.Ocasional)
+                {
+                    @Html.ActionLink("-1H", "About", "Home", new { id = item.TicketId, h = 1 }, new { @class = "btn btn-danger" })
+                    @Html.ActionLink("-3H", "About", "Home", new { id = item.TicketId, h = 3 }, new { @class = "btn btn-danger" })
+                    @Html.ActionLink("-5H", "About", "Home", new { id = item.TicketId, h = 5 }, new { @class = "btn btn-danger" })
+                }
+
+            </td>
+        </tr>
+                }
+
+</table>

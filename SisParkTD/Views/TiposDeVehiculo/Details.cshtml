@@ -1,0 +1,50 @@
+﻿@model SisParkTD.Models.TipoDeVehiculo
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TipoDeVehiculo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TamanioVehiculo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TamanioVehiculo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TarifaOcasionalDecimal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TarifaOcasionalDecimal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TarifaMensualDecimal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TarifaMensualDecimal)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.TipoDeVehiculoId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

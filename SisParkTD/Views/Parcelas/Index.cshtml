@@ -1,0 +1,39 @@
+﻿@model IEnumerable<SisParkTD.Models.Parcela>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Crear nueva parcela", "Create")
+</p>
+<table class="table table-hover table-responsive">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TipoDeVehiculo.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumeroParcela)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Disponible)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TipoDeVehiculo.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NumeroParcela)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Disponible)
+        </td>
+    </tr>
+}
+
+</table>

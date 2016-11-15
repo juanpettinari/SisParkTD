@@ -1,0 +1,49 @@
+﻿@model IEnumerable<SisParkTD.Models.Abono>
+
+@{
+    ViewBag.Title = "Abonos";
+}
+
+<h2>Abonos</h2>
+
+<p>
+    @Html.ActionLink("Nuevo", "IngresarAbono")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Razón Social
+        </th>
+        <th>
+            Patente
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaInicio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaFin)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Tickets.Select(t => t.Vehiculo.Cliente.RazonSocial).FirstOrDefault()
+            </td>
+            <td>
+                @item.Tickets.Select(t => t.Vehiculo.Cliente.Vehiculo.Patente).FirstOrDefault()
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaInicio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaFin)
+            </td>
+            <td>
+            </td>
+        </tr>
+    }
+</table>

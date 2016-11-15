@@ -1,0 +1,86 @@
+﻿@using SisParkTD.Models
+@model Ticket
+
+
+@{ 
+    ViewBag.Title = "ImprimirTicket";
+}
+
+<h2>ImprimirTicket</h2>
+
+<div>
+    @if (Model.TipoDeTicket == TipoDeTicket.Abono)
+
+    {
+        <h4>Ticket Abonado</h4>
+    }
+    else
+    {
+        <h4>Ticket Ocasional</h4>
+    }
+    <br />
+    <h4>@ViewBag.InfoParcela</h4>
+    <hr />
+    
+    <dl class="dl-horizontal">
+        @* Patente*@
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.Vehiculo.Patente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Vehiculo.Patente)
+        </dd>
+        @* Parcela*@
+        <dt>
+            @Html.DisplayNameFor(model => model.Parcela.NumeroParcela)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Parcela.NumeroParcela)
+        </dd>
+        @*//Tipo Veh*@
+        <dt>
+            @Html.DisplayNameFor(model => model.Vehiculo.TipoDeVehiculo.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Vehiculo.TipoDeVehiculo.Nombre)
+        </dd>
+
+        @foreach (var item in Model.MovimientosDeVehiculo.Reverse())
+        {
+            if (item.TipoDeMovimientoDeVehiculo.Equals(TipoDeMovimientoDeVehiculo.Entrada))
+            {
+                <dt>Fecha y Hora Ingreso</dt>
+            }
+            else
+            {
+                <dt>Fecha y Hora Egreso</dt>
+            }
+            <dd>
+                @Html.DisplayFor(modelItem => item.Fecha)
+            </dd>
+        }
+        @if (Model.EstadoDeTicket == EstadoDeTicket.Inactivo)
+        {
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TiempoTotal)
+            </dt>
+            if (Model.TipoDeTicket == TipoDeTicket.Ocasional) { 
+            <dd>
+                @ViewBag.Tiempo
+            </dd>
+            }
+            <dt>
+                @Html.DisplayNameFor(model => model.PrecioTotalDecimal)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PrecioTotalDecimal)
+            </dd>
+        }
+    </dl>
+</div>

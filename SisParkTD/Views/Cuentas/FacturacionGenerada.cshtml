@@ -1,0 +1,47 @@
+﻿@model IEnumerable<SisParkTD.Models.MovimientoFinanciero>
+
+
+@{
+    ViewBag.Title = "Facturación Generada";
+}
+
+<h2>Facturación Generada</h2>
+
+@{ var msjAbonoFinalizado = Session["msjAbonosFinalizados"] as List<string>;}
+@if (msjAbonoFinalizado != null)
+{
+    foreach (var msj in msjAbonoFinalizado)
+    {
+        <h3 class="text-danger">ATENCIÓN!</h3>
+        <h5 class="text-danger">@msj</h5>
+    }
+}
+
+<h4>@ViewBag.message</h4>
+@if (Model.Any())
+{
+    <table class="table table-hover table-responsive">
+        <tr>
+            <th>Cliente</th>
+            <th>Fecha y Hora de Creación</th>
+            <th>Importe</th>
+        </tr>
+
+        @foreach (var movimientoFinanciero in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => movimientoFinanciero.Cuenta.Cliente.RazonSocial)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => movimientoFinanciero.Ticket.FechaYHoraCreacionTicket)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => movimientoFinanciero.Ticket.PrecioTotalDecimal)
+                </td>
+            </tr>
+        }
+
+
+    </table>
+}

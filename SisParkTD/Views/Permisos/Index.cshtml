@@ -1,0 +1,77 @@
+﻿@model IEnumerable<SisParkTD.Models.ViewModels.PermisosViewModel>
+
+@{
+    ViewBag.Title = "Permisos";
+}
+
+<h2>Permisos</h2>
+@using (Html.BeginForm("Index", "Permisos", FormMethod.Get))
+{
+    <table class="table table-bordered">
+        <tr>
+            <th>
+                Rol
+            </th>
+            <th>
+                Página
+            </th>
+            <th>
+                Acción
+            </th>
+            <th>
+
+            </th>
+        </tr>
+        <tr>
+            <td>
+                @Html.DropDownList("ddRol", null, "", new { @onchange = "this.form.submit();" })
+            </td>
+
+            <td>
+                @Html.DropDownList("ddPagina", null, "", new { @onchange = "this.form.submit();" })
+            </td>
+
+            <td>
+                @Html.DropDownList("ddAccion", null, "", new { @onchange = "this.form.submit();" })
+            </td>
+
+            <td>
+                <input type="submit" value="Filtrar" class="btn btn-default" />
+            </td>
+        </tr>
+    </table>
+}
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Rol.Descripcion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Accion.Pagina.Descripcion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Accion.Descripcion)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rol.Descripcion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Accion.Pagina.Descripcion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Accion.Descripcion)
+        </td>
+        <td>
+            @(!item.Permiso ? Html.ActionLink(" Agregar Permiso", "CambiarPermiso", new { rolId = item.Rol.RolId, accionId = item.Accion.AccionId }, new { @class = "glyphicon glyphicon-ok" }) : Html.ActionLink(" Quitar Permiso", "CambiarPermiso", new { rolId = item.Rol.RolId, accionId = item.Accion.AccionId }, new { @class = "glyphicon glyphicon-remove" }))
+        </td>
+    </tr>
+}
+
+</table>
