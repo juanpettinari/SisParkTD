@@ -1,0 +1,92 @@
+﻿<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+@model SisParkTD.Models.ViewModels.FechaViewModel
+
+
+
+
+@using Highsoft.Web.Mvc.Charts
+
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Reporte según tipo de vehículo</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.LabelFor(model => model.FechaDesde, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FechaDesde, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FechaHasta, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FechaHasta, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Mostrar" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+@if (ViewData["pieData"] != null)
+{
+    @(Html.Highsoft().Highcharts(
+                new Highcharts
+                {
+                    Chart = new Highsoft.Web.Mvc.Charts.Chart
+                    {
+                        PlotBackgroundColor = null,
+                        PlotBorderWidth = null,
+                        PlotShadow = new Shadow
+                        {
+                            Enabled = false
+                        }
+                    },
+                    Title = new Title
+                    {
+                        Text = "Recaudación según tipo de vehículo"
+                    },
+                    Tooltip = new Tooltip
+                    {
+                        PointFormat = "{series.name}: <b>{point.percentage:.1f}%</b>"
+                    },
+                    PlotOptions = new PlotOptions
+                    {
+                        Pie = new PlotOptionsPie
+                        {
+                            AllowPointSelect = true,
+                            Cursor = PlotOptionsPieCursor.Pointer,
+                            DataLabels = new PlotOptionsPieDataLabels
+                            {
+                                Enabled = true,
+                                Format = "<b>{point.name}</b>: {point.percentage:.1f} % <br><b> ${point.y}</b>"
+                            }
+                        }
+                    },
+                    Series = new List<Series>
+                    {
+                new PieSeries
+                {
+                    Name = "Porcentaje",
+                    Data = @ViewData["pieData"] as List<PieSeriesData>
+                },
+
+                    }
+                }
+                , "chart")
+    )
+}

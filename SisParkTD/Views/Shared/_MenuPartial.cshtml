@@ -1,7 +1,8 @@
 ﻿<div class="navbar-collapse collapse">
-    <ul class="nav navbar-nav">
-        @if (Request.IsAuthenticated)
-        {
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <ul class="nav navbar-nav">
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                    aria-expanded="False">Vehiculos<span class="caret"></span></a>
@@ -25,7 +26,6 @@
 
             <li>@Html.ActionLink("Cuentas", "Index", "Cuentas")</li>
             <li>@Html.ActionLink("Tickets", "Index", "Tickets")</li>
-            <li>@Html.ActionLink("Parcelas", "Index", "Parcelas")</li>
 
 
             <li class="dropdown">
@@ -65,8 +65,19 @@
                 </ul>
             </li>
 
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                   aria-expanded="False">Reportes<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li>@Html.ActionLink("Monto según tipo de vehículo", "ReporteSegunTipoDeVehiculo", "Reportes")</li>
+                    <li>@Html.ActionLink("Recaudación Mensual según tipo de vehículo", "ReporteMensual", "Reportes")</li>
+                    <li>@Html.ActionLink("Según Tiempo de estadía", "ReporteMensualSegunHoras", "Reportes")</li>
+                    <li>@Html.ActionLink("Entrada de vehículos ´por dia y hora de la semana", "ReporteHeatmap", "Reportes")</li>
+                </ul>
+            </li>
+
             <li style="background-color: #EE0019; cursor: pointer;" class="dropdown">
-                <a href="#" class="dropdown-toggle" id="menu_font" data-toggle="dropdown">
+                <a href="#" class="dropdown-toggle pull-right" id="menu_font" data-toggle="dropdown">
                     <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
                     @User.Identity.Name
                     <b class="caret"></b>
@@ -75,15 +86,18 @@
                     <li>@Html.ActionLink("Salir", "LogOut", "Usuarios")</li>
                 </ul>
             </li>
+        </ul>
 
-        }
-        else
-        {
+    }
+    else
+    {
+        <ul class="nav navbar-nav pull-right">
             <li id="mnuLogin">
-                <a class="page-scroll" href="@Url.Content("~/Usuarios/LogIn")" style="background-color:#EE0019;">
+                <a class="page-scroll pull-right" href="@Url.Content("~/Usuarios/LogIn")" style="background-color: #EE0019;">
                     <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
                 </a>
             </li>
-        }
-    </ul>
+        </ul>
+    }
+
 </div>

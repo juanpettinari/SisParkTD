@@ -5,39 +5,39 @@ using System.Linq;
 using System.Web;
 
 
-/// <summary>
-/// Builder Pattern
-/// </summary>
+//<summary>
+//Builder Pattern
+//</summary>
 namespace SisParkTD.Managers
 {
     public class TicketManager
     {
-        public Ticket CreateTicket()
-        {
-            // Create director and builders
-            TicketDirector director = new TicketDirector();
+    //    public Ticket CreateTicket()
+    //    {
+    //        // Create director and builders
+    //        TicketDirector director = new TicketDirector();
 
-            //TODO Evaluar que tipo de ticket se creara
-            Builder builder;
-            if (true)
-            {
-                builder = new TicketBuilder();
-            }
-            else
-            {
-                builder = new AbonoBuilder();
-            }
+    //        //TODO Evaluar que tipo de ticket se creara
+    //        Builder builder;
+    //        if (true)
+    //        {
+    //            builder = new TicketBuilder();
+    //        }
+    //        else
+    //        {
+    //            builder = new AbonoBuilder();
+    //        }
 
-            // Construct two products
-            director.Construct(builder);
-            Ticket ticket = builder.GetResult();
+    //        // Construct two products
+    //        director.Construct(builder);
+    //        Ticket ticket = builder.GetResult();
             
-            //TODO agregar el resto de los datos necesarios (aplicar tempate method)
+    //        //TODO agregar el resto de los datos necesarios (aplicar tempate method)
             
-            //CASO BASE Desarrollar ACA
-            //ticket.llllll
-            return ticket; 
-        }
+    //        //CASO BASE Desarrollar ACA
+    //        //ticket.llllll
+    //        return ticket; 
+    //    }
     }
 
     /// <summary>

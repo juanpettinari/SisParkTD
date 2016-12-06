@@ -1,0 +1,9 @@
+﻿@{
+    var miGrafico = new Chart(600, 400, ChartTheme.Green)
+        .AddTitle("Titulo de grafico")
+        .AddSeries(
+        name: "Titulo de grafico",
+        xValue: new[] { "Col1", "Col2", "Col3", "Col4", "Col5" },
+        yValues: new[] { "2", "6", "4", "5", "3" })
+        .Write();
+}

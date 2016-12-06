@@ -1,0 +1,22 @@
+﻿@model SisParkTD.Models.ViewModels.CuentaUsuarioViewModel
+
+@{
+    ViewBag.Title = "LoginBackUp";
+}
+
+<h2>LoginBackUp</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @ViewBag.ErrorMessage
+    <div class="input-group">
+        <div class="input-group-addon"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></div>
+        <input id="NombreDeUsuario" name="NombreDeUsuario" type="text" class="form-control" placeholder="Usuario">
+    </div>
+    <div class="input-group" style="margin-top: 5px;">
+        <div class="input-group-addon"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></div>
+        <input id="Contrasenia" name="Contrasenia" type="password" class="form-control" placeholder="Contraseña">
+    </div>
+
+    <button type="submit" class="btn btn-success btn-block">INGRESAR</button>
+}

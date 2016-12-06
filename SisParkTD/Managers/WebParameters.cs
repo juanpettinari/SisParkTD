@@ -9,6 +9,16 @@ namespace SisParkTD.Managers
 {
     public class WebParameters
     {
+
+        // PONER ACA LA string de ruta donde irían los back ups
+        // PONER ACA LA string de ruta donde irían los back ups
+        // PONER ACA LA string de ruta donde irían los back ups
+        // PONER ACA LA string de ruta donde irían los back ups
+        // PONER ACA LA string de ruta donde irían los back ups
+        // PONER ACA LA string de ruta donde irían los back ups
+        // PONER ACA LA string de ruta donde irían los back ups
+        // PONER ACA LA string de ruta donde irían los back ups
+
         private static WebParameters Instance { get; set; }
         private Random _random = new Random();
 

@@ -99,14 +99,24 @@ namespace SisParkTD.Controllers
         public ActionResult Registration([Bind(Include = "UsuarioId,Nombre,Apellido,Telefono,Email,Dni,NombreDeUsuario,Contrasenia")] Usuario usuario)
         {
 
-            //TODO username IS UNIQUE
             if (ModelState.IsValid)
             {
                 if (usuario.Contrasenia != null)
-                usuario.Contrasenia = PasswordHash.CreateHash(usuario.Contrasenia);
-                _db.Usuarios.Add(usuario);
-                _db.SaveChanges();
-                return RedirectToAction("Index");
+                {
+                    if (!_db.Usuarios.Any(u => u.NombreDeUsuario == usuario.NombreDeUsuario))
+                    {
+                        usuario.Contrasenia = PasswordHash.CreateHash(usuario.Contrasenia);
+                        _db.Usuarios.Add(usuario);
+                        _db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "El nombre de usuario ya existe.");
+                        return View(usuario);
+                    }
+                    
+                }
             }
             return View(usuario);
         }

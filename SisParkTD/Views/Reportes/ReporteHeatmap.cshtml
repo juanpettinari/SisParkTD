@@ -1,0 +1,85 @@
+﻿<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/heatmap.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+@using Highsoft.Web.Mvc.Charts
+
+<script type="text/javascript">
+
+    function formatTooltip() {
+        return 'Entraron <b>' + this.point.value + '</b> vehículos <br> el día <b>' + this.series.yAxis.categories[this.point.y]
+                   + '</b><br> a las <b>' + this.series.xAxis.categories[this.point.x] + '</b>';
+    }
+
+</script>
+
+@{
+    ViewBag.Title = "ReporteHeatmap";
+}
+
+<h2>ReporteHeatmap</h2>
+
+@(Html.Highsoft().Highcharts(
+        new Highcharts
+        {
+            Chart = new Highsoft.Web.Mvc.Charts.Chart
+            {
+                MarginTop = 40,
+                MarginBottom = 80
+            },
+            Title = new Title
+            {
+                Text = "Entrada de vehículos por día y hora de la semana"
+            },
+            XAxis = new List<XAxis>
+            {
+                new XAxis
+                {
+                    Categories = new List<string> { "0hs", "1 hs", "2 hs", "3 hs", "4 hs", "5 hs", "6 hs", "7 hs", "8 hs", "9 hs", "10 hs", "11 hs", "12 hs", "13 hs", "14 hs", "15 hs", "16 hs", "17 hs", "18 hs", "19 hs", "20 hs", "21 hs", "22 hs", "23 hs" }
+                }
+            },
+            YAxis = new List<YAxis>
+            {
+                new YAxis
+                {
+                    Categories = new List<string> { "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo" }
+                }
+            },
+
+            Legend = new Legend
+            {
+                Layout = LegendLayout.Vertical,
+                Align = LegendAlign.Right,
+                VerticalAlign = LegendVerticalAlign.Top,
+                Y = 25,
+                SymbolHeight = 280
+            },
+            Tooltip = new Tooltip
+            {
+                Formatter = "formatTooltip"
+            },
+            ColorAxis = new ColorAxis
+            {
+                Min = 0,
+                MinColor = "#FFFFFF",
+                MaxColor = "#7cb5ec"
+            },
+            Series = new List<Series>
+            {
+                new HeatmapSeries
+                {
+                    Name = "Entrada de vehículos por día",
+                    BorderWidth = 2,
+                    DataLabels = new HeatmapSeriesDataLabels
+                    {
+                        Enabled = true,
+                        Color = "#000000",
+
+                    },
+                    Data = @ViewData["heatMapData"] as List<HeatmapSeriesData>
+                }
+            }
+        }
+        , "chart")
+)

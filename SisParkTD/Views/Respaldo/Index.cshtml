@@ -1,0 +1,33 @@
+﻿@model IEnumerable<string>
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<p>
+    @Html.ActionLink("BACKUP", "RealizarBackUp")
+</p>
+
+<table class="table table-responsive table-hover">
+    <tr>
+        <th>
+            Nombre de archivo
+        </th>
+        <th>
+            Acción
+        </th>
+    </tr>
+    @foreach (var fullPath in Model)
+    {
+        var fileName = Path.GetFileName(fullPath);
+
+        <tr>
+            <td>@fileName</td>
+            <td>
+                @Html.ActionLink("Restore", "RealizarRestore", new {filePath = fullPath, asd = "asd"}, new {@class = "btn btn-success"})
+            </td>
+        </tr>
+    }
+</table>
