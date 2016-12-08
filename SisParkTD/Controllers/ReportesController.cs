@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Highsoft.Web.Mvc.Charts;
-using SisParkTD.Common;
 using SisParkTD.DAL;
 using SisParkTD.Models;
 using SisParkTD.Models.ViewModels;
@@ -63,30 +61,41 @@ namespace SisParkTD.Controllers
             }
 
             ViewData["pieData"] = pieData;
-
             return View();
 
         }
+
+
         public ActionResult ReporteHeatmap()
         {
-            // TODO sacar el hardcode
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ReporteHeatmap(FechaViewModel fechaViewModel)
+        {
             // 21 al 27 nov
-            var startDate = DateTime.Parse("21/11/2016");
-            var endDate = DateTime.Parse("27/11/2016");
+            var startDate = fechaViewModel.FechaDesde;
+            var endDate = fechaViewModel.FechaHasta == DateTime.MinValue
+                ? DateTime.MaxValue
+                : fechaViewModel.FechaHasta;
             // array 2D que tendría los valores
             var array = new int[7, 24];
-            List<HeatmapSeriesData> data = new List<HeatmapSeriesData>();
+            var data = new List<HeatmapSeriesData>();
             foreach (var day in EachDay(startDate, endDate))
             {
-                for (int i = 0; i < 24; i++)
+                for (var i = 0; i < 24; i++)
                 {
                     var fechaDesde = day.AddHours(i);
                     var fechaHasta = day.AddHours(i + 1);
 
                     var value = _db.MovimientosDeVehiculo.Count(mv => mv.Fecha > fechaDesde &&
-                    mv.Fecha < fechaHasta && mv.TipoDeMovimientoDeVehiculo == TipoDeMovimientoDeVehiculo.Entrada);
+                                                                      mv.Fecha < fechaHasta &&
+                                                                      mv.TipoDeMovimientoDeVehiculo ==
+                                                                      TipoDeMovimientoDeVehiculo.Entrada);
 
-                    var diaSemana = ((int)day.DayOfWeek == 0) ? 7 : (int)day.DayOfWeek;
+                    var diaSemana = day.DayOfWeek == 0 ? 7 : (int)day.DayOfWeek;
                     var y = diaSemana - 1;
                     var x = i;
                     array[diaSemana - 1, i] = 1;
@@ -101,30 +110,55 @@ namespace SisParkTD.Controllers
 
         public ActionResult ReporteMensualSegunHoras()
         {
-            // TODO SACAR HARDCODE!! MEs
-            var startDate = DateTime.Parse("01/11/2016");
-            var endDate = DateTime.Parse("30/11/2016");
 
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ReporteMensualSegunHoras(FechaViewModel fechaViewModel)
+        {
+
+            var startDate = fechaViewModel.FechaDesde;
+            var endDate = fechaViewModel.FechaHasta == DateTime.MinValue
+                ? DateTime.MaxValue
+                : fechaViewModel.FechaHasta;
             var lista = new List<int>();
 
-            for (int i = 0; i <= 9; i++)
+            for (var i = 0; i <= 9; i++)
             {
                 var topeAbajo = (i) * 3600;
                 var topeArriba = (i + 1) * 3600;
 
                 var value = _db.Tickets.Count(t => t.TiempoTotal < topeArriba &&
-                t.TiempoTotal > topeAbajo && t.TipoDeTicket == TipoDeTicket.Ocasional);
+                                                   t.TiempoTotal > topeAbajo && t.TipoDeTicket == TipoDeTicket.Ocasional
+                                                   && t.FechaYHoraCreacionTicket > startDate &&
+                                                   t.FechaYHoraCreacionTicket < endDate);
                 lista.Add(value);
             }
-            lista.Add(_db.Tickets.Count(t => t.TiempoTotal > 10 * 3600));
+            lista.Add(
+                _db.Tickets.Count(
+                    t =>
+                        t.TiempoTotal > 10 * 3600 && t.TipoDeTicket == TipoDeTicket.Ocasional &&
+                        t.FechaYHoraCreacionTicket > startDate && t.FechaYHoraCreacionTicket < endDate));
 
-            List<double?> reportesValues = new List<double?>
+            var reportesValues = new List<double?>
             {
-                lista[0],lista[1], lista[2],lista[3],lista[4],lista[5],
-                lista[6],lista[7],lista[8],lista[9],lista[10]
+                lista[0],
+                lista[1],
+                lista[2],
+                lista[3],
+                lista[4],
+                lista[5],
+                lista[6],
+                lista[7],
+                lista[8],
+                lista[9],
+                lista[10]
             };
 
-            List<BarSeriesData> reportesData = new List<BarSeriesData>();
+            var reportesData = new List<BarSeriesData>();
 
             reportesValues.ForEach(p => reportesData.Add(new BarSeriesData { Y = p }));
 
@@ -133,10 +167,21 @@ namespace SisParkTD.Controllers
             return View();
         }
 
-
         public ActionResult ReporteMensual()
         {
-            //TODO SACAR HARDCODE DEL AÑO
+            var anios = _db.MovimientosFinancieros.Select(mf => mf.Fecha.Year).Distinct();
+
+            ViewBag.Anios = new SelectList(anios);
+
+            return View();
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ReporteMensual(AniosViewModel aniosViewModel)
+        {
+
             var array = new double[3, 12];
 
             var j = 0;
@@ -144,16 +189,10 @@ namespace SisParkTD.Controllers
             {
                 for (int i = 0; i < 12; i++)
                 {
-                    var fechaDesde = DateTime.Parse("01/" + (i + 1) + "/2016");
-                    var fechaHasta = new DateTime();
-                    if (i != 11)
-                    {
-                        fechaHasta = DateTime.Parse("01/" + (i + 2) + "/2016");
-                    }
-                    else
-                    {
-                        fechaHasta = DateTime.Parse("01/01/2017");
-                    }
+                    var fechaDesde = DateTime.Parse("01/" + (i + 1) + "/" + aniosViewModel.Anio);
+                    var fechaHasta = i != 11
+                        ? DateTime.Parse("01/" + (i + 2) + "/" + aniosViewModel.Anio)
+                        : DateTime.Parse("01/01/" + (aniosViewModel.Anio + 1));
 
                     var value =
                         _db.MovimientosFinancieros.Where(mf => mf.Ticket.Vehiculo.TipoDeVehiculo.TipoDeVehiculoId
@@ -198,16 +237,13 @@ namespace SisParkTD.Controllers
             ViewData["motosData"] = motosData;
 
 
+            var anios = _db.MovimientosFinancieros.Select(mf => mf.Fecha.Year).Distinct();
+            ViewBag.Anios = new SelectList(anios);
+
             return View();
 
 
-
-
-
-
-
-
-
         }
+
     }
 }

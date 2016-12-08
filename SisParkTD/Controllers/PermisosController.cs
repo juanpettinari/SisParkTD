@@ -77,6 +77,50 @@ namespace SisParkTD.Controllers
             return View(permisos);
         }
 
+
+        public ActionResult DarTodosLosPermisos(int rolId)
+        {
+            var listaPermisos = new List<Permiso>();
+
+            foreach (var accion in _db.Acciones)
+            {
+                var permiso = new Permiso
+                {
+                    AccionId = accion.AccionId,
+                    RolId = rolId
+                };
+
+                listaPermisos.Add(permiso);
+
+                _db.SaveChanges();
+            }
+            _db.Permisos.AddRange(listaPermisos);
+            _db.SaveChanges();
+
+            // TODO CAMBIAR A "GESTIONAR PERMISOS, con REDIRECT CREO, CON EL ID DE ROL MNADAR"
+
+            return View("Index");
+        }
+
+        //public ActionResult QuitarTodosLosPermisos(int rolId)
+        //{
+        //    return View();
+        //}
+
+
+
+        //public ActionResult GestionarPermiso(int rolId)
+        //{
+        //    return View();
+        //}
+
+        [HttpPost]
+        public ActionResult GestionarPermiso(int rolId)
+        {
+            return View();
+        }
+
+
         public ActionResult CambiarPermiso(int rolId, int accionId)
         {
             var permiso = _db.Permisos.Find(rolId, accionId);

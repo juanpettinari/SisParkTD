@@ -2,7 +2,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
-
+@model SisParkTD.Models.ViewModels.AniosViewModel
 
 
 @{
@@ -10,72 +10,100 @@
 }
 
 <h2>ReporteMensual</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
 
-@(Html.Highsoft().Highcharts(
-        new Highcharts
-        {
-            Title = new Title
-            {
-                Text = "Recaudación Mensual según tipo de vehículo",
-                X = -20
-            },
-            XAxis = new List<XAxis>
-            {
-                new XAxis
-                {
-                    Categories = new List<string> { "Ene", "Feb", "Mar", "Abr", "May", "Jun",
-                                "Jul", "Ago", "Sep", "Oct", "Nov", "Dic" },
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.Label("Año", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Anio,(SelectList)ViewBag.Anios, "--Seleccionar--", new { @class = "form-control", autofocus = "autofocus" } )
+                @Html.ValidationMessageFor(model => model.Anio, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
-                }
-            },
-            YAxis = new List<YAxis>
-            {
-                new YAxis
-                {
-                    Title = new YAxisTitle
-                    {
-                        Text = "Recaudación"
-                    },
-                    PlotLines = new List<YAxisPlotLines>
-                    {
-                            new YAxisPlotLines
-                        {
-                            Value = 0,
-                            Width = 1,
-                            Color = "#808080"
-                        }
-                    }
-                }
-            },
-            Tooltip = new Tooltip
-            {
-                ValueSuffix = " $"
-            },
-            Legend = new Legend
-            {
-                Layout = LegendLayout.Vertical,
-                Align = LegendAlign.Right,
-                VerticalAlign = LegendVerticalAlign.Middle,
-                BorderWidth = 0
-            },
-            Series = new List<Series>
-            {
-                new LineSeries
-                {
-                    Name = "Camionetas",
-                    Data = @ViewData["camionetasData"] as List<LineSeriesData>
-                },
-                new LineSeries
-                {
-                    Name = "Autos",
-                    Data = @ViewData["autosData"] as List<LineSeriesData>
-                },
-                new LineSeries
-                {
-                    Name = "Motos",
-                    Data = @ViewData["motosData"] as List<LineSeriesData>
-                }
-            }
-        }
-        , "chart")
-)
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Mostrar" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+
+}
+
+@if (ViewData["camionetasData"] != null || ViewData["autosData"] != null || ViewData["motosData"] != null)
+{
+    @(Html.Highsoft().Highcharts(
+
+          new Highcharts
+          {
+              Title = new Title
+              {
+                  Text = "Recaudación Mensual según tipo de vehículo",
+                  X = -20
+              },
+              XAxis = new List<XAxis>
+              {
+                  new XAxis
+                  {
+                      Categories = new List<string>
+                      {
+                          "Ene", "Feb", "Mar", "Abr", "May", "Jun",
+                          "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"
+                      },
+
+                  }
+              },
+              YAxis = new List<YAxis>
+              {
+                  new YAxis
+                  {
+                      Title = new YAxisTitle
+                      {
+                          Text = "Recaudación"
+                      },
+                      PlotLines = new List<YAxisPlotLines>
+                      {
+                          new YAxisPlotLines
+                          {
+                              Value = 0,
+                              Width = 1,
+                              Color = "#808080"
+                          }
+                      }
+                  }
+              },
+              Tooltip = new Tooltip
+              {
+                  ValueSuffix = " $"
+              },
+              Legend = new Legend
+              {
+                  Layout = LegendLayout.Vertical,
+                  Align = LegendAlign.Right,
+                  VerticalAlign = LegendVerticalAlign.Middle,
+                  BorderWidth = 0
+              },
+              Series = new List<Series>
+              {
+                  new LineSeries
+                  {
+                      Name = "Camionetas",
+                      Data = @ViewData["camionetasData"] as List<LineSeriesData>
+                  },
+                  new LineSeries
+                  {
+                      Name = "Autos",
+                      Data = @ViewData["autosData"] as List<LineSeriesData>
+                  },
+                  new LineSeries
+                  {
+                      Name = "Motos",
+                      Data = @ViewData["motosData"] as List<LineSeriesData>
+                  }
+              }
+          }
+          , "chart")
+          )
+}

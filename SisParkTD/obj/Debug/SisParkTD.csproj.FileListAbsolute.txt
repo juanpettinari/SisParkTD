@@ -236,3 +236,4 @@ D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\SisParkTD\obj\Debug\SisParkTD.cspro
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\SisParkTD\obj\Debug\SisParkTD.dll
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\SisParkTD\obj\Debug\SisParkTD.pdb
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\SisParkTD\bin\Highcharts.Web.Mvc.dll
+D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.tarifa.resources

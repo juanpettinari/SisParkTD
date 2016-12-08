@@ -15,71 +15,101 @@
 </script>
 
 @{
-    ViewBag.Title = "ReporteHeatmap";
+    ViewBag.Title = "Reporte Semanal";
 }
 
-<h2>ReporteHeatmap</h2>
+<h2>Reporte Semanal</h2>
 
-@(Html.Highsoft().Highcharts(
-        new Highcharts
-        {
-            Chart = new Highsoft.Web.Mvc.Charts.Chart
-            {
-                MarginTop = 40,
-                MarginBottom = 80
-            },
-            Title = new Title
-            {
-                Text = "Entrada de vehículos por día y hora de la semana"
-            },
-            XAxis = new List<XAxis>
-            {
-                new XAxis
-                {
-                    Categories = new List<string> { "0hs", "1 hs", "2 hs", "3 hs", "4 hs", "5 hs", "6 hs", "7 hs", "8 hs", "9 hs", "10 hs", "11 hs", "12 hs", "13 hs", "14 hs", "15 hs", "16 hs", "17 hs", "18 hs", "19 hs", "20 hs", "21 hs", "22 hs", "23 hs" }
-                }
-            },
-            YAxis = new List<YAxis>
-            {
-                new YAxis
-                {
-                    Categories = new List<string> { "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo" }
-                }
-            },
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.LabelFor(model => model.FechaDesde, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FechaDesde, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
 
-            Legend = new Legend
-            {
-                Layout = LegendLayout.Vertical,
-                Align = LegendAlign.Right,
-                VerticalAlign = LegendVerticalAlign.Top,
-                Y = 25,
-                SymbolHeight = 280
-            },
-            Tooltip = new Tooltip
-            {
-                Formatter = "formatTooltip"
-            },
-            ColorAxis = new ColorAxis
-            {
-                Min = 0,
-                MinColor = "#FFFFFF",
-                MaxColor = "#7cb5ec"
-            },
-            Series = new List<Series>
-            {
-                new HeatmapSeries
-                {
-                    Name = "Entrada de vehículos por día",
-                    BorderWidth = 2,
-                    DataLabels = new HeatmapSeriesDataLabels
-                    {
-                        Enabled = true,
-                        Color = "#000000",
+        <div class="form-group">
+            @Html.LabelFor(model => model.FechaHasta, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FechaHasta, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
 
-                    },
-                    Data = @ViewData["heatMapData"] as List<HeatmapSeriesData>
-                }
-            }
-        }
-        , "chart")
-)
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Mostrar" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+@if (ViewData["reportesData"] != null)
+{
+    @(Html.Highsoft().Highcharts(
+          new Highcharts
+          {
+              Chart = new Highsoft.Web.Mvc.Charts.Chart
+              {
+                  MarginTop = 40,
+                  MarginBottom = 80
+              },
+              Title = new Title
+              {
+                  Text = "Entrada de vehículos por día y hora de la semana"
+              },
+              XAxis = new List<XAxis>
+              {
+                  new XAxis
+                  {
+                      Categories = new List<string> {"0hs", "1 hs", "2 hs", "3 hs", "4 hs", "5 hs", "6 hs", "7 hs", "8 hs", "9 hs", "10 hs", "11 hs", "12 hs", "13 hs", "14 hs", "15 hs", "16 hs", "17 hs", "18 hs", "19 hs", "20 hs", "21 hs", "22 hs", "23 hs"}
+                  }
+              },
+              YAxis = new List<YAxis>
+              {
+                  new YAxis
+                  {
+                      Categories = new List<string> {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"}
+                  }
+              },
+
+              Legend = new Legend
+              {
+                  Layout = LegendLayout.Vertical,
+                  Align = LegendAlign.Right,
+                  VerticalAlign = LegendVerticalAlign.Top,
+                  Y = 25,
+                  SymbolHeight = 280
+              },
+              Tooltip = new Tooltip
+              {
+                  Formatter = "formatTooltip"
+              },
+              ColorAxis = new ColorAxis
+              {
+                  Min = 0,
+                  MinColor = "#FFFFFF",
+                  MaxColor = "#7cb5ec"
+              },
+              Series = new List<Series>
+              {
+                  new HeatmapSeries
+                  {
+                      Name = "Entrada de vehículos por día",
+                      BorderWidth = 2,
+                      DataLabels = new HeatmapSeriesDataLabels
+                      {
+                          Enabled = true,
+                          Color = "#000000",
+
+                      },
+                      Data = ViewData["heatMapData"] as List<HeatmapSeriesData>
+                  }
+              }
+          }
+          , "chart")
+    )
+}

@@ -163,6 +163,7 @@
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Controllers\VehiculosController.cs" />
     <Compile Include="DAL\SPContext.cs" />
+    <Compile Include="Filters\CustomAuthorizeAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -262,6 +263,10 @@
     <Compile Include="Migrations\201610141729484_W.Designer.cs">
       <DependentUpon>201610141729484_W.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612072349222_tarifa.cs" />
+    <Compile Include="Migrations\201612072349222_tarifa.Designer.cs">
+      <DependentUpon>201612072349222_tarifa.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Abono.cs" />
     <Compile Include="Models\Accion.cs" />
@@ -282,6 +287,7 @@
     <Compile Include="Models\RolUsuario.cs" />
     <Compile Include="Models\Vehiculo.cs" />
     <Compile Include="Models\ViewModels\AbonoViewModel.cs" />
+    <Compile Include="Models\ViewModels\AniosViewModel.cs" />
     <Compile Include="Models\ViewModels\CuentaUsuarioViewModel.cs" />
     <Compile Include="Models\ViewModels\FechaViewModel.cs" />
     <Compile Include="Models\ViewModels\PermisosViewModel.cs" />
@@ -549,7 +555,6 @@
     <Content Include="Views\Respaldo\Index.cshtml" />
     <Content Include="Views\Respaldo\LoginBackUp.cshtml" />
     <Content Include="Views\Reportes\ReporteSegunTipoDeVehiculo.cshtml" />
-    <Content Include="Views\Reportes\Graph1.cshtml" />
     <Content Include="Views\Reportes\ReporteHeatmap.cshtml" />
     <Content Include="Views\Reportes\ReporteMensualSegunHoras.cshtml" />
     <Content Include="Views\Reportes\ReporteMensual.cshtml" />
@@ -633,6 +638,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610141729484_W.resx">
       <DependentUpon>201610141729484_W.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612072349222_tarifa.resx">
+      <DependentUpon>201612072349222_tarifa.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

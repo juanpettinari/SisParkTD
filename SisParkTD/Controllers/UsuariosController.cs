@@ -25,8 +25,10 @@ namespace SisParkTD.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(CuentaUsuarioViewModel cuentaUsuarioViewModel)
         {
+            var auditoriaController = new AuditoriasLogInController();
             if (ModelState.IsValid)
             {
+
                 //The ".FirstOrDefault()" method will return either the first matched
                 //result or null
                 var miUsuario = _db.Usuarios.
@@ -38,19 +40,19 @@ namespace SisParkTD.Controllers
                     {
                         // TODO ADMIN RESET PASSWORD POR SI NO RECUERDA EL USER LA PASS.
                         ModelState.AddModelError("", "La contraseña es incorrecta, vuelva a escribirla.");
-                        AuditoriasLogInController.AuditoriaContraseniaErronea(miUsuario);
+                        auditoriaController.AuditoriaContraseniaErronea(miUsuario);
                     }
                     else
                     {
                         FormsAuthentication.SetAuthCookie(cuentaUsuarioViewModel.NombreDeUsuario, false);
-                        AuditoriasLogInController.AuditoriaLogIn(miUsuario);
+                        auditoriaController.AuditoriaLogIn(miUsuario);
                         return RedirectToAction("IngresarVehiculo", "Tickets");
                     }
                 }
                 else // el usuario no fue encontrado
-                { 
+                {
                     ModelState.AddModelError("", "No existe el usuario: " + cuentaUsuarioViewModel.NombreDeUsuario);
-                    AuditoriasLogInController.AuditoriaUsuarioNoExistente(cuentaUsuarioViewModel);
+                    auditoriaController.AuditoriaUsuarioNoExistente(cuentaUsuarioViewModel);
                 }
             }
             else
@@ -59,8 +61,9 @@ namespace SisParkTD.Controllers
         }
         public ActionResult LogOut()
         {
+            var auditoriaController = new AuditoriasLogInController();
             FormsAuthentication.SignOut();
-            AuditoriasLogInController.AuditoriaLogOut(User.Identity.Name);
+            auditoriaController.AuditoriaLogOut(User.Identity.Name);
             return RedirectToAction("LogIn");
         }
 
@@ -115,7 +118,7 @@ namespace SisParkTD.Controllers
                         ModelState.AddModelError("", "El nombre de usuario ya existe.");
                         return View(usuario);
                     }
-                    
+
                 }
             }
             return View(usuario);

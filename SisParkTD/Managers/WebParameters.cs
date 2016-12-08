@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 
 
-/// <summary>
-/// Singleton Pattern
-/// </summary>
+// <summary>
+// Singleton Pattern
+// </summary>
 namespace SisParkTD.Managers
 {
     public class WebParameters
@@ -20,7 +20,7 @@ namespace SisParkTD.Managers
         // PONER ACA LA string de ruta donde irían los back ups
 
         private static WebParameters Instance { get; set; }
-        private Random _random = new Random();
+        private readonly Random _random = new Random();
 
         const string WebName = "SisPark";
         const float IVA = 21;

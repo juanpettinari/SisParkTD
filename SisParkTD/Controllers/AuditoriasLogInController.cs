@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Web.Mvc;
 using SisParkTD.DAL;
 using SisParkTD.Models;
@@ -11,75 +12,89 @@ namespace SisParkTD.Controllers
     {
         private readonly SpContext _db = new SpContext();
 
+        abstract class Auditoria
+        {
+            private readonly SpContext _db = new SpContext();
+
+            public void Template(Usuario usuario)
+            {
+                var logAuditoria = Create();
+                //var logAuditoriaCargado = CargarDatos(logAuditoria, usuario);
+
+            }
+
+
+            private AuditoriaLogIn Create()
+            {
+                var logAuditoria = _db.AuditoriasLogIn.Create();
+                return logAuditoria;
+            }
+
+            private void CargarDatos()
+            {
+
+            }
+
+            public void GuardarEnBd()
+            {
+            }
+
+
+
+        }
         // GET: AuditoriasLogIn
         public ActionResult Index()
         {
             return View(_db.AuditoriasLogIn.ToList());
         }
 
-        public static void AuditoriaLogIn(Usuario usuario)
+        public void AuditoriaLogIn(Usuario usuario)
         {
-            using (var db = new SpContext())
-            {
-                var logAuditoria = db.AuditoriasLogIn.Create();
-                logAuditoria.NombreDeUsuario = usuario.NombreDeUsuario;
-                logAuditoria.Accion = "Log In";
-                logAuditoria.FechaYHora = DateTime.Now;
-                logAuditoria.Ip = "404";
+            var logAuditoria = _db.AuditoriasLogIn.Create();
+            logAuditoria.NombreDeUsuario = usuario.NombreDeUsuario;
+            logAuditoria.Accion = "Log In";
+            logAuditoria.FechaYHora = DateTime.Now;
+            logAuditoria.Ip = "404";
 
-                db.AuditoriasLogIn.Add(logAuditoria);
-                db.SaveChanges();
-
-            }
+            _db.AuditoriasLogIn.Add(logAuditoria);
+            _db.SaveChanges();
         }
 
-        public static void AuditoriaLogOut(string userName)
+        public void AuditoriaLogOut(string userName)
         {
-            using (var db = new SpContext())
-            {
-                var logAuditoria = db.AuditoriasLogIn.Create();
-                logAuditoria.NombreDeUsuario = userName;
-                logAuditoria.Accion = "Log Out";
-                logAuditoria.FechaYHora = DateTime.Now;
-                logAuditoria.Ip = "404";
+            var logAuditoria = _db.AuditoriasLogIn.Create();
+            logAuditoria.NombreDeUsuario = userName;
+            logAuditoria.Accion = "Log Out";
+            logAuditoria.FechaYHora = DateTime.Now;
+            logAuditoria.Ip = "404";
 
-                db.AuditoriasLogIn.Add(logAuditoria);
-                db.SaveChanges();
-
-            }
+            _db.AuditoriasLogIn.Add(logAuditoria);
+            _db.SaveChanges();
         }
 
-        public static void AuditoriaUsuarioNoExistente(CuentaUsuarioViewModel cuentaUsuario)
+        public void AuditoriaUsuarioNoExistente(CuentaUsuarioViewModel cuentaUsuario)
         {
-            using (var db = new SpContext())
-            {
-                var logAuditoria = db.AuditoriasLogIn.Create();
-                logAuditoria.NombreDeUsuario = cuentaUsuario.NombreDeUsuario;
-                logAuditoria.Accion = "Usuario no existente";
-                logAuditoria.FechaYHora = DateTime.Now;
-                logAuditoria.Ip = System.Web.HttpContext.Current.Request.UserHostAddress;
+            var logAuditoria = _db.AuditoriasLogIn.Create();
+            logAuditoria.NombreDeUsuario = cuentaUsuario.NombreDeUsuario;
+            logAuditoria.Accion = "Usuario no existente";
+            logAuditoria.FechaYHora = DateTime.Now;
+            logAuditoria.Ip = System.Web.HttpContext.Current.Request.UserHostAddress;
 
-                db.AuditoriasLogIn.Add(logAuditoria);
-                db.SaveChanges();
-
-            }
+            _db.AuditoriasLogIn.Add(logAuditoria);
+            _db.SaveChanges();
         }
 
 
-        public static void AuditoriaContraseniaErronea(Usuario usuario)
+        public void AuditoriaContraseniaErronea(Usuario usuario)
         {
-            using (var db = new SpContext())
-            {
-                var logAuditoria = db.AuditoriasLogIn.Create();
-                logAuditoria.NombreDeUsuario = usuario.NombreDeUsuario;
-                logAuditoria.Accion = "Contraseña errónea";
-                logAuditoria.FechaYHora = DateTime.Now;
-                logAuditoria.Ip = "404";
+            var logAuditoria = _db.AuditoriasLogIn.Create();
+            logAuditoria.NombreDeUsuario = usuario.NombreDeUsuario;
+            logAuditoria.Accion = "Contraseña errónea";
+            logAuditoria.FechaYHora = DateTime.Now;
+            logAuditoria.Ip = "404";
 
-                db.AuditoriasLogIn.Add(logAuditoria);
-                db.SaveChanges();
-
-            }
+            _db.AuditoriasLogIn.Add(logAuditoria);
+            _db.SaveChanges();
         }
 
 
@@ -93,5 +108,14 @@ namespace SisParkTD.Controllers
             }
             base.Dispose(disposing);
         }
+    }
+
+
+    abstract class Auditoria
+    {
+        public virtual void Create()
+        {
+        }
+
     }
 }

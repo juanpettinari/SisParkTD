@@ -188,48 +188,23 @@ namespace SisParkTD.Controllers
                         var timeSpan = DateTime.Now.Subtract(ticket.MovimientosDeVehiculo.Where(mdv => mdv.TipoDeMovimientoDeVehiculo == TipoDeMovimientoDeVehiculo.Entrada).Select(mdv => mdv.Fecha).Single());
                         ticket.TiempoTotal = (int)timeSpan.TotalSeconds;
 
-                        var fraccionesDeTiempo = timeSpan.TotalMinutes / 15;
+                        var tiempoEnHoras = timeSpan.TotalHours;
                         //Si está menos de 5 minutos, no se cobra
-                        if (fraccionesDeTiempo < 0.33)
-                        {
+
+                        if (tiempoEnHoras < 0.0833)
                             ticket.PrecioTotalDecimal = 0;
-                        }
-                        else {
-                            var fraccionesDeTiempoRedondeado = Convert.ToInt32(Math.Ceiling(fraccionesDeTiempo));
+                        else if (tiempoEnHoras < 0.25)
+                            ticket.PrecioTotalDecimal = ticket.Vehiculo.TipoDeVehiculo.Tarifa15MDecimal;
+                        else if (tiempoEnHoras < 0.50)
+                            ticket.PrecioTotalDecimal = ticket.Vehiculo.TipoDeVehiculo.Tarifa30MDecimal;
+                        else if (tiempoEnHoras < 1)
+                            ticket.PrecioTotalDecimal = ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
+                        else if (tiempoEnHoras >= 1)
+                            ticket.PrecioTotalDecimal = ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal *
+                                                        (decimal)tiempoEnHoras;
 
-                            //Menor a 4hs se cobra la tarifa*fracciones.
-                            //Entre 4 y 6, cobrar estadía de 6hs.
-                            //Entre 6 y 8, cobrar estadía de 8hs.
-                            //Entre 8 y 10, cobrar estadía de 10hs.
-                            //Entre 10 y 12, cobrar estadía de 12hs.
-                            //Mayor a 12Hs se cobra la estadía de 12 hs + precio por hora de esa estadía de las horas excedentes.
-
-                            //<4hs
-
-                            //Template method
-                            if (fraccionesDeTiempoRedondeado < 16)
-                                ticket.PrecioTotalDecimal = fraccionesDeTiempoRedondeado *
-                                                            ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
-                            else if (fraccionesDeTiempoRedondeado >= 16 && fraccionesDeTiempoRedondeado < 24)
-                                ticket.PrecioTotalDecimal = 16 * ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
-                            //6hs>=x>8
-                            else if (fraccionesDeTiempoRedondeado >= 24 && fraccionesDeTiempoRedondeado < 32)
-                                ticket.PrecioTotalDecimal = 18 * ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
-                            //8hs>=x>10
-                            else if (fraccionesDeTiempoRedondeado >= 32 && fraccionesDeTiempoRedondeado < 40)
-                                ticket.PrecioTotalDecimal = 20 * ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
-                            //10hs>=x>12
-                            else if (fraccionesDeTiempoRedondeado >= 40 && fraccionesDeTiempoRedondeado < 48)
-                                ticket.PrecioTotalDecimal = 22 * ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal;
-                            //x>12
-                            else if (fraccionesDeTiempoRedondeado > 48)
-                            {
-                                ticket.PrecioTotalDecimal = fraccionesDeTiempoRedondeado *
-                                                            Math.Round(ticket.Vehiculo.TipoDeVehiculo.TarifaOcasionalDecimal / 2.1818m);
-                            }
-                        }
-						// TODO MODIFICAR LO DE ABAJO PARA QUE QUEDE ADENTRO DEL OTRO BLOQUE DE CODIGO,
-						// Y NO TENER QUE HACER ESTE IF DE ABAJO
+                        // TODO MODIFICAR LO DE ABAJO PARA QUE QUEDE ADENTRO DEL OTRO BLOQUE DE CODIGO,
+                        // Y NO TENER QUE HACER ESTE IF DE ABAJO
                         if (ticket.PrecioTotalDecimal != 0)
                         {
                             var movimientoFinanciero = new MovimientoFinanciero
@@ -309,22 +284,22 @@ namespace SisParkTD.Controllers
 
             var listaPatente = new List<string>();
             var consultaPatente = from m in _db.Tickets
-                                       orderby m.Vehiculo.Patente
-                                       select m.Vehiculo.Patente;
+                                  orderby m.Vehiculo.Patente
+                                  select m.Vehiculo.Patente;
             listaPatente.AddRange(consultaPatente.Distinct());
             ViewBag.ddPatente = new SelectList(listaPatente);
 
             var listaEstadoDeTicket = new List<string>();
             var consultaEstadoDeTicket = from m in _db.Tickets
-                                       orderby m.EstadoDeTicket
-                                       select m.EstadoDeTicket.ToString();
+                                         orderby m.EstadoDeTicket
+                                         select m.EstadoDeTicket.ToString();
             listaEstadoDeTicket.AddRange(consultaEstadoDeTicket.Distinct());
             ViewBag.ddEstadoDeTicket = new SelectList(listaEstadoDeTicket);
 
             var listaPagado = new List<string>();
             var consultaPagado = from m in _db.Tickets
-                                       orderby m.Pagado
-                                       select m.Pagado.ToString();
+                                 orderby m.Pagado
+                                 select m.Pagado.ToString();
             listaPagado.AddRange(consultaPagado.Distinct());
             ViewBag.ddPagado = new SelectList(listaPagado);
 
@@ -353,7 +328,7 @@ namespace SisParkTD.Controllers
             const int pageSize = 9;
             var pageNumber = page ?? 1;
             tickets = tickets.OrderBy(t => t.FechaYHoraCreacionTicket);
-            
+
             return View(tickets.ToPagedList(pageNumber, pageSize));
         }
 

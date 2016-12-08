@@ -17,6 +17,11 @@ namespace SisParkTD.Models
         [Required]
         public decimal TarifaOcasionalDecimal { get; set; }
         [DataType(DataType.Currency)]
+        public decimal Tarifa15MDecimal { get; set; }
+        [DataType(DataType.Currency)]
+        public decimal Tarifa30MDecimal { get; set; }
+
+        [DataType(DataType.Currency)]
         [Required]
         public decimal TarifaMensualDecimal { get; set; }
 

@@ -11,13 +11,14 @@
 
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Reporte recaudación según tipo de vehículo";
 }
 
-<h2>Reporte según tipo de vehículo</h2>
+<h2>Reporte recaudación según tipo de vehículo</h2>
 
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     <div class="form-horizontal">
         <div class="form-group">
             @Html.LabelFor(model => model.FechaDesde, new { @class = "control-label col-md-2" })
@@ -44,7 +45,7 @@
 
 @if (ViewData["pieData"] != null)
 {
-    @(Html.Highsoft().Highcharts(
+        @(Html.Highsoft().Highcharts(
                 new Highcharts
                 {
                     Chart = new Highsoft.Web.Mvc.Charts.Chart
@@ -88,5 +89,5 @@
                     }
                 }
                 , "chart")
-    )
+        )
 }
