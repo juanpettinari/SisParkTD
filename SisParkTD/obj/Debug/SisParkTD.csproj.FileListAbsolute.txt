@@ -155,7 +155,6 @@ C:\Projects\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.W.resources
 C:\Projects\SisParkTD\SisParkTD\obj\Debug\SisParkTD.csproj.GenerateResource.Cache
 C:\Projects\SisParkTD\SisParkTD\obj\Debug\SisParkTD.dll
 C:\Projects\SisParkTD\SisParkTD\obj\Debug\SisParkTD.pdb
-C:\Projects\SisParkTD\SisParkTD\obj\Debug\SisParkTD.csprojResolveAssemblyReference.cache
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\SisParkTD\bin\roslyn\csc.exe
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\SisParkTD\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\SisParkTD\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
@@ -238,3 +237,5 @@ D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\SisParkTD\obj\Debug\SisParkTD.pdb
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\SisParkTD\bin\Highcharts.Web.Mvc.dll
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.tarifa.resources
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.userRol.resources
+C:\Projects\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.tarifa.resources
+C:\Projects\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.userRol.resources

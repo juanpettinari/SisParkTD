@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using SisParkTD.DAL;
 using SisParkTD.Models;
 using SisParkTD.Models.ViewModels;
+using SisParkTD.Managers;
 
 namespace SisParkTD.Controllers
 {
@@ -47,6 +48,34 @@ namespace SisParkTD.Controllers
         {
             return View(_db.AuditoriasLogIn.ToList());
         }
+
+
+        #region Template Method Implementation
+
+        /* *** Implementacion del Temlplate Manager *** */
+        public ActionResult AuditLogIn()
+        {
+            //Template Method Class
+            var manager = new AuditoriaLogInManager();
+            var logAuditoria = manager.Create(null);
+            _db.AuditoriasLogIn.Add(logAuditoria);
+            _db.SaveChanges();
+            return View();
+        }
+
+        public ActionResult AuditTicket()
+        {
+            //Template Method Class
+            var manager = new AuditoriaTicketManager();
+            //TODO enviar el ticket
+            var logAuditoria = manager.Create(null);
+            _db.AuditoriasLogIn.Add(logAuditoria);
+            _db.SaveChanges();
+            return View();
+        }
+
+        #endregion
+
 
         public void AuditoriaLogIn(Usuario usuario)
         {
