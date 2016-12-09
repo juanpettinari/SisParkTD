@@ -23,5 +23,9 @@ namespace SisParkTD.Models
         [Required]
         [DataType(DataType.Password)]
         public string Contrasenia { get; set; }
+        [Required]
+        public int RolId { get; set; }
+
+        public Rol Rol { get; set; }
     }
 }

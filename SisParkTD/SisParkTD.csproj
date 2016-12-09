@@ -267,6 +267,10 @@
     <Compile Include="Migrations\201612072349222_tarifa.Designer.cs">
       <DependentUpon>201612072349222_tarifa.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612090038418_userRol.cs" />
+    <Compile Include="Migrations\201612090038418_userRol.Designer.cs">
+      <DependentUpon>201612090038418_userRol.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Abono.cs" />
     <Compile Include="Models\Accion.cs" />
@@ -641,6 +645,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612072349222_tarifa.resx">
       <DependentUpon>201612072349222_tarifa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612090038418_userRol.resx">
+      <DependentUpon>201612090038418_userRol.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
