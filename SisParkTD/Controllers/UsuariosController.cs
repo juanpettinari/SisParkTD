@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using SisParkTD.Common;
 using SisParkTD.DAL;
+using SisParkTD.Managers;
 using SisParkTD.Models;
 using SisParkTD.Models.ViewModels;
 
@@ -25,7 +26,7 @@ namespace SisParkTD.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(CuentaUsuarioViewModel cuentaUsuarioViewModel)
         {
-            var auditoriaController = new AuditoriasLogInController();
+            var auditoriaController = new AuditoriasController();
             if (ModelState.IsValid)
             {
 
@@ -33,20 +34,20 @@ namespace SisParkTD.Controllers
                 //result or null
                 var miUsuario = _db.Usuarios.
                     FirstOrDefault(u => u.NombreDeUsuario == cuentaUsuarioViewModel.NombreDeUsuario);
-                // TODO AGREGAR "ISACTIVE" AL USUARIO
                 if (miUsuario != null) //Usuario encontrado
                 {
                     if (!PasswordHash.ValidatePassword(cuentaUsuarioViewModel.Contrasenia, miUsuario.Contrasenia))
                     {
                         // TODO ADMIN RESET PASSWORD POR SI NO RECUERDA EL USER LA PASS.
                         ModelState.AddModelError("", "La contraseña es incorrecta, vuelva a escribirla.");
-                        auditoriaController.AuditoriaContraseniaErronea(miUsuario);
+                        // TODO AUDITORIA CONTRASEÑA ERRONEA!
+                        //auditoriaController.AuditoriaContraseniaErronea(miUsuario);
                     }
                     else
                     {
                         FormsAuthentication.SetAuthCookie(cuentaUsuarioViewModel.NombreDeUsuario, false);
-                        auditoriaController.AuditoriaLogIn(miUsuario);
-                        return RedirectToAction("IngresarVehiculo", "Tickets");
+                        return RedirectToAction("AuditLogIn", "Auditorias");
+                        //return RedirectToAction("IngresarVehiculo", "Tickets");
                     }
                 }
                 else // el usuario no fue encontrado
@@ -61,9 +62,9 @@ namespace SisParkTD.Controllers
         }
         public ActionResult LogOut()
         {
-            var auditoriaController = new AuditoriasLogInController();
             FormsAuthentication.SignOut();
-            auditoriaController.AuditoriaLogOut(User.Identity.Name);
+            var auditoriaController = new AuditoriasController();
+            auditoriaController.AuditLogOut(System.Web.HttpContext.Current);
             return RedirectToAction("LogIn");
         }
 
@@ -91,6 +92,7 @@ namespace SisParkTD.Controllers
         // GET: Usuarios/Create
         public ActionResult Registration()
         {
+            ViewBag.RolId = new SelectList(_db.Roles, "RolId", "Descripcion");
             return View();
         }
 
@@ -99,7 +101,7 @@ namespace SisParkTD.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Registration([Bind(Include = "UsuarioId,Nombre,Apellido,Telefono,Email,Dni,NombreDeUsuario,Contrasenia")] Usuario usuario)
+        public ActionResult Registration([Bind(Include = "UsuarioId,Nombre,Apellido,Telefono,Email,Dni,RolId,NombreDeUsuario,Contrasenia")] Usuario usuario)
         {
 
             if (ModelState.IsValid)
@@ -116,11 +118,13 @@ namespace SisParkTD.Controllers
                     else
                     {
                         ModelState.AddModelError("", "El nombre de usuario ya existe.");
+                        ViewBag.RolId = new SelectList(_db.Roles, "RolId", "Descripcion", usuario.RolId);
                         return View(usuario);
                     }
 
                 }
             }
+            ViewBag.RolId = new SelectList(_db.Roles, "RolId", "Descripcion", usuario.RolId);
             return View(usuario);
         }
 

@@ -239,3 +239,4 @@ D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migra
 D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.userRol.resources
 C:\Projects\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.tarifa.resources
 C:\Projects\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.userRol.resources
+D:\Juani\Drive\PROYECTOS\SisParkTD\SisParkTD\SisParkTD\obj\Debug\SisParkTD.Migrations.auditoria.resources

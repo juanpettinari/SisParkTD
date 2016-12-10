@@ -19,8 +19,8 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
@@ -145,7 +145,7 @@
     <Compile Include="Common\PasswordHash.cs" />
     <Compile Include="Controllers\AbonosController.cs" />
     <Compile Include="Controllers\AccionesController.cs" />
-    <Compile Include="Controllers\AuditoriasLogInController.cs" />
+    <Compile Include="Controllers\AuditoriasController.cs" />
     <Compile Include="Controllers\CuentasController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MovimientosFinancierosController.cs" />
@@ -271,10 +271,14 @@
     <Compile Include="Migrations\201612090038418_userRol.Designer.cs">
       <DependentUpon>201612090038418_userRol.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612091624460_auditoria.cs" />
+    <Compile Include="Migrations\201612091624460_auditoria.Designer.cs">
+      <DependentUpon>201612091624460_auditoria.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Abono.cs" />
     <Compile Include="Models\Accion.cs" />
-    <Compile Include="Models\AuditoriaLogIn.cs" />
+    <Compile Include="Models\Auditoria.cs" />
     <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\Cuenta.cs" />
     <Compile Include="Models\MovimientoFinanciero.cs" />
@@ -553,7 +557,7 @@
     <Content Include="Views\Usuarios\Edit.cshtml" />
     <Content Include="Views\Usuarios\Index.cshtml" />
     <Content Include="Views\Permisos\Index.cshtml" />
-    <Content Include="Views\AuditoriasLogIn\Index.cshtml" />
+    <Content Include="Views\Auditorias\Index.cshtml" />
     <Content Include="Views\Usuarios\LogIn.cshtml" />
     <Content Include="Views\RolesUsuarios\MostrarRolesParaUsuario.cshtml" />
     <Content Include="Views\Respaldo\Index.cshtml" />
@@ -648,6 +652,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612090038418_userRol.resx">
       <DependentUpon>201612090038418_userRol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612091624460_auditoria.resx">
+      <DependentUpon>201612091624460_auditoria.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

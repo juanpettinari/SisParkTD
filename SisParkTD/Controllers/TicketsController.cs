@@ -68,6 +68,8 @@ namespace SisParkTD.Controllers
 
                     ticket.MovimientosDeVehiculo.Add(movimientoDeVehiculo);
                     _db.SaveChanges();
+                    var auditoriaController = new AuditoriasController();
+                    auditoriaController.AuditTicket(ticket);
                     return RedirectToAction("IngresarVehiculo");
                 }
                 //Ingreso de un vehiculo ocasional.
@@ -110,6 +112,8 @@ namespace SisParkTD.Controllers
                             movimientoDeVehiculo.TicketId = ticket.TicketId;
                             _db.MovimientosDeVehiculo.Add(movimientoDeVehiculo);
                             _db.SaveChanges();
+                            var auditoriaController = new AuditoriasController();
+                            auditoriaController.AuditTicket(ticket);
                         }
 
                         if (ticket.TipoDeTicket == TipoDeTicket.Ocasional)
@@ -163,6 +167,8 @@ namespace SisParkTD.Controllers
                         _db.Entry(ticket).State = EntityState.Modified;
                         ticket.MovimientosDeVehiculo.Add(movimientoDeVehiculo);
                         _db.SaveChanges();
+                        var auditoriaController = new AuditoriasController();
+                        auditoriaController.AuditTicket(ticket);
                         return RedirectToAction("IngresarVehiculo");
                     }
                 case TipoDeTicket.Ocasional:
@@ -218,6 +224,8 @@ namespace SisParkTD.Controllers
 
                         _db.Entry(ticket).State = EntityState.Modified;
                         _db.SaveChanges();
+                        var auditoriaController = new AuditoriasController();
+                        auditoriaController.AuditTicket(ticket);
 
                         ViewBag.Tiempo =
                             TimeSpan.FromSeconds(Convert.ToDouble(ticket.TiempoTotal))
